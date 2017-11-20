@@ -1,40 +1,77 @@
 import React, { Component } from "react";
-import { observable, action } from "mobx";
-import { observer } from "mobx-react";
-import firebaseui from "firebaseui";
-import firebase from "firebase";
+import { userService } from "../service/UserService";
+import { withRouter } from "react-router";
 
-@observer
 export default class Login extends Component {
-  ui = null;
-
-  startLogin = () => {
-    var uiConfig = {
-      signInSuccessUrl: "/",
-      signInOptions: [
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        firebase.auth.EmailAuthProvider.PROVIDER_ID
-      ],
-      // Terms of service url.
-      tosUrl: "<your-tos-url>"
-    };
-
-    let ui = firebaseui.auth.AuthUI.getInstance();
-    if (!ui) {
-      ui = new firebaseui.auth.AuthUI(firebase.auth());
-    }
-    ui.start("#firebase-ui", uiConfig);
+  state = {
+    email: "",
+    password: "",
+    isRegister: false
   };
 
-  componentDidMount() {
-    this.startLogin();
-  }
+  submit = () => {
+    let user = {
+      email: this.state.email,
+      password: this.state.password
+    };
+    this.state.isRegister
+      ? userService.createUser(user, (err, userData) => {
+          debugger;
+          if (err) {
+            //handle signup err
+          } else {
+            // this.props.listenToUser(userData);
+            this.props.history.push("/");
+          }
+        })
+      : userService.login(user, (err, userData) => {
+          // this.props.listenToUser(userData);
+          this.props.history.push("/");
 
-  componentWillUnmount() {
-    firebaseui.auth.AuthUI.getInstance().delete();
-  }
+          console.log("logged in");
+        });
+  };
 
   render() {
-    return <div> Login Screen </div>;
+    return (
+      <div>
+        {this.state.isRegister ? (
+          <button
+            onClick={e => {
+              this.setState({ isRegister: false });
+            }}
+          >
+            Login instead
+          </button>
+        ) : (
+          <button
+            onClick={e => {
+              this.setState({ isRegister: true });
+            }}
+          >
+            Don't have an account? Register
+          </button>
+        )}
+        <br />
+        <br />
+        <input
+          type="text"
+          onChange={e => {
+            this.setState({ email: e.target.value });
+          }}
+          placeholder="Email.."
+        />
+        <input
+          type="password"
+          onChange={e => {
+            this.setState({ password: e.target.value });
+          }}
+          placeholder="Password"
+        />
+        <button onClick={this.submit}>
+          {this.state.isRegister ? "Create Account" : "Login"}
+        </button>
+      </div>
+    );
   }
 }

@@ -1,29 +1,45 @@
 import React, { Component } from "react";
-import { observable, action } from "mobx";
-import { observer, withRouter } from "mobx-react";
-import { Switch, Route, Link } from "react-router-dom";
-
-import UserService from "../service/UserService";
+import { Link } from "react-router-dom";
 import Routes from "./Routes";
+import { userService } from "../service/UserService";
 
-@observer(["dataStore", "todoStore"])
 export default class App extends Component {
-  state = {};
+  //application state managed here.
+  //replace this with your state mngmnt library of choice (eg: redux/mobx)
+  state = {
+    user: null
+  };
+
+  setGlobalState = (key, val) => {
+    this.setState({ [key]: val });
+  };
+
+  listenToUser = userData => {
+    this.props.history.push("/");
+    userService.listenForUserChanges(userData, (err, user) => {
+      this.setState({ user });
+    });
+  };
 
   render() {
-    let user = this.props.dataStore.user;
+    const props = {
+      setGlobalState: this.setGlobalState,
+      globalState: this.state,
+      listenToUser: this.listenToUser
+    };
+
+    let user = null;
     let screenName = user ? user.id : "none";
 
     return (
       <div>
         <div className="header">
-          <span>Header</span>
           <Link to="/">Home</Link>
           {!user && <Link to="/login">Login</Link>}
           <div>User: {screenName}</div>
-          {user && <a onClick={e => UserService.signout(user)}>Logout</a>}
+          {/* {user && <a onClick={e => UserService.signout(user)}>Logout</a>} */}
         </div>
-        <Routes {...this.props} />
+        <Routes {...this.props} {...props} />
       </div>
     );
   }

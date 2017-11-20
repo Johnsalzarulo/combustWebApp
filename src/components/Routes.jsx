@@ -1,20 +1,18 @@
 import React from "react";
-import { observer } from "mobx-react";
 import { Switch, Route } from "react-router-dom";
-import {withRouter} from 'react-router';
-
 import Login from "./Login";
-import TodoList from "./TodoList";
+import Welcome from "./Welcome";
 
-const Routes = observer(({ todoStore }) => {
-  let todoWrapper = () => <TodoList todoStore={todoStore} />;
+const Routes = props => {
+  let loginWrapper = () => <Login {...props} />;
+  let welcomeWrapper = () => <Welcome {...props} />;
 
   return (
     <Switch>
-      <Route exact path="/" component={todoWrapper} />
-      <Route path="/login" component={Login} />
+      <Route exact path="/" component={welcomeWrapper} />
+      <Route path="/login" component={loginWrapper} />
     </Switch>
   );
-});
+};
 
 export default Routes;
