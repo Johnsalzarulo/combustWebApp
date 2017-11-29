@@ -12,6 +12,10 @@ export default class Chatbox extends Component {
   messageLength = 0;
   shouldScroll = false;
 
+  componentDidMount(){
+    this.scrollToBottom();
+  }
+
   componentDidUpdate = props => {
     if (this.shouldScroll) {
       this.shouldScroll = false;
