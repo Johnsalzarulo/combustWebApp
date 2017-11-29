@@ -54,11 +54,17 @@ class UserStore {
     };
   }
 
-  getUserById(userId){
+  getUserById(userId) {
     return this.usersMap.get(userId);
   }
 
-  saveUserLocally(userId, user){
+  saveUserLocally(userId, user) {
+    debugger;
+    if (!user) {
+      return;
+    }
+    user.id = userId;
+    debugger;
     this.usersMap.set(userId, user);
   }
 

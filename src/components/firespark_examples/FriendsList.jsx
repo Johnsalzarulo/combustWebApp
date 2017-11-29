@@ -15,6 +15,7 @@ export default class FriendsList extends Component {
   };
 
   handleFriendClick = friend => {
+    debugger;
     friendStore.handleFriendClick(friend);
   };
 

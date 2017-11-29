@@ -11,30 +11,31 @@ class FriendStore {
     userStore.onLogout(this.onUserLogout.bind(this));
   }
 
-  @observable friendsMap = new Map();
+  @observable friendIdsMap = new Map();
+
   usersLoaded = false;
   getFriendsForUser(user) {
     if (this.usersLoaded) {
       return;
     }
     friendService.listenToFriends(user.id, (err, friend) => {
-      err ? console.log(err) : this.friendsMap.set(friend.id, friend);
+      debugger;
+      err ? console.log(err) : this.storeFriend(friend.id, friend);
     });
     this.usersLoaded = true;
   }
 
+  storeFriend(friendId, friend) {
+    userStore.saveUserLocally(friendId, friend);
+    this.friendIdsMap.set(friendId, true);
+  }
+
   isFriend(userId) {
-    return this.friendsMap.has(userId);
+    return this.getFriend(userId) ? true : false;
   }
 
   getFriend(userId) {
-    return this.friendsMap.get(userId);
-  }
-
-  loadFriends(friendIds) {
-    friendService.loadAndListenToFriends(friendIds, (err, friend) => {
-      err ? console.log(err) : this.users.set(friend.id, friend);
-    });
+    return userStore.getUserById(userId);
   }
 
   addFriend(userIdOfFriend) {
@@ -43,7 +44,13 @@ class FriendStore {
 
   @computed
   get friends() {
-    return this.friendsMap.toJS();
+    let friends = {};
+    Array.from(this.friendIdsMap.keys()).forEach(uid => {
+      debugger;
+      friends[uid] = userStore.getUserById(uid);
+    });
+    debugger;
+    return friends;
   }
 
   onFriendClickedTriggers = [];
@@ -65,7 +72,7 @@ class FriendStore {
   }
 
   onUserLogout(user) {
-    this.friendsMap.clear();
+    this.friendIdsMap.clear();
     this.usersLoaded = false;
   }
 }

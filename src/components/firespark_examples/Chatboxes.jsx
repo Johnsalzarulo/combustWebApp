@@ -19,8 +19,8 @@ export default class Chatboxes extends Component {
 
     return (
       <div className="Chatboxes uk-position-bottom">
-        {chatStore.openConversationIds &&
-          chatStore.openConversationIds.map((convoId, i) => {
+        {convoIds &&
+          convoIds.map((convoId, i) => {
             return <Chatbox key={i} conversationId={convoId} />;
           })}
       </div>

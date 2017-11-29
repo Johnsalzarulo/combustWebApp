@@ -1,10 +1,9 @@
 import { observable, action } from "mobx";
 import chatService from "../service/ChatService";
 import userStore from "./UserStore";
-import friendStore from "./FriendStore";
 import _ from "lodash";
 
-//DEPENDENCIES: Users, Friends
+//DEPENDENCIES: Users
 
 class ChatStore {
   subscribeToEvents() {
@@ -134,7 +133,6 @@ class ChatStore {
   }
 
   getUsersTyping(convoId) {
-    debugger;
     let usersTyping = [];
     const conversation = this.getConversation(convoId);
     conversation &&
@@ -144,7 +142,7 @@ class ChatStore {
           uid !== userStore.userId &&
           conversation.participants[uid].isTyping
         ) {
-          let friend = friendStore.getFriend(uid);
+          let friend = userStore.getUserById(uid);
           friend && usersTyping.push(friend.email);
         }
       });
@@ -156,15 +154,17 @@ class ChatStore {
     if (!currentConvo) {
       return "Chat";
     }
-    let friendsInChat = [];
+    let usersInChat = [];
     for (let uid in currentConvo.participants) {
       if (uid !== userStore.userId) {
-        friendsInChat.push(friendStore.getFriend(uid));
+        debugger;
+        const user = userStore.getUserById(uid);
+        user && usersInChat.push(user);
       }
     }
     let title = "";
-    friendsInChat.forEach((f, i) => {
-      title += f.email + (i < friendsInChat.length - 1 ? "," : "");
+    usersInChat.forEach((f, i) => {
+      title += f.email + (i < usersInChat.length - 1 ? "," : "");
     });
     return title;
   }

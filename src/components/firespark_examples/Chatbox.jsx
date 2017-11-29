@@ -13,7 +13,6 @@ export default class Chatbox extends Component {
   shouldScroll = false;
 
   componentDidUpdate = props => {
-    debugger;
     if (this.shouldScroll) {
       this.shouldScroll = false;
       this.scrollToBottom();
@@ -48,7 +47,6 @@ export default class Chatbox extends Component {
   toggleUserTyping(isTyping) {
     const { conversationId } = this.props;
     clearTimeout(this.currentTimeout);
-    const store = this.props.dataStore;
     chatStore.toggleUserTyping(conversationId, isTyping);
     if (isTyping) {
       this.currentTimeout = setTimeout(e => {
@@ -61,7 +59,6 @@ export default class Chatbox extends Component {
     const { conversationId } = this.props;
     const messages = chatStore.getMessages(conversationId);
     const usersTyping = chatStore.getUsersTyping(conversationId);
-    debugger;
     if (messages.length !== this.messageLength) {
       //new message
       this.shouldScroll = true;
