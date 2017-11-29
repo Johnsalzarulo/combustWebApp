@@ -15,7 +15,6 @@ export default class FriendsList extends Component {
   };
 
   handleFriendClick = friend => {
-    debugger;
     friendStore.handleFriendClick(friend);
   };
 
@@ -36,10 +35,14 @@ export default class FriendsList extends Component {
               <div
                 key={i}
                 onClick={e => this.handleFriendClick(friend)}
-                className="Friend uk-flex uk-flex-around uk-flex-middle"
+                className="Friend uk-flex uk-flex-between uk-flex-nowrap uk-flex-middle"
               >
-                <img className="avatar" src={friend.iconUrl} alt="" />
-                <span>{friend.email}</span>
+                <span className="avatarAndName">
+                  <img className="avatar" src={friend.iconUrl} alt="" />
+                  <span className="friendName">
+                    {friend.email}
+                  </span>
+                </span>
                 <span
                   className={
                     "isOnline " + (friend.online ? "online" : "offline")

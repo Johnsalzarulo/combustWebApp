@@ -24,6 +24,7 @@
 .FriendsList {
   border-left: 1px solid lightgray;
   z-index: 4;
+  padding: 0px 5px;
   padding-top: 100px;
   background-color: #fdfdfd;
   width: 200px;
@@ -31,11 +32,21 @@
     padding-left: 10px;
     padding-right: 10px;
   }
+
   .Friend {
     padding: 5px;
     cursor: pointer;
     &:hover {
       background-color: #ececec;
+    }
+    .avatar {
+      margin-right: 5px;
+    }
+    .avatarAndName {
+      max-width: 92%;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
     .isOnline {
       height: 8px;
@@ -63,6 +74,7 @@
   flex-direction: row-reverse;
 }
 
+// CHAT
 .Chatbox {
   // background-color: blue;
   // box-shadow: 0.5px -0.05px 0.5px 0.5px #a7a0a0;
@@ -84,7 +96,7 @@
     background-color: rgb(43, 102, 228);
     height: 26px;
     width: 100%;
-    .convo-title{
+    .convo-title {
       padding-left: 5px;
       color: white;
     }
@@ -92,10 +104,6 @@
       padding-right: 5px;
     }
   }
-  // .chat-messages-container{
-  //   overflow: hidden;
-  //   height: 100
-  // }
 
   .chat-messages {
     overflow: hidden;
@@ -117,7 +125,7 @@
     border-radius: 12px;
     margin-bottom: 1px;
     max-width: 80%;
-    word-wrap:break-word;
+    word-wrap: break-word;
   }
 
   .outgoingMsg {
@@ -132,8 +140,8 @@
   .message-input {
     position: absolute;
     bottom: 0;
-    left:0;
-    right:0;
+    left: 0;
+    right: 0;
     height: $inputboxHeight;
     display: flex;
     align-items: center;
@@ -157,3 +165,4 @@
     }
   }
 }
+// END - CHAT
