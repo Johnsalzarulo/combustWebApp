@@ -12,7 +12,7 @@ export default class Chatbox extends Component {
   messageLength = 0;
   shouldScroll = false;
 
-  componentDidMount(){
+  componentDidMount() {
     this.scrollToBottom();
   }
 
@@ -76,6 +76,8 @@ export default class Chatbox extends Component {
           <button
             type="button"
             uk-close="true"
+            title="Close"
+            uk-tooltip
             onClick={e => chatStore.markConvoAsClosed(conversationId)}
           />
         </div>
@@ -92,16 +94,19 @@ export default class Chatbox extends Component {
                   isIncoming={m.sentBy === userStore.userId}
                 />
               ))}
-            { usersTyping.length>0 &&
+            {usersTyping.length > 0 &&
               usersTyping.map(email => {
-                return <span>{email} is typing..</span>
-              })
-
-            }
+                return <span>{email} is typing..</span>;
+              })}
           </div>
         </div>
         <div className="message-input">
-          <span uk-icon="icon: comment" onClick={this.handleMessageSubmit} />
+          <span
+            uk-icon="icon: comment"
+            uk-tooltip
+            title="Send"
+            onClick={this.handleMessageSubmit}
+          />
           <input
             type="text"
             value={this.state.message}

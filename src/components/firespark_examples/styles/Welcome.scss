@@ -158,10 +158,11 @@
       padding-right: 30px;
     }
     span {
+      //Send Btn
+      cursor: pointer;
       position: absolute;
       right: 5px;
       text-align: center;
-      // top: $msgInputHeight / 2;
     }
   }
 }

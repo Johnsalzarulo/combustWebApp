@@ -115,6 +115,7 @@
       height: 100%;
       padding-right: 30px; }
     .Chatbox .message-input span {
+      cursor: pointer;
       position: absolute;
       right: 5px;
       text-align: center; }
