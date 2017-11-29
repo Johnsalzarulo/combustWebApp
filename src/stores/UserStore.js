@@ -4,7 +4,7 @@ import userService from "../service/UserService";
 
 class UserStore {
   @observable userId = null;
-  @observable users = new Map();
+  @observable usersMap = new Map();
   @observable privateInfo = null; //only reads/writes by user
   @observable serverInfo = null; //only user reads, only server writes
 
@@ -32,7 +32,7 @@ class UserStore {
           this.onUserEstablished(user);
         }
         this.userId = user.id;
-        this.users.set(user.id, user.public);
+        this.usersMap.set(user.id, user.public);
         this.privateInfo = user.private;
         this.serverInfo = user.server;
       }
@@ -41,7 +41,7 @@ class UserStore {
 
   @computed
   get user() {
-    return this.users.get(this.userId);
+    return this.usersMap.get(this.userId);
   }
 
   @computed
@@ -52,6 +52,14 @@ class UserStore {
       private: this.privateInfo,
       server: this.serverInfo
     };
+  }
+
+  getUserById(userId){
+    return this.usersMap.get(userId);
+  }
+
+  saveUserLocally(userId, user){
+    this.usersMap.set(userId, user);
   }
 
   logout() {
