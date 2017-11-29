@@ -19,17 +19,14 @@ class ChatStore {
 
   @action
   loadMessagesForConversation(convoId, predefinedMessages) {
-    debugger;
     if (this.messagesByConversation.get(convoId)) {
       //already listening to this convo's messages
-      debugger;
       return;
     }
 
     this.messagesByConversation.set(convoId, {});
     this.listenToConversation(convoId);
     chatService.listenForNewMessages(convoId, (err, msg) => {
-      debugger;
       if (err || !msg) {
         return console.log(err || "Null msg!");
       }
@@ -106,16 +103,14 @@ class ChatStore {
     let i = this.openConversationIds.findIndex(iteratorId => {
       return convoId === iteratorId;
     });
-    debugger;
     i >= 0 && this.openConversationIds.splice(i, 1);
   }
 
   getConversation(convoId) {
-    this.conversationMap.get(convoId);
+    return this.conversationMap.get(convoId);
   }
 
   getMessages(convoId) {
-    debugger;
     let messages = [];
     let msgsObj = this.messagesByConversation.get(convoId);
     msgsObj &&
@@ -131,6 +126,29 @@ class ChatStore {
     //       return this.messageMap.get(msgId);
     //     })
     //   : [];
+  }
+
+  toggleUserTyping(convoId, isTyping) {
+    const userId = userStore.userId;
+    chatService.toggleUserTyping(convoId, userId, isTyping);
+  }
+
+  getUsersTyping(convoId) {
+    debugger;
+    let usersTyping = [];
+    const conversation = this.getConversation(convoId);
+    conversation &&
+      conversation.participants &&
+      Object.keys(conversation.participants).forEach(uid => {
+        if (
+          uid !== userStore.userId &&
+          conversation.participants[uid].isTyping
+        ) {
+          let friend = friendStore.getFriend(uid);
+          friend && usersTyping.push(friend.email);
+        }
+      });
+    return usersTyping;
   }
 
   getConvoTitle(convoId) {

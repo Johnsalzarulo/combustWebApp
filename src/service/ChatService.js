@@ -71,7 +71,7 @@ class ChatService {
     let participants = {};
     users.forEach(u => {
       participants[u] = {
-        isTyping: true
+        isTyping: false
       };
     });
     cRef.set({

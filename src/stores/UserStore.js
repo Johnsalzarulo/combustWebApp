@@ -74,13 +74,11 @@ class UserStore {
         event(user);
       });
     } catch (err) {
-      debugger;
       console.log(err);
     }
   }
 
   onUserLogout() {
-    debugger;
     //module hook
     const user = this.fullUser;
 

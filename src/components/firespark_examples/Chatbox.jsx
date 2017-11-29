@@ -22,12 +22,13 @@ export default class Chatbox extends Component {
 
   handleMessageChange = e => {
     this.setState({ message: e.target.value });
+    this.toggleUserTyping(true);
   };
 
   handleMessageSubmit = e => {
     chatStore.sendMessage(this.props.conversationId, this.state.message);
     this.setState({ message: "" });
-    this.scrollToBottom();
+    this.toggleUserTyping(false);
   };
 
   detectEnterKey = e => {
@@ -44,9 +45,23 @@ export default class Chatbox extends Component {
     objDiv.scrollTop = objDiv.scrollHeight;
   };
 
+  toggleUserTyping(isTyping) {
+    const { conversationId } = this.props;
+    clearTimeout(this.currentTimeout);
+    const store = this.props.dataStore;
+    chatStore.toggleUserTyping(conversationId, isTyping);
+    if (isTyping) {
+      this.currentTimeout = setTimeout(e => {
+        chatStore.toggleUserTyping(conversationId, false);
+      }, 3000);
+    }
+  }
+
   render() {
     const { conversationId } = this.props;
     const messages = chatStore.getMessages(conversationId);
+    const usersTyping = chatStore.getUsersTyping(conversationId);
+    debugger;
     if (messages.length !== this.messageLength) {
       //new message
       this.shouldScroll = true;
@@ -55,7 +70,7 @@ export default class Chatbox extends Component {
     const convoTitle = chatStore.getConvoTitle(conversationId);
     return (
       <div className="Chatbox">
-        <div className="chat-header uk-background-primary uk-light uk-flex uk-flex-between">
+        <div className="chat-header uk-light uk-flex uk-flex-between">
           <div className="convo-title">{convoTitle}</div>
           <button
             type="button"
@@ -76,6 +91,12 @@ export default class Chatbox extends Component {
                   isIncoming={m.sentBy === userStore.userId}
                 />
               ))}
+            { usersTyping.length>0 &&
+              usersTyping.map(email => {
+                return <span>{email} is typing..</span>
+              })
+
+            }
           </div>
         </div>
         <div className="message-input">
