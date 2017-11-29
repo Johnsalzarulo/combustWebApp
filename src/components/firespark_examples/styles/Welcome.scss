@@ -66,18 +66,90 @@
 .Chatbox {
   // background-color: blue;
   // box-shadow: 0.5px -0.05px 0.5px 0.5px #a7a0a0;
+  position: relative;
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
-  width: 260px;
-  height: 333px;
+  $chatboxWidth: 260px;
+  $chatboxHeight: 333px;
+  $inputboxHeight: 40px;
+  $chatheaderHeight: 26px;
+
+  // $msgboxHeight: 333px-40px;
+  $msgboxHeight: $chatboxHeight - $inputboxHeight - $chatheaderHeight;
+
+  height: $chatboxHeight;
+  width: $chatboxWidth;
   margin-left: 30px;
+  overflow: hidden;
   .chat-header {
     height: 26px;
     width: 100%;
-    h4 {
+    .convo-title{
       padding-left: 5px;
+      color: white;
     }
     button {
       padding-right: 5px;
+    }
+  }
+  // .chat-messages-container{
+  //   overflow: hidden;
+  //   height: 100
+  // }
+
+  .chat-messages {
+    overflow: hidden;
+    padding-left: 5px;
+    height: $msgboxHeight;
+    width: 100%;
+    .chat-messages-scrollable {
+      height: 100%;
+      width: 100%;
+      padding-right: 5px;
+      overflow-y: scroll;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .RenderMessageBubble {
+    padding: 2px 7px;
+    border-radius: 12px;
+    margin-bottom: 1px;
+    max-width: 80%;
+  }
+
+  .outgoingMsg {
+    align-self: flex-end;
+    color: white;
+  }
+
+  .incomingMsg {
+    align-self: flex-start;
+  }
+
+  .message-input {
+    position: fixed;
+    bottom: 0;
+    height: $inputboxHeight;
+    width: 260px;
+    display: flex;
+    align-items: center;
+    input {
+      padding: 5px;
+      margin: 0;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -o-box-sizing: border-box;
+      -ms-box-sizing: border-box;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+    }
+    span {
+      position: absolute;
+      right: 5px;
+      text-align: center;
+      // top: $msgInputHeight / 2;
     }
   }
 }

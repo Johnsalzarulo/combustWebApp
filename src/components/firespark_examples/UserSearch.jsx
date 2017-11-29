@@ -36,11 +36,13 @@ export default class UserSearch extends Component {
             {this.state.results.map((user, i) => {
               return (
                 <div key={i}>
-                  {/* <hr className="uk-divider-small" /> */}
                   <div className="userSearch-result uk-flex uk-flex-between uk-flex-middle">
                     {user.email}{" "}
                     {!friendStore.isFriend(user.id) && (
-                      <button class="uk-button uk-button-small uk-button-primary">
+                      <button
+                        className="uk-button uk-button-small uk-button-primary"
+                        onClick={e => friendStore.addFriend(user.id)}
+                      >
                         Add Friend
                       </button>
                     )}

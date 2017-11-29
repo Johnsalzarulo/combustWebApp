@@ -37,8 +37,8 @@ class FriendStore {
     });
   }
 
-  addFriend(userId) {
-    friendService.addFriend(userId);
+  addFriend(userIdOfFriend) {
+    friendService.addFriend(userIdOfFriend, userStore.userId);
   }
 
   @computed

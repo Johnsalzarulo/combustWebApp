@@ -29,17 +29,14 @@ class WelcomeStore {
           "sparky"
         )
         .then(() => {
-          debugger;
           this.emailAuthEnabled = true;
           this.currentStep = 4;
         })
         .catch(error => {
-          debugger;
           this.emailAuthEnabled = error.code === "auth/email-already-in-use";
           this.currentStep = this.emailAuthEnabled ? 3 : 2;
         });
     } catch (err) {
-      debugger;
       this.emailAuthEnabled = false;
     }
   }

@@ -2,6 +2,7 @@ import { observable, action } from "mobx";
 import chatService from "../service/ChatService";
 import userStore from "./UserStore";
 import friendStore from "./FriendStore";
+import _ from "lodash";
 
 //DEPENDENCIES: Users, Friends
 
@@ -18,18 +19,24 @@ class ChatStore {
 
   @action
   loadMessagesForConversation(convoId, predefinedMessages) {
+    debugger;
     if (this.messagesByConversation.get(convoId)) {
-      //redundant call
+      //already listening to this convo's messages
       debugger;
       return;
     }
 
     this.messagesByConversation.set(convoId, {});
     this.listenToConversation(convoId);
-    chatService.listenForNewMessages(convoId, msg => {
-      let messages = this.messagesByConversation.get(convoId);
+    chatService.listenForNewMessages(convoId, (err, msg) => {
+      debugger;
+      if (err || !msg) {
+        return console.log(err || "Null msg!");
+      }
+
+      let messages = this.messagesByConversation.get(convoId) || {};
       messages[msg.id] = msg;
-      this.messagesByConversation.set(convoId);
+      this.messagesByConversation.set(convoId, _.clone(messages));
     });
   }
 
@@ -59,6 +66,15 @@ class ChatStore {
       }
     });
     return conversation;
+  }
+
+  sendMessage(conversationId, messageBody) {
+    const userId = userStore.userId;
+    const message = {
+      body: messageBody,
+      sentBy: userId
+    };
+    chatService.sendMessage(conversationId, message);
   }
 
   openConversationWithUser(friendId) {
@@ -99,6 +115,7 @@ class ChatStore {
   }
 
   getMessages(convoId) {
+    debugger;
     let messages = [];
     let msgsObj = this.messagesByConversation.get(convoId);
     msgsObj &&
@@ -122,7 +139,6 @@ class ChatStore {
       return "Chat";
     }
     let friendsInChat = [];
-    debugger;
     for (let uid in currentConvo.participants) {
       if (uid !== userStore.userId) {
         friendsInChat.push(friendStore.getFriend(uid));
