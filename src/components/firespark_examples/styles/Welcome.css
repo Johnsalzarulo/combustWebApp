@@ -1,0 +1,62 @@
+.UserSearch .searchResults {
+  position: absolute;
+  top: 60px;
+  right: 10px;
+  z-index: 2; }
+
+.UserSearch .userSearch-result {
+  padding: 5px;
+  cursor: pointer; }
+  .UserSearch .userSearch-result button {
+    margin-left: 5px; }
+  .UserSearch .userSearch-result:hover {
+    background-color: #ececec; }
+
+.Navbar {
+  z-index: 5; }
+
+.FriendsList {
+  border-left: 1px solid lightgray;
+  z-index: 4;
+  padding-top: 100px;
+  background-color: #fdfdfd;
+  width: 200px; }
+  .FriendsList .uk-heading-line {
+    padding-left: 10px;
+    padding-right: 10px; }
+  .FriendsList .Friend {
+    padding: 5px;
+    cursor: pointer; }
+    .FriendsList .Friend:hover {
+      background-color: #ececec; }
+    .FriendsList .Friend .isOnline {
+      height: 8px;
+      width: 8px;
+      border-radius: 50%;
+      background-color: gray; }
+    .FriendsList .Friend .online {
+      background-color: #67f391; }
+
+.avatar {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px; }
+
+.Chatboxes {
+  margin-left: 15px;
+  margin-right: 230px;
+  display: flex;
+  flex-direction: row-reverse; }
+
+.Chatbox {
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+  width: 260px;
+  height: 333px;
+  margin-left: 30px; }
+  .Chatbox .chat-header {
+    height: 26px;
+    width: 100%; }
+    .Chatbox .chat-header h4 {
+      padding-left: 5px; }
+    .Chatbox .chat-header button {
+      padding-right: 5px; }

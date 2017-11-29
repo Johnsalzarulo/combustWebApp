@@ -1,0 +1,83 @@
+.UserSearch {
+  .searchResults {
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    z-index: 2;
+  }
+  .userSearch-result {
+    padding: 5px;
+    button {
+      margin-left: 5px;
+    }
+    cursor: pointer;
+    &:hover {
+      background-color: #ececec;
+    }
+  }
+}
+
+.Navbar {
+  z-index: 5;
+}
+
+.FriendsList {
+  border-left: 1px solid lightgray;
+  z-index: 4;
+  padding-top: 100px;
+  background-color: #fdfdfd;
+  width: 200px;
+  .uk-heading-line {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  .Friend {
+    padding: 5px;
+    cursor: pointer;
+    &:hover {
+      background-color: #ececec;
+    }
+    .isOnline {
+      height: 8px;
+      width: 8px;
+      border-radius: 50%;
+      background-color: gray;
+    }
+    .online {
+      background-color: #67f391;
+    }
+  }
+}
+
+.avatar {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+}
+
+.Chatboxes {
+  margin-left: 15px;
+  //fix this
+  margin-right: 230px;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.Chatbox {
+  // background-color: blue;
+  // box-shadow: 0.5px -0.05px 0.5px 0.5px #a7a0a0;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+  width: 260px;
+  height: 333px;
+  margin-left: 30px;
+  .chat-header {
+    height: 26px;
+    width: 100%;
+    h4 {
+      padding-left: 5px;
+    }
+    button {
+      padding-right: 5px;
+    }
+  }
+}

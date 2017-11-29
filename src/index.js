@@ -1,13 +1,21 @@
 import React from "react";
 import { render } from "react-dom";
 import createBrowserHistory from "history/createBrowserHistory";
-import { BrowserRouter as Router, withRouter } from "react-router-dom";
+import { Router, withRouter } from "react-router-dom";
 import firebase from "firebase";
-
 import registerServiceWorker from "./helpers/registerServiceWorker";
 import { firebaseConfig } from "./config";
 import "./assets/styles/App.css";
 import App from "./components/App";
+import uicss from "uikit/dist/css/uikit.css";
+import UIkit from "uikit";
+import Icons from "uikit/dist/js/uikit-icons";
+
+import friendStore from "./stores/FriendStore";
+import chatStore from "./stores/ChatStore";
+
+UIkit.use(Icons);
+// UIkit.notification("Hello world.");
 
 firebase.initializeApp(firebaseConfig);
 
@@ -22,3 +30,11 @@ render(
 );
 
 registerServiceWorker();
+
+// import installedStores from config;
+// installedStores.forEach(store => {
+//   store.subscribeToEvents();
+// })
+
+friendStore.subscribeToEvents();
+chatStore.subscribeToEvents();

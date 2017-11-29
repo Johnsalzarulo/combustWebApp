@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { userService } from "../service/UserService";
-import { withRouter } from "react-router";
+import { observer } from "mobx-react";
 
+import userStore from "../stores/UserStore";
+
+@observer
 export default class Login extends Component {
   state = {
     email: "",
@@ -9,26 +11,28 @@ export default class Login extends Component {
     isRegister: false
   };
 
+  componentWillUpdate(nextProps) {
+    if (userStore.user) {
+      this.props.history.push("/");
+    }
+  }
+
   submit = () => {
     let user = {
       email: this.state.email,
       password: this.state.password
     };
+
     this.state.isRegister
-      ? userService.createUser(user, (err, userData) => {
-          debugger;
+      ? userStore.createUser(user, (err, userData) => {
           if (err) {
             //handle signup err
           } else {
-            // this.props.listenToUser(userData);
             this.props.history.push("/");
           }
         })
-      : userService.login(user, (err, userData) => {
-          // this.props.listenToUser(userData);
-          this.props.history.push("/");
-
-          console.log("logged in");
+      : userStore.login(user, (err, userData) => {
+          err ? console.log(err) : this.props.history.push("/");
         });
   };
 

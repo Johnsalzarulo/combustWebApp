@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import Login from "./Login";
-import Welcome from "./Welcome";
+import Welcome from "./firespark_examples/Welcome";
 
 const Routes = props => {
   let loginWrapper = () => <Login {...props} />;

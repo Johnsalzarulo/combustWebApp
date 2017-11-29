@@ -1,0 +1,33 @@
+{
+  "users": {},
+  "friendsByUser": {
+    "userId": {
+      "uid1": true,
+      "uid2": true
+    }
+  },
+  "conversations": {
+    "convoId1": {
+      "messages": {
+        "messageId1": true
+      },
+      "participants": {
+        "uid1": {
+          "isTyping": true
+        },
+        "uid2": {
+          "isTyping": false
+        },
+        "uid3": {
+          "isTyping": false
+        }
+      }
+    }
+  },
+  "conversationsByUser": {
+    "userId": {
+      "convoId1": true
+    }
+  },
+  "messages": {}
+}
