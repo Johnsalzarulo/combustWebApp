@@ -17,26 +17,6 @@ class ChatStore {
   @observable messageMap = new Map();
 
   @action
-  loadMessagesForConversation(convoId, predefinedMessages) {
-    if (this.messagesByConversation.get(convoId)) {
-      //already listening to this convo's messages
-      return;
-    }
-
-    this.messagesByConversation.set(convoId, {});
-    this.listenToConversation(convoId);
-    chatService.listenForNewMessages(convoId, (err, msg) => {
-      if (err || !msg) {
-        return console.log(err || "Null msg!");
-      }
-
-      let messages = this.messagesByConversation.get(convoId) || {};
-      messages[msg.id] = msg;
-      this.messagesByConversation.set(convoId, _.clone(messages));
-    });
-  }
-
-  @action
   loadConversationsForUser = user => {
     chatService.listenToUsersConversationIds(user.id, (err, convoId) => {
       err ? console.log(err) : this.listenToConversation(convoId);
@@ -44,24 +24,50 @@ class ChatStore {
   };
 
   @action
+  loadMessagesForConversation(convoId, predefinedMessages) {
+    if (this.messagesByConversation.get(convoId)) {
+      //already listening to this convo's messages
+      return;
+    }
+    this.messagesByConversation.set(convoId, {});
+    this.listenToConversation(convoId);
+    chatService.listenForNewMessages(convoId, (err, msg) => {
+      if (err || !msg) {
+        return console.log(err || "Null msg!");
+      }
+      let messages = this.messagesByConversation.get(convoId) || {};
+      messages[msg.id] = msg;
+      this.messagesByConversation.set(convoId, _.clone(messages));
+    });
+  }
+
+  @action
   listenToConversation = cid => {
     chatService.listenToConversation(cid, convo => {
+      if (this.conversationContainsNewMessages(cid, convo)) {
+        const participants = this.getOtherParticipantIdsInConversation(convo);
+        debugger;
+        this.openConversationWithUsers(participants);
+      }
       this.conversationMap.set(cid, convo);
     });
   };
 
   @action
-  findExistingConversationWithUser(friendId) {
-    let conversation = null;
-    this.conversationMap.forEach(convo => {
-      if (convo.participants) {
-        const participants = Object.keys(convo.participants);
-        if (participants.length === 2 && participants.includes(friendId)) {
-          conversation = convo;
+  findExistingConversationWithParticipants(friendIds) {
+    const existingConvoEntry = this.conversationMap
+      .entries()
+      .find(([convoId, convo]) => {
+        const participants =
+          convo && convo.participants && Object.keys(convo.participants);
+          if (participants && participants.length === friendIds.length + 1) {
+          let nonInclusion = friendIds.find(fid => {
+            return !participants.includes(fid);
+          });
+          return nonInclusion ? false : true;
         }
-      }
-    });
-    return conversation;
+      });
+    return (existingConvoEntry && existingConvoEntry[1]) || null;
   }
 
   sendMessage(conversationId, messageBody) {
@@ -73,20 +79,22 @@ class ChatStore {
     chatService.sendMessage(conversationId, message);
   }
 
-  openConversationWithUser(friendId) {
-    const existingConvo = this.findExistingConversationWithUser(friendId);
+  openConversationWithUsers(friendIds) {
+    const existingConvo = this.findExistingConversationWithParticipants(friendIds); //TODO: fix this, make it accept an array as well
     if (existingConvo) {
       this.markConvoAsOpen(existingConvo.id);
       this.loadMessagesForConversation(existingConvo.id);
     } else {
-      chatService.createConversation(
-        [friendId, userStore.userId],
-        (err, convoId) => {
-          this.markConvoAsOpen(convoId);
-          this.loadMessagesForConversation(convoId);
-        }
-      );
+      const participants = friendIds.concat([userStore.userId]);
+      chatService.createConversation(participants, (err, convoId) => {
+        this.markConvoAsOpen(convoId);
+        this.loadMessagesForConversation(convoId);
+      });
     }
+  }
+
+  openConversationWithUser(friendId) {
+    this.openConversationWithUsers([friendId]);
   }
 
   markConvoAsOpen(convoId) {
@@ -117,14 +125,6 @@ class ChatStore {
         messages.push(msgsObj[msgId]);
       });
     return messages;
-
-    //   return this.messagesByConversation.get()
-    // let convo = this.conversationMap.get(convoId);
-    // return convo && convo.messages
-    //   ? Object.keys(convo.messages).map(msgId => {
-    //       return this.messageMap.get(msgId);
-    //     })
-    //   : [];
   }
 
   toggleUserTyping(convoId, isTyping) {
@@ -166,6 +166,30 @@ class ChatStore {
       title += f.email + (i < usersInChat.length - 1 ? "," : "");
     });
     return title;
+  }
+
+  conversationContainsNewMessages(convoId, conversation) {
+    const existingConvo = this.conversationMap.get(convoId);
+    return existingConvo &&
+      conversation.messages &&
+      (!existingConvo.messages ||
+        Object.keys(existingConvo.messages).length !==
+          Object.keys(conversation.messages).length)
+      ? true
+      : false;
+  }
+
+  getOtherParticipantIdsInConversation(conversation) {
+    const myid = userStore.userId;
+    debugger;
+    const participants =
+      conversation && conversation.participants
+        ? Object.keys(conversation.participants)
+        : [];
+    const nonUserParticipants = participants.filter(participantId => {
+      return participantId !== userStore.userId;
+    });
+    return nonUserParticipants;
   }
 }
 
