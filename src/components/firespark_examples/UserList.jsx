@@ -3,27 +3,8 @@ import { observer } from "mobx-react";
 
 const UserList = observer(({ users, onUserClicked, title }) => {
   return (
-    // <div className="UserList uk-position-right">
-    //   <div className="uk-inline">
-    //     <h4>
-    //       {title}
-    //       <a uk-icon="icon: triangle-down" />
-    //     </h4>
-    //     <div uk-dropdown="pos: bottom-justify">
-    //       <ul className="uk-nav uk-dropdown-nav">
-    //         <li>
-    //           <a href="#">Followers</a>
-    //         </li>
-    //         <li>
-    //           <a href="#">Following</a>
-    //         </li>
-    //       </ul>
-    //     </div>
-    //   </div>
+ 
 <div>
-      {/* <h4 className="uk-heading-line">
-        <span>{title}:</span>
-      </h4> */}
       {users &&
         Object.keys(users).map((userId, i) => {
           const user = users[userId];

@@ -30,9 +30,9 @@ export default class SocialContacts extends Component {
           </h4>
           <div uk-dropdown="pos: bottom-justify">
             <ul className="uk-nav uk-dropdown-nav">
-              {Object.keys(componentsByMode).map(mode => {
+              {Object.keys(componentsByMode).map((mode, i) => {
                 return mode !== this.state.mode ? (
-                  <li>
+                  <li key={i}>
                     <a
                       onClick={e => {
                         this.setMode(mode);

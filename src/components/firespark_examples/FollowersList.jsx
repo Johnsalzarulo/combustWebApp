@@ -14,7 +14,7 @@ const FollowersList = observer(({ displayFollowers, displayFollowing }) => {
     <UserList
       title="Friends"
       users={users}
-      onUserClicked={followerStore.onFollowerClicked}
+      onUserClicked={followerStore.handleFollowerClick}
     />
   );
 });

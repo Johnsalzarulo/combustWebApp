@@ -15,8 +15,8 @@ export default class Chatboxes extends Component {
       chatStore.openConversationWithUser(friend.id);
     }
 
-    friendStore.onFriendClicked(openConversation);
     followerStore.onFollowerClicked(openConversation);
+    friendStore.onFriendClicked(openConversation);
   }
 
   render() {

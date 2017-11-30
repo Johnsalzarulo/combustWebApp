@@ -77,7 +77,7 @@ export default class Chatbox extends Component {
             type="button"
             uk-close="true"
             title="Close"
-            uk-tooltip
+            uk-tooltip="true"
             onClick={e => chatStore.markConvoAsClosed(conversationId)}
           />
         </div>
@@ -103,7 +103,7 @@ export default class Chatbox extends Component {
         <div className="message-input">
           <span
             uk-icon="icon: comment"
-            uk-tooltip
+            uk-tooltip="true"
             title="Send"
             onClick={this.handleMessageSubmit}
           />
