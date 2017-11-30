@@ -109,11 +109,11 @@ export default class Chatbox extends Component {
           >
             {messages &&
               messages.map((m, i) => (
-                <RenderMessageBubble
-                  key={i}
-                  message={m}
-                  isIncoming={m.sentBy === userStore.userId}
-                />
+                  <RenderMessage
+                    key={i}
+                    message={m}
+                    isIncoming={m.sentBy === userStore.userId}
+                  />
               ))}
             {usersTyping.length > 0 &&
               usersTyping.map(email => {
@@ -190,17 +190,30 @@ export default class Chatbox extends Component {
   }
 }
 
+const RenderMessage = props => {
+  const {isIncoming, message} = props;
+  const sentBy = userStore.getUserById(message.sentBy);
+
+  return (
+    <div className={"RenderMessage "+ (!isIncoming?"incomingMsg":"outgoingMsg")}>
+      {!isIncoming &&
+        sentBy && <img className="avatar" src={sentBy.iconUrl} />}
+      <RenderMessageBubble {...props} />
+    </div>
+  );
+};
+
 const RenderMessageBubble = ({ message, isIncoming }) => {
   return (
-    <div
+    <span
       className={
         "RenderMessageBubble " +
         (isIncoming
-          ? "uk-text-primary uk-background-secondary incomingMsg"
-          : "uk-background-primary outgoingMsg")
+          ? "uk-text-primary uk-background-secondary"
+          : "uk-background-primary")
       }
     >
       {message.body}
-    </div>
+    </span>
   );
 };

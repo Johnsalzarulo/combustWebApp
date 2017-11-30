@@ -86,16 +86,21 @@
       overflow-y: scroll;
       display: flex;
       flex-direction: column; }
+  .Chatbox .RenderMessage {
+    margin-bottom: 4px;
+    max-width: 80%; }
+    .Chatbox .RenderMessage .avatar {
+      height: 25px;
+      width: 25px;
+      margin-right: 3px; }
   .Chatbox .RenderMessageBubble {
-    padding: 2px 7px;
+    padding: 4px 9px;
     border-radius: 12px;
-    margin-bottom: 1px;
-    max-width: 80%;
     word-wrap: break-word; }
   .Chatbox .outgoingMsg {
-    align-self: flex-end;
-    color: white; }
+    align-self: flex-end; }
   .Chatbox .incomingMsg {
+    color: white;
     align-self: flex-start; }
   .Chatbox .message-input {
     position: absolute;

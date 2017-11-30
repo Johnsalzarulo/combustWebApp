@@ -46,7 +46,6 @@ class ChatStore {
     chatService.listenToConversation(cid, convo => {
       if (this.conversationContainsNewMessages(cid, convo)) {
         const participants = this.getOtherParticipantIdsInConversation(convo);
-        debugger;
         this.openConversationWithUsers(participants);
       }
       this.conversationMap.set(cid, convo);
@@ -152,7 +151,6 @@ class ChatStore {
   }
 
   getConvoTitle(convoId) {
-    debugger;
     let currentConvo = this.conversationMap.get(convoId);
     if (!currentConvo) {
       return "Chat";
@@ -184,7 +182,6 @@ class ChatStore {
 
   getOtherParticipantIdsInConversation(conversation) {
     const myid = userStore.userId;
-    debugger;
     const participants =
       conversation && conversation.participants
         ? Object.keys(conversation.participants)

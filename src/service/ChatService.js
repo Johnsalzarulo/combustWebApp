@@ -14,11 +14,9 @@ class ChatService {
   }
 
   addParticipantToConversation(userId, conversationId) {
-    debugger;
     if(!userId || !conversationId){
       return new Error("Bad call to addParticipantToConversation")
     }
-    debugger;
     const db = firebase.database();
     db
       .ref("conversations")

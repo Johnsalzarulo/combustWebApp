@@ -55,7 +55,6 @@ class FollowerService {
   }
 
   listenToUser(userId, callback) {
-    debugger;
     firebase
       .database()
       .ref("users/" + userId + "/public")

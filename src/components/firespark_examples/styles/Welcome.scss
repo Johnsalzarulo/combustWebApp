@@ -106,7 +106,6 @@
     a {
       padding-right: 5px;
     }
-
   }
 
   .chat-messages {
@@ -124,20 +123,29 @@
     }
   }
 
-  .RenderMessageBubble {
-    padding: 2px 7px;
-    border-radius: 12px;
-    margin-bottom: 1px;
+  .RenderMessage {
+    margin-bottom: 4px;
     max-width: 80%;
+    .avatar {
+      height: 25px;
+      width: 25px;
+      margin-right: 3px;
+    }
+  }
+
+  .RenderMessageBubble {
+    padding: 4px 9px;
+    border-radius: 12px;
     word-wrap: break-word;
   }
 
   .outgoingMsg {
-    align-self: flex-end;
-    color: white;
+    align-self:flex-end ;
   }
 
   .incomingMsg {
+    color: white;
+
     align-self: flex-start;
   }
 
