@@ -21,7 +21,7 @@
   z-index: 5;
 }
 
-.FriendsList {
+.SocialContacts {
   border-left: 1px solid lightgray;
   z-index: 4;
   padding: 0px 5px;
@@ -33,7 +33,7 @@
     padding-right: 10px;
   }
 
-  .Friend {
+  .User {
     padding: 5px;
     cursor: pointer;
     &:hover {

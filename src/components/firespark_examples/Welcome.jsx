@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 
 import welcomeStore from "../../stores/WelcomeStore";
-import FriendsList from "./FriendsList";
+import SocialContacts from "./SocialContacts";
 import Chatboxes from "./Chatboxes";
 import "./styles/Welcome.css";
 
@@ -81,7 +81,8 @@ export default class Welcome extends Component {
           )}
         </dl>
         <Chatboxes />
-        <FriendsList />
+
+        <SocialContacts />
       </div>
     );
   }

@@ -13,10 +13,9 @@ import Icons from "uikit/dist/js/uikit-icons";
 
 import friendStore from "./stores/FriendStore";
 import chatStore from "./stores/ChatStore";
-
-UIkit.use(Icons);
+import followerStore from "./stores/FollowerStore";
 // UIkit.notification("Hello world.");
-
+UIkit.use(Icons);
 firebase.initializeApp(firebaseConfig);
 
 const browserHistory = createBrowserHistory();
@@ -38,3 +37,4 @@ registerServiceWorker();
 
 friendStore.subscribeToEvents();
 chatStore.subscribeToEvents();
+followerStore.subscribeToEvents();

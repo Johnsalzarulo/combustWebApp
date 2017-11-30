@@ -15,34 +15,34 @@
 .Navbar {
   z-index: 5; }
 
-.FriendsList {
+.SocialContacts {
   border-left: 1px solid lightgray;
   z-index: 4;
   padding: 0px 5px;
   padding-top: 100px;
   background-color: #fdfdfd;
   width: 200px; }
-  .FriendsList .uk-heading-line {
+  .SocialContacts .uk-heading-line {
     padding-left: 10px;
     padding-right: 10px; }
-  .FriendsList .Friend {
+  .SocialContacts .User {
     padding: 5px;
     cursor: pointer; }
-    .FriendsList .Friend:hover {
+    .SocialContacts .User:hover {
       background-color: #ececec; }
-    .FriendsList .Friend .avatar {
+    .SocialContacts .User .avatar {
       margin-right: 5px; }
-    .FriendsList .Friend .avatarAndName {
+    .SocialContacts .User .avatarAndName {
       max-width: 92%;
       text-overflow: ellipsis;
       white-space: nowrap;
       overflow: hidden; }
-    .FriendsList .Friend .isOnline {
+    .SocialContacts .User .isOnline {
       height: 8px;
       width: 8px;
       border-radius: 50%;
       background-color: gray; }
-    .FriendsList .Friend .online {
+    .SocialContacts .User .online {
       background-color: #67f391; }
 
 .avatar {

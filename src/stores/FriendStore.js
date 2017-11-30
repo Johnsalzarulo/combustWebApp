@@ -19,7 +19,6 @@ class FriendStore {
       return;
     }
     friendService.listenToFriends(user.id, (err, friend) => {
-      debugger;
       err ? console.log(err) : this.storeFriend(friend.id, friend);
     });
     this.usersLoaded = true;
@@ -46,10 +45,8 @@ class FriendStore {
   get friends() {
     let friends = {};
     Array.from(this.friendIdsMap.keys()).forEach(uid => {
-      debugger;
       friends[uid] = userStore.getUserById(uid);
     });
-    debugger;
     return friends;
   }
 
@@ -58,7 +55,7 @@ class FriendStore {
     this.onFriendClickedTriggers.push(func);
   };
 
-  handleFriendClick(friend) {
+  handleFriendClick = (friend) => {
     this.onFriendClickedTriggers.length > 0
       ? this.onFriendClickedTriggers.forEach(event => {
           event(friend);

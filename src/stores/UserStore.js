@@ -59,12 +59,10 @@ class UserStore {
   }
 
   saveUserLocally(userId, user) {
-    debugger;
     if (!user) {
       return;
     }
     user.id = userId;
-    debugger;
     this.usersMap.set(userId, user);
   }
 

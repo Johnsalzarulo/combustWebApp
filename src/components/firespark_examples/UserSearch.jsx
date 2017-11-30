@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import userSearchService from "../../service/UserSearchService";
 import { observer } from "mobx-react";
 import friendStore from "../../stores/FriendStore";
+import followerStore from "../../stores/FollowerStore";
 
 // import UIkit from "uikit";
 // import Icons from "uikit/dist/js/uikit-icons";
@@ -9,13 +10,20 @@ import friendStore from "../../stores/FriendStore";
 @observer
 export default class UserSearch extends Component {
   state = {
-    results: []
+    results: [],
+    query: ""
   };
 
   handleSearch = e => {
     let query = e.target.value;
     let results = userSearchService.searchByField(query, "email");
-    this.setState({ results });
+    this.setState({ results, query });
+  };
+
+  handleClick = userId => {
+    // friendStore.addFriend(userId);
+    followerStore.followUser(userId);
+    this.setState({ query: "", results: [] });
   };
 
   render() {
@@ -26,6 +34,7 @@ export default class UserSearch extends Component {
           <input
             className="uk-search-input"
             type="search"
+            value={this.state.query}
             placeholder="Search by email.."
             onChange={this.handleSearch}
             results={5}
@@ -38,14 +47,21 @@ export default class UserSearch extends Component {
                 <div key={i}>
                   <div className="userSearch-result uk-flex uk-flex-between uk-flex-middle">
                     {user.email}{" "}
-                    {!friendStore.isFriend(user.id) && (
+                    {!followerStore.isFollowing(user.id) ? (
                       <button
                         className="uk-button uk-button-small uk-button-primary"
-                        onClick={e => friendStore.addFriend(user.id)}
+                        onClick={e => this.handleClick(user.id)}
                       >
-                        Add Friend
+                        Follow
                       </button>
-                    )}
+                    ) :
+                    <button
+                        className="uk-button uk-button-small uk-button-secondary"
+                        onClick={e => followerStore.unfollowUser(user.id)}
+                      >
+                        Unfollow
+                      </button>
+                    }
                   </div>
                 </div>
               );

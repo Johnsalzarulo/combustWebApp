@@ -157,7 +157,6 @@ class ChatStore {
     let usersInChat = [];
     for (let uid in currentConvo.participants) {
       if (uid !== userStore.userId) {
-        debugger;
         const user = userStore.getUserById(uid);
         user && usersInChat.push(user);
       }
