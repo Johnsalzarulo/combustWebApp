@@ -55,7 +55,17 @@ class UserStore {
   }
 
   getUserById(userId) {
-    return this.usersMap.get(userId);
+    const user = this.usersMap.get(userId);
+    if (!user) {
+      this.listenToPublicUserData(userId);
+    }
+    return user;
+  }
+
+  listenToPublicUserData(userId) {
+    userService.listenToPublicUserData(userId, (err, user) => {
+      this.usersMap.set(userId, user);
+    });
   }
 
   saveUserLocally(userId, user) {
@@ -88,6 +98,20 @@ class UserStore {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  searchFromLocalUsersByField(field, query) {
+    let results = [];
+    this.usersMap.entries().forEach(([uid, user]) => {
+      if (
+        user &&
+        typeof user[field] === "string" &&
+        user[field].toUpperCase().includes(query.toUpperCase())
+      ) {
+        results.push(user);
+      }
+    });
+    return results;
   }
 
   onUserLogout() {

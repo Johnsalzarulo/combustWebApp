@@ -60,7 +60,7 @@ class ChatStore {
       .find(([convoId, convo]) => {
         const participants =
           convo && convo.participants && Object.keys(convo.participants);
-          if (participants && participants.length === friendIds.length + 1) {
+        if (participants && participants.length === friendIds.length + 1) {
           let nonInclusion = friendIds.find(fid => {
             return !participants.includes(fid);
           });
@@ -80,7 +80,9 @@ class ChatStore {
   }
 
   openConversationWithUsers(friendIds) {
-    const existingConvo = this.findExistingConversationWithParticipants(friendIds); //TODO: fix this, make it accept an array as well
+    const existingConvo = this.findExistingConversationWithParticipants(
+      friendIds
+    ); //TODO: fix this, make it accept an array as well
     if (existingConvo) {
       this.markConvoAsOpen(existingConvo.id);
       this.loadMessagesForConversation(existingConvo.id);
@@ -150,6 +152,7 @@ class ChatStore {
   }
 
   getConvoTitle(convoId) {
+    debugger;
     let currentConvo = this.conversationMap.get(convoId);
     if (!currentConvo) {
       return "Chat";
@@ -163,7 +166,7 @@ class ChatStore {
     }
     let title = "";
     usersInChat.forEach((f, i) => {
-      title += f.email + (i < usersInChat.length - 1 ? "," : "");
+      title += f.email + (i < usersInChat.length - 1 ? ", " : "");
     });
     return title;
   }
@@ -190,6 +193,10 @@ class ChatStore {
       return participantId !== userStore.userId;
     });
     return nonUserParticipants;
+  }
+
+  addParticipantToConversation(userId, conversationId) {
+    chatService.addParticipantToConversation(userId, conversationId);
   }
 }
 

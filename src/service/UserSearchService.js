@@ -34,7 +34,7 @@ class UserSearchService {
       return [];
     }
     return this.users.filter(user => {
-      return user[field].toUpperCase().includes(query.toUpperCase());
+      return !user[field] || user[field].toUpperCase().includes(query.toUpperCase());
     });
   }
 }

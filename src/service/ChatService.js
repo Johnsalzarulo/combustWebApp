@@ -13,6 +13,28 @@ class ChatService {
     db.ref("conversations/" + convoId + "/messages/" + msgId).set(true);
   }
 
+  addParticipantToConversation(userId, conversationId) {
+    debugger;
+    if(!userId || !conversationId){
+      return new Error("Bad call to addParticipantToConversation")
+    }
+    debugger;
+    const db = firebase.database();
+    db
+      .ref("conversations")
+      .child(conversationId)
+      .child("participants")
+      .update({
+        [userId]: {
+          isTyping: false
+        }
+      });
+    db
+      .ref("conversationsByUser")
+      .child(userId)
+      .update({ [conversationId]: true });
+  }
+
   listenForNewMessages(convoId, callback) {
     if (!convoId) {
       return;
@@ -59,6 +81,9 @@ class ChatService {
     let db = firebase.database();
     db.ref("conversations/" + convoId).on("value", snapshot => {
       let convo = snapshot.val();
+      // if (!convo) {
+      //   return callback(null);
+      // }
       convo.id = convoId;
       callback(convo);
     });

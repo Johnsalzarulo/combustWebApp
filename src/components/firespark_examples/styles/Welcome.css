@@ -72,6 +72,8 @@
       color: white; }
     .Chatbox .chat-header button {
       padding-right: 5px; }
+    .Chatbox .chat-header a {
+      padding-right: 5px; }
   .Chatbox .chat-messages {
     overflow: hidden;
     padding-left: 5px;

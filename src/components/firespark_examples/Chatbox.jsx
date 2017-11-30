@@ -6,7 +6,10 @@ import userStore from "../../stores/UserStore";
 @observer
 export default class Chatbox extends Component {
   state = {
-    message: ""
+    message: "",
+    addPeopleModal: false,
+    modalQuery: "",
+    modalQueryResults: []
   };
 
   messageLength = 0;
@@ -59,6 +62,15 @@ export default class Chatbox extends Component {
     }
   }
 
+  handleModalQuery = e => {
+    const modalQuery = e.target.value;
+    const modalQueryResults = userStore.searchFromLocalUsersByField(
+      "email",
+      modalQuery
+    );
+    this.setState({ modalQuery, modalQueryResults });
+  };
+
   render() {
     const { conversationId } = this.props;
     const messages = chatStore.getMessages(conversationId);
@@ -73,13 +85,22 @@ export default class Chatbox extends Component {
       <div className="Chatbox">
         <div className="chat-header uk-light uk-flex uk-flex-between">
           <div className="convo-title">{convoTitle}</div>
-          <button
-            type="button"
-            uk-close="true"
-            title="Close"
-            uk-tooltip="true"
-            onClick={e => chatStore.markConvoAsClosed(conversationId)}
-          />
+          <span>
+            <button
+              title="Add People"
+              uk-tooltip="true"
+              uk-icon="icon: plus-circle; ratio: .8"
+              type="button"
+              uk-toggle="target: #modal-example"
+            />
+            <button
+              type="button"
+              uk-close="true"
+              title="Close"
+              uk-tooltip="true"
+              onClick={e => chatStore.markConvoAsClosed(conversationId)}
+            />
+          </span>
         </div>
         <div className="chat-messages">
           <div
@@ -113,6 +134,56 @@ export default class Chatbox extends Component {
             onChange={this.handleMessageChange}
             onKeyPress={this.detectEnterKey}
           />
+        </div>
+        <div id="modal-example" uk-modal="true">
+          <div className="uk-modal-dialog uk-modal-body">
+            <h2 className="uk-modal-title">Add Users</h2>
+            <div className="uk-margin">
+              <label className="uk-form-label" for="form-stacked-text">
+                Text
+              </label>
+              <div className="uk-form-controls">
+                <input
+                  className="uk-input"
+                  id="form-stacked-text"
+                  type="text"
+                  placeholder="Email..."
+                  value={this.state.modalQuery}
+                  onChange={this.handleModalQuery}
+                />
+              </div>
+            </div>
+            {this.state.modalQueryResults.length > 0 &&
+              this.state.modalQueryResults.map(u => {
+                return (
+                  <div>
+                    {u.email}{" "}
+                    <button
+                      onClick={e =>
+                        chatStore.addParticipantToConversation(
+                          u.id,
+                          conversationId
+                        )
+                      }
+                    >
+                      Add to convo
+                    </button>
+                  </div>
+                );
+              })}
+
+            <p className="uk-text-right">
+              <button
+                className="uk-button uk-button-default uk-modal-close"
+                type="button"
+              >
+                Cancel
+              </button>
+              <button className="uk-button uk-button-primary" type="button">
+                Save
+              </button>
+            </p>
+          </div>
         </div>
       </div>
     );

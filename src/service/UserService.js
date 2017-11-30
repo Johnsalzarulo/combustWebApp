@@ -104,6 +104,20 @@ class UserService {
     this.monitorOnlineStatus();
   }
 
+  listenToPublicUserData(userId, callback) {
+    firebase
+      .database()
+      .ref("users/" + userId + "/public")
+      .on("value", snapshot => {
+        let friend = snapshot.val();
+        if (!friend) {
+          callback(null, null);
+        }
+        friend.id = userId;
+        callback(null, friend);
+      });
+  }
+
   login(user, callback) {
     let auth = firebase.auth();
     let db = firebase.database();
