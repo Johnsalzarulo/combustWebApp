@@ -30,30 +30,36 @@ export default class Profile extends Component {
             </div>
             <div className="uk-panel uk-flex uk-flex-center uk-flex-middle">
               <div className="uk-position-bottom uk-card-primary uk-flex uk-flex-left uk-padding-small">
-                <ul className="uk-iconnav nav-btns">
-                  {userId &&
-                    !isMyProfile && (
-                      <li className="profile-nav-btn">
-                        <a href="#" uk-icon="icon: comment" />
-                        <span
-                          className="uk-link"
-                          onClick={e => {
-                            chatStore.openConversationWithUser(userId);
-                          }}
-                        >
-                          Send Message
-                        </span>
-                      </li>
-                    )}
-                  <li className="profile-nav-btn">
-                    <a href="#" uk-icon="icon: user" />
-                    <span className="uk-link">Friend Request</span>
-                  </li>{" "}
-                  <li className="profile-nav-btn">
-                    <a href="#" uk-icon="icon: star" />
-                    <span className="uk-link">Follow</span>
-                  </li>
-                </ul>
+                {userId && !isMyProfile ? (
+                  <ul className="uk-iconnav nav-btns">
+                    <li className="profile-nav-btn">
+                      <a href="#" uk-icon="icon: comment" />
+                      <span
+                        className="uk-link"
+                        onClick={e => {
+                          chatStore.openConversationWithUser(userId);
+                        }}
+                      >
+                        Send Message
+                      </span>
+                    </li>
+                    <li className="profile-nav-btn">
+                      <a href="#" uk-icon="icon: user" />
+                      <span className="uk-link">Friend Request</span>
+                    </li>{" "}
+                    <li className="profile-nav-btn">
+                      <a href="#" uk-icon="icon: star" />
+                      <span className="uk-link">Follow</span>
+                    </li>
+                  </ul>
+                ) : (
+                  <ul className="uk-iconnav nav-btns">
+                    <li className="profile-nav-btn">
+                      <a href="#" uk-icon="icon: pencil" />
+                      <span className="uk-link">Edit Profile</span>
+                    </li>
+                  </ul>
+                )}
               </div>
               <div className="uk-position-bottom-left uk-margin-small-left uk-margin-small-bottom">
                 {user &&

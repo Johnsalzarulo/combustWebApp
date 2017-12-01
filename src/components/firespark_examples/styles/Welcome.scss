@@ -34,7 +34,11 @@
 .Navbar {
   z-index: 5;
   .uk-logo {
+    height: 40px;
+  }
+  .uk-navbar-container {
     height: 60px;
+    // border-bottom: 0.5px solid lightgray;
   }
 }
 

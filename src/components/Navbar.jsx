@@ -5,8 +5,11 @@ import UserSearch from "./firespark_examples/UserSearch";
 import userStore from "../stores/UserStore";
 
 const Navbar = observer(({ history }) => (
-  <div uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; bottom: #transparent-sticky-navbar">
-    <nav className="Navbar uk-navbar-container" uk-navbar="true">
+  <div
+    className="Navbar"
+    uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; bottom: #transparent-sticky-navbar"
+  >
+    <nav className="uk-navbar-container" uk-navbar="true">
       <div className="uk-navbar-left">
         <img
           className="uk-navbar-item uk-logo"

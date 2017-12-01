@@ -28,6 +28,8 @@
 .Navbar {
   z-index: 5; }
   .Navbar .uk-logo {
+    height: 40px; }
+  .Navbar .uk-navbar-container {
     height: 60px; }
 
 .SocialContacts {
