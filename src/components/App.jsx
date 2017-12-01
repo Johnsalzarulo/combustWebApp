@@ -3,6 +3,7 @@ import Routes from "./Routes";
 import Navbar from "./Navbar";
 import { observer } from "mobx-react";
 import userStore from "../stores/UserStore";
+import Chatboxes from "./firespark_examples/Chatboxes";
 
 @observer
 export default class App extends Component {
@@ -13,10 +14,9 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        <Navbar />
-        <div className="uk-container">
-          <Routes {...this.props} />
-        </div>
+        <Navbar {...this.props} />
+        <Chatboxes />
+        <Routes {...this.props} />
       </div>
     );
   }

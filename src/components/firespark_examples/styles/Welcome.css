@@ -1,3 +1,16 @@
+.nonHighlightable, .SocialContacts {
+  -webkit-user-select: none;
+  /* Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE10+/Edge */
+  user-select: none;
+  /* Standard */ }
+
+.text-color-white {
+  color: white !important; }
+
 .UserSearch .searchResults {
   position: absolute;
   top: 60px;
@@ -14,21 +27,23 @@
 
 .Navbar {
   z-index: 5; }
+  .Navbar .uk-logo {
+    height: 60px; }
 
 .SocialContacts {
   border-left: 1px solid lightgray;
   z-index: 4;
   padding-top: 100px;
   background-color: #fdfdfd;
-  width: 200px; }
+  width: 240px; }
   .SocialContacts h4 {
     cursor: pointer;
-    margin-left: 5px; }
+    margin-left: 15px; }
   .SocialContacts .uk-heading-line {
     padding-left: 10px;
     padding-right: 10px; }
   .SocialContacts .User {
-    padding: 5px;
+    padding: 5px 10px;
     cursor: pointer; }
     .SocialContacts .User:hover {
       background-color: #ececec; }
@@ -53,13 +68,18 @@
   width: 30px; }
 
 .Chatboxes {
+  position: fixed;
+  bottom: 0;
+  right: 0;
   margin-left: 15px;
-  margin-right: 230px;
+  margin-right: 270px;
   display: flex;
-  flex-direction: row-reverse; }
+  flex-direction: row-reverse;
+  z-index: 9001; }
 
 .Chatbox {
   position: relative;
+  background-color: white;
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
   height: 333px;
   width: 260px;
@@ -128,3 +148,24 @@
       position: absolute;
       right: 5px;
       text-align: center; }
+
+.Profile .profile-name {
+  position: absolute;
+  bottom: 55px;
+  left: 280px; }
+
+.Profile .profile-pic {
+  border-radius: 3px;
+  outline: 1px solid white;
+  height: 230px;
+  width: 230px; }
+
+.Profile .nav-btns {
+  margin-left: 280px; }
+
+.Profile .profile-nav-btn {
+  display: flex;
+  cursor: pointer;
+  margin-right: 12px; }
+  .Profile .profile-nav-btn a {
+    margin-right: 4px; }

@@ -2,6 +2,7 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import Login from "./Login";
 import Welcome from "./firespark_examples/Welcome";
+import Profile from "./firespark_examples/Profile";
 
 const Routes = props => {
   let loginWrapper = () => <Login {...props} />;
@@ -11,6 +12,7 @@ const Routes = props => {
     <Switch>
       <Route exact path="/" component={welcomeWrapper} />
       <Route path="/login" component={loginWrapper} />
+      <Route path="/profile/:userId" component={Profile} />
     </Switch>
   );
 };

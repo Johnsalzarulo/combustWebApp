@@ -84,17 +84,29 @@ export default class Chatbox extends Component {
   render() {
     const { conversationId } = this.props;
     const messages = chatStore.getMessages(conversationId);
-    const usersTyping = chatStore.getUsersTyping(conversationId);
+    const usersTyping = chatStore.getUsersTypingByField(
+      conversationId,
+      "email"
+    );
+    const convoTitle = chatStore.getConvoTitle(conversationId);
+
     if (messages.length !== this.messageLength) {
-      //new message
+      //new message, scroll to bottom
       this.shouldScroll = true;
     }
     this.messageLength = messages.length;
-    const convoTitle = chatStore.getConvoTitle(conversationId);
+
     return (
       <div className="Chatbox">
         <div className="chat-header uk-light uk-flex uk-flex-between">
-          <div className="convo-title">{convoTitle}</div>
+          <span>
+            {/* {
+              <span
+                className={"isOnline " + (user.online ? "online" : "offline")}
+              />
+            } */}
+            <div className="convo-title">{convoTitle}</div>
+          </span>
           <span>
             <button
               title="Add People"

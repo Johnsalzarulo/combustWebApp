@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import userSearchService from "../../service/UserSearchService";
 import { observer } from "mobx-react";
 
-// import friendStore from "../../stores/FriendStore";
 import followerStore from "../../stores/FollowerStore";
 
 // import UIkit from "uikit";
@@ -27,6 +26,11 @@ export default class UserSearch extends Component {
     this.setState({ query: "", results: [] });
   };
 
+  openProfile = user => {
+    this.setState({ query: "", results: [] });
+    this.props.history.push("/profile/" + user.id);
+  };
+
   render() {
     return (
       <div className="UserSearch">
@@ -46,7 +50,12 @@ export default class UserSearch extends Component {
             {this.state.results.map((user, i) => {
               return (
                 <div key={i}>
-                  <div className="userSearch-result uk-flex uk-flex-between uk-flex-middle">
+                  <div
+                    onClick={e => {
+                      this.openProfile(user);
+                    }}
+                    className="userSearch-result uk-flex uk-flex-between uk-flex-middle"
+                  >
                     {user.email}{" "}
                     {!followerStore.isFollowing(user.id) ? (
                       <button

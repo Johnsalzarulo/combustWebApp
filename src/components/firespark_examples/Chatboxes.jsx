@@ -13,7 +13,7 @@ export default class Chatboxes extends Component {
   componentWillMount() {
     const openConversation = friend => {
       chatStore.openConversationWithUser(friend.id);
-    }
+    };
 
     followerStore.onFollowerClicked(openConversation);
     friendStore.onFriendClicked(openConversation);
@@ -23,7 +23,7 @@ export default class Chatboxes extends Component {
     const convoIds = chatStore.openConversationIds;
 
     return (
-      <div className="Chatboxes uk-position-bottom">
+      <div className="Chatboxes">
         {convoIds &&
           convoIds.map((convoId, i) => {
             return <Chatbox key={i} conversationId={convoId} />;

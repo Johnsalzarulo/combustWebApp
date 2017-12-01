@@ -128,12 +128,25 @@ class ChatStore {
     return messages;
   }
 
+  /**
+   * sets the user's typing status in a conversation
+   * @param {string} convoId 
+   * @param {boolean} isTyping 
+   */
   toggleUserTyping(convoId, isTyping) {
     const userId = userStore.userId;
     chatService.toggleUserTyping(convoId, userId, isTyping);
   }
 
-  getUsersTyping(convoId) {
+  /**
+   * returns an array of users typing, denoted by the chosen field
+   * (default: email)
+   * @param {string} convoId 
+   * @param {string} userFieldToReturn
+   * @return {array} 
+   */
+  getUsersTypingByField(convoId, userFieldToReturn) {
+    userFieldToReturn = userFieldToReturn || "email";
     let usersTyping = [];
     const conversation = this.getConversation(convoId);
     conversation &&
@@ -144,7 +157,7 @@ class ChatStore {
           conversation.participants[uid].isTyping
         ) {
           let friend = userStore.getUserById(uid);
-          friend && usersTyping.push(friend.email);
+          friend && usersTyping.push(friend[userFieldToReturn]);
         }
       });
     return usersTyping;

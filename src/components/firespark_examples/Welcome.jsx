@@ -3,8 +3,9 @@ import { observer } from "mobx-react";
 
 import welcomeStore from "../../stores/WelcomeStore";
 import SocialContacts from "./SocialContacts";
-import Chatboxes from "./Chatboxes";
+// import Chatboxes from "./Chatboxes";
 import "./styles/Welcome.css";
+import Profile from "./Profile";
 
 @observer
 export default class Welcome extends Component {
@@ -24,7 +25,7 @@ export default class Welcome extends Component {
     } = welcomeStore;
 
     return (
-      <div className="Welcome">
+      <div className="Welcome uk-container uk-margin-medium-top">
         <div className="uk-heading-primary">
           {" "}
           Welcome to your firespark app
@@ -80,8 +81,7 @@ export default class Welcome extends Component {
             </span>
           )}
         </dl>
-        <Chatboxes />
-
+        {/* <Chatboxes /> */}
         <SocialContacts />
       </div>
     );
