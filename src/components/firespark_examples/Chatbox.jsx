@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
+import UIkit from "uikit";
+
 import chatStore from "../../stores/ChatStore";
 import userStore from "../../stores/UserStore";
 
@@ -17,6 +19,7 @@ export default class Chatbox extends Component {
 
   componentDidMount() {
     this.scrollToBottom();
+    this.refs.chatInput.focus();
   }
 
   componentDidUpdate = props => {
@@ -42,6 +45,13 @@ export default class Chatbox extends Component {
       this.handleMessageSubmit();
       e.stopPropagation();
     }
+  };
+
+  addUserToConvo = user => {
+    UIkit.modal(document.getElementById("modal-add-users-to-convo")).hide();
+    chatStore.addParticipantToConversation(user.id, this.props.conversationId);
+    this.refs.chatInput.focus();
+    this.setState({ modalQuery: "", modalQueryResults: [] });
   };
 
   scrollToBottom = e => {
@@ -91,7 +101,10 @@ export default class Chatbox extends Component {
               uk-tooltip="true"
               uk-icon="icon: plus-circle; ratio: .8"
               type="button"
-              uk-toggle="target: #modal-example"
+              uk-toggle="target: #modal-add-users-to-convo"
+              onClick={e => {
+                this.refs.modalInput.focus();
+              }}
             />
             <button
               type="button"
@@ -109,11 +122,11 @@ export default class Chatbox extends Component {
           >
             {messages &&
               messages.map((m, i) => (
-                  <RenderMessage
-                    key={i}
-                    message={m}
-                    isIncoming={m.sentBy === userStore.userId}
-                  />
+                <RenderMessage
+                  key={i}
+                  message={m}
+                  isIncoming={m.sentBy === userStore.userId}
+                />
               ))}
             {usersTyping.length > 0 &&
               usersTyping.map(email => {
@@ -129,21 +142,32 @@ export default class Chatbox extends Component {
             onClick={this.handleMessageSubmit}
           />
           <input
+            ref="chatInput"
             type="text"
+            autoFocus
             value={this.state.message}
             onChange={this.handleMessageChange}
             onKeyPress={this.detectEnterKey}
           />
         </div>
-        <div id="modal-example" uk-modal="true">
+        <div id="modal-add-users-to-convo" uk-modal="true">
           <div className="uk-modal-dialog uk-modal-body">
             <h2 className="uk-modal-title">Add Users</h2>
+            <button
+              class="uk-modal-close-default"
+              type="button"
+              uk-close="true"
+              title="Close"
+              uk-tooltip="true"
+            />
             <div className="uk-margin">
               <label className="uk-form-label" for="form-stacked-text">
-                Text
+                Search by email
               </label>
               <div className="uk-form-controls">
                 <input
+                  ref="modalInput"
+                  autoFocus
                   className="uk-input"
                   id="form-stacked-text"
                   type="text"
@@ -156,33 +180,17 @@ export default class Chatbox extends Component {
             {this.state.modalQueryResults.length > 0 &&
               this.state.modalQueryResults.map(u => {
                 return (
-                  <div>
+                  <div className="uk-margin-small-top">
                     {u.email}{" "}
                     <button
-                      onClick={e =>
-                        chatStore.addParticipantToConversation(
-                          u.id,
-                          conversationId
-                        )
-                      }
+                      className="uk-button uk-button-primary"
+                      onClick={e => this.addUserToConvo(u)}
                     >
-                      Add to convo
+                      Add to conversation
                     </button>
                   </div>
                 );
               })}
-
-            <p className="uk-text-right">
-              <button
-                className="uk-button uk-button-default uk-modal-close"
-                type="button"
-              >
-                Cancel
-              </button>
-              <button className="uk-button uk-button-primary" type="button">
-                Save
-              </button>
-            </p>
           </div>
         </div>
       </div>
@@ -191,13 +199,16 @@ export default class Chatbox extends Component {
 }
 
 const RenderMessage = props => {
-  const {isIncoming, message} = props;
+  const { isIncoming, message } = props;
   const sentBy = userStore.getUserById(message.sentBy);
 
   return (
-    <div className={"RenderMessage "+ (!isIncoming?"incomingMsg":"outgoingMsg")}>
-      {!isIncoming &&
-        sentBy && <img className="avatar" src={sentBy.iconUrl} />}
+    <div
+      className={
+        "RenderMessage " + (!isIncoming ? "incomingMsg" : "outgoingMsg")
+      }
+    >
+      {!isIncoming && sentBy && <img className="avatar" src={sentBy.iconUrl} />}
       <RenderMessageBubble {...props} />
     </div>
   );

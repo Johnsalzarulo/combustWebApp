@@ -24,10 +24,14 @@
 .SocialContacts {
   border-left: 1px solid lightgray;
   z-index: 4;
-  padding: 0px 5px;
   padding-top: 100px;
   background-color: #fdfdfd;
   width: 200px;
+  h4 {
+    //title
+    cursor: pointer;
+    margin-left: 5px;
+  }
   .uk-heading-line {
     padding-left: 10px;
     padding-right: 10px;
@@ -140,7 +144,7 @@
   }
 
   .outgoingMsg {
-    align-self:flex-end ;
+    align-self: flex-end;
   }
 
   .incomingMsg {

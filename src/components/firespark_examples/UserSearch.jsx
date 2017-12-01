@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import userSearchService from "../../service/UserSearchService";
 import { observer } from "mobx-react";
-import friendStore from "../../stores/FriendStore";
+
+// import friendStore from "../../stores/FriendStore";
 import followerStore from "../../stores/FollowerStore";
 
 // import UIkit from "uikit";
@@ -54,14 +55,14 @@ export default class UserSearch extends Component {
                       >
                         Follow
                       </button>
-                    ) :
-                    <button
+                    ) : (
+                      <button
                         className="uk-button uk-button-small uk-button-secondary"
                         onClick={e => followerStore.unfollowUser(user.id)}
                       >
                         Unfollow
                       </button>
-                    }
+                    )}
                   </div>
                 </div>
               );
