@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import userStore from "../../stores/UserStore";
+import usersStore from "../../stores/UsersStore";
 import chatStore from "../../stores/ChatStore";
 
 @observer
@@ -11,8 +11,8 @@ export default class Profile extends Component {
 
   render() {
     const userId = this.props.match.params.userId;
-    const user = userStore.getUserById(userId);
-    const isMyProfile = userId === userStore.userId;
+    const user = usersStore.getUserById(userId);
+    const isMyProfile = userId === usersStore.userId;
 
     return (
       <div className="Profile" uk-height-viewport="true">

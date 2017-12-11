@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import UIkit from "uikit";
 
 import chatStore from "../../stores/ChatStore";
-import userStore from "../../stores/UserStore";
+import usersStore from "../../stores/UsersStore";
 
 @observer
 export default class Chatbox extends Component {
@@ -74,7 +74,7 @@ export default class Chatbox extends Component {
 
   handleModalQuery = e => {
     const modalQuery = e.target.value;
-    const modalQueryResults = userStore.searchFromLocalUsersByField(
+    const modalQueryResults = usersStore.searchFromLocalUsersByField(
       "email",
       modalQuery
     );
@@ -137,7 +137,7 @@ export default class Chatbox extends Component {
                 <RenderMessage
                   key={i}
                   message={m}
-                  isIncoming={m.sentBy === userStore.userId}
+                  isIncoming={m.sentBy === usersStore.userId}
                 />
               ))}
             {usersTyping.length > 0 &&
@@ -212,7 +212,7 @@ export default class Chatbox extends Component {
 
 const RenderMessage = props => {
   const { isIncoming, message } = props;
-  const sentBy = userStore.getUserById(message.sentBy);
+  const sentBy = usersStore.getUserById(message.sentBy);
 
   return (
     <div

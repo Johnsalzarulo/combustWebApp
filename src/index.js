@@ -11,9 +11,9 @@ import uicss from "uikit/dist/css/uikit.css";
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
 
-import friendStore from "./stores/FriendStore";
+import friendsStore from "./stores/FriendsStore";
 import chatStore from "./stores/ChatStore";
-import followerStore from "./stores/FollowerStore";
+import followersStore from "./stores/FollowersStore";
 // UIkit.notification("Hello world.");
 UIkit.use(Icons);
 firebase.initializeApp(firebaseConfig);
@@ -35,6 +35,6 @@ registerServiceWorker();
 //   store.subscribeToEvents();
 // })
 
-friendStore.subscribeToEvents();
+friendsStore.subscribeToEvents();
 chatStore.subscribeToEvents();
-followerStore.subscribeToEvents();
+followersStore.subscribeToEvents();

@@ -1,6 +1,6 @@
 import { observable, action } from "mobx";
 import chatService from "../service/ChatService";
-import userStore from "./UserStore";
+import usersStore from "./UsersStore";
 import _ from "lodash";
 
 //DEPENDENCIES: Users
@@ -8,7 +8,7 @@ import _ from "lodash";
 class ChatStore {
   subscribeToEvents() {
     //must be inline functions, or use .bind(this)
-    userStore.onLogin(this.loadConversationsForUser.bind(this));
+    usersStore.onLogin(this.loadConversationsForUser.bind(this));
   }
 
   @observable openConversationIds = [];
@@ -70,7 +70,7 @@ class ChatStore {
   }
 
   sendMessage(conversationId, messageBody) {
-    const userId = userStore.userId;
+    const userId = usersStore.userId;
     const message = {
       body: messageBody,
       sentBy: userId
@@ -86,7 +86,7 @@ class ChatStore {
       this.markConvoAsOpen(existingConvo.id);
       this.loadMessagesForConversation(existingConvo.id);
     } else {
-      const participants = friendIds.concat([userStore.userId]);
+      const participants = friendIds.concat([usersStore.userId]);
       chatService.createConversation(participants, (err, convoId) => {
         this.markConvoAsOpen(convoId);
         this.loadMessagesForConversation(convoId);
@@ -134,7 +134,7 @@ class ChatStore {
    * @param {boolean} isTyping 
    */
   toggleUserTyping(convoId, isTyping) {
-    const userId = userStore.userId;
+    const userId = usersStore.userId;
     chatService.toggleUserTyping(convoId, userId, isTyping);
   }
 
@@ -153,10 +153,10 @@ class ChatStore {
       conversation.participants &&
       Object.keys(conversation.participants).forEach(uid => {
         if (
-          uid !== userStore.userId &&
+          uid !== usersStore.userId &&
           conversation.participants[uid].isTyping
         ) {
-          let friend = userStore.getUserById(uid);
+          let friend = usersStore.getUserById(uid);
           friend && usersTyping.push(friend[userFieldToReturn]);
         }
       });
@@ -170,8 +170,8 @@ class ChatStore {
     }
     let usersInChat = [];
     for (let uid in currentConvo.participants) {
-      if (uid !== userStore.userId) {
-        const user = userStore.getUserById(uid);
+      if (uid !== usersStore.userId) {
+        const user = usersStore.getUserById(uid);
         user && usersInChat.push(user);
       }
     }
@@ -194,13 +194,13 @@ class ChatStore {
   }
 
   getOtherParticipantIdsInConversation(conversation) {
-    const myid = userStore.userId;
+    const myid = usersStore.userId;
     const participants =
       conversation && conversation.participants
         ? Object.keys(conversation.participants)
         : [];
     const nonUserParticipants = participants.filter(participantId => {
-      return participantId !== userStore.userId;
+      return participantId !== usersStore.userId;
     });
     return nonUserParticipants;
   }

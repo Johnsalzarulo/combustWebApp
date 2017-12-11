@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import userSearchService from "../../service/UserSearchService";
 import { observer } from "mobx-react";
 
-import followerStore from "../../stores/FollowerStore";
+import followersStore from "../../stores/FollowersStore";
 
 // import UIkit from "uikit";
 // import Icons from "uikit/dist/js/uikit-icons";
@@ -22,7 +22,7 @@ export default class UserSearch extends Component {
 
   handleClick = userId => {
     // friendStore.addFriend(userId);
-    followerStore.followUser(userId);
+    followersStore.followUser(userId);
     this.setState({ query: "", results: [] });
   };
 
@@ -57,7 +57,7 @@ export default class UserSearch extends Component {
                     className="userSearch-result uk-flex uk-flex-between uk-flex-middle"
                   >
                     {user.email}{" "}
-                    {!followerStore.isFollowing(user.id) ? (
+                    {!followersStore.isFollowing(user.id) ? (
                       <button
                         className="uk-button uk-button-small uk-button-primary"
                         onClick={e => this.handleClick(user.id)}
@@ -67,7 +67,7 @@ export default class UserSearch extends Component {
                     ) : (
                       <button
                         className="uk-button uk-button-small uk-button-secondary"
-                        onClick={e => followerStore.unfollowUser(user.id)}
+                        onClick={e => followersStore.unfollowUser(user.id)}
                       >
                         Unfollow
                       </button>

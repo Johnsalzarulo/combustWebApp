@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import chatStore from "../../stores/ChatStore";
-import friendStore from "../../stores/FriendStore";
-import followerStore from "../../stores/FollowerStore";
+import friendsStore from "../../stores/FriendsStore";
+import followersStore from "../../stores/FollowersStore";
 
 import Chatbox from "./Chatbox";
 
@@ -15,8 +15,8 @@ export default class Chatboxes extends Component {
       chatStore.openConversationWithUser(friend.id);
     };
 
-    followerStore.onFollowerClicked(openConversation);
-    friendStore.onFriendClicked(openConversation);
+    followersStore.onFollowerClicked(openConversation);
+    friendsStore.onFriendClicked(openConversation);
   }
 
   render() {

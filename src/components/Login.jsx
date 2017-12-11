@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 
-import userStore from "../stores/UserStore";
+import usersStore from "../stores/UsersStore";
 
 @observer
 export default class Login extends Component {
@@ -12,69 +12,77 @@ export default class Login extends Component {
   };
 
   componentWillUpdate(nextProps) {
-    if (userStore.user) {
+    if (usersStore.user) {
       this.props.history.push("/");
     }
   }
 
-  submit = () => {
+  submit = e => {
+    e.preventDefault();
     let user = {
       email: this.state.email,
       password: this.state.password
     };
 
     this.state.isRegister
-      ? userStore.createUser(user, (err, userData) => {
+      ? usersStore.createUser(user, (err, userData) => {
           if (err) {
             //handle signup err
           } else {
             this.props.history.push("/");
           }
         })
-      : userStore.login(user, (err, userData) => {
+      : usersStore.login(user, (err, userData) => {
           err ? console.log(err) : this.props.history.push("/");
         });
   };
 
+  toggleIsRegister = e => {
+    e.preventDefault();
+    this.setState({ isRegister: !this.state.isRegister });
+  };
+
   render() {
     return (
-      <div>
-        {this.state.isRegister ? (
+      <div className="Login uk-flex uk-flex-center uk-margin">
+        <form onSubmit={this.submit}>
+          <legend className="uk-legend">
+            {this.state.isRegister ? "New Account" : "Login"}
+          </legend>
+          <div class="uk-margin">
+            <input
+              className="uk-input uk-form-width-medium"
+              type="text"
+              onChange={e => {
+                this.setState({ email: e.target.value });
+              }}
+              placeholder="Email.."
+            />
+          </div>
+          <div class="uk-margin">
+            <input
+              className="uk-input uk-form-width-medium"
+              type="password"
+              onChange={e => {
+                this.setState({ password: e.target.value });
+              }}
+              placeholder="Password"
+            />
+          </div>
           <button
-            onClick={e => {
-              this.setState({ isRegister: false });
-            }}
+            className="uk-button uk-button-default uk-form-width-medium"
+            onClick={this.submit}
           >
-            Login instead
-          </button>
-        ) : (
+            {this.state.isRegister ? "Register" : "Login"}
+          </button>{" "}
+          <br />
           <button
-            onClick={e => {
-              this.setState({ isRegister: true });
-            }}
+            className="uk-button uk-button-primary uk-margin-small uk-form-width-medium"
+            onClick={this.toggleIsRegister}
           >
-            Don't have an account? Register
+            {this.state.isRegister ? "Login" : "Register"}
           </button>
-        )}
-        <br />
-        <br />
-        <input
-          type="text"
-          onChange={e => {
-            this.setState({ email: e.target.value });
-          }}
-          placeholder="Email.."
-        />
-        <input
-          type="password"
-          onChange={e => {
-            this.setState({ password: e.target.value });
-          }}
-          placeholder="Password"
-        />
-        <button onClick={this.submit}>
-          {this.state.isRegister ? "Create Account" : "Login"}
-        </button>
+        </form>
       </div>
     );
   }

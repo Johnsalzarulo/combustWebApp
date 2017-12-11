@@ -1,20 +1,20 @@
 import React from "react";
 import { observer } from "mobx-react";
-import followerStore from "../../stores/FollowerStore";
+import followersStore from "../../stores/FollowersStore";
 
 //FOLLOWERS_DEPENDENCIES
 import UserList from "./UserList";
 
 const FollowersList = observer(({ displayFollowers, displayFollowing }) => {
   const users = displayFollowing
-    ? followerStore.usersBeingFollowed
-    : followerStore.followers;
+    ? followersStore.usersBeingFollowed
+    : followersStore.followers;
 
   return (
     <UserList
       title="Friends"
       users={users}
-      onUserClicked={followerStore.handleFollowerClick}
+      onUserClicked={followersStore.handleFollowerClick}
     />
   );
 });

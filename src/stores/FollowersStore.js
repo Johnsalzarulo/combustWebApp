@@ -1,14 +1,14 @@
 import { observable, computed } from "mobx";
-import followerService from "../service/FollowerService";
+import followersService from "../service/FollowersService";
 
 //DEPENDENCIES
-import userStore from "./UserStore";
+import usersStore from "./UsersStore";
 
-class FollowerStore {
+class FollowersStore {
   subscribeToEvents() {
     //must be inline functions, or use .bind(this)
-    userStore.onLogin(this.performInitialLoad.bind(this));
-    userStore.onLogout(this.onUserLogout.bind(this));
+    usersStore.onLogin(this.performInitialLoad.bind(this));
+    usersStore.onLogout(this.onUserLogout.bind(this));
   }
 
   @observable followedIdsMap = new Map();
@@ -19,10 +19,10 @@ class FollowerStore {
     if (this.isInitialLoadComplete) {
       return;
     }
-    followerService.listenToFollowers(user.id, (err, follower) => {
+    followersService.listenToFollowers(user.id, (err, follower) => {
       err ? console.log(err) : this.storeFollower(follower.id, follower);
     });
-    followerService.listenToFollowed(user.id, (err, userBeingFollowed) => {
+    followersService.listenToFollowed(user.id, (err, userBeingFollowed) => {
       err
         ? console.log(err)
         : this.storeFollowed(userBeingFollowed.id, userBeingFollowed);
@@ -31,12 +31,12 @@ class FollowerStore {
   }
 
   storeFollower(userId, user) {
-    userStore.saveUserLocally(userId, user);
+    usersStore.saveUserLocally(userId, user);
     this.followerIdsMap.set(userId, true);
   }
 
   storeFollowed(userId, user) {
-    userStore.saveUserLocally(userId, user);
+    usersStore.saveUserLocally(userId, user);
     this.followedIdsMap.set(userId, true);
   }
 
@@ -49,18 +49,18 @@ class FollowerStore {
   }
 
   followUser(influencerId) {
-    followerService.followUser(influencerId, userStore.userId);
+    followersService.followUser(influencerId, usersStore.userId);
   }
 
   unfollowUser(influencerId) {
-    followerService.unfollowUser(influencerId, userStore.userId);
+    followersService.unfollowUser(influencerId, usersStore.userId);
   }
 
   @computed
   get followers() {
     let followers = {};
     Array.from(this.followerIdsMap.keys()).forEach(uid => {
-      followers[uid] = userStore.getUserById(uid);
+      followers[uid] = usersStore.getUserById(uid);
     });
     return followers;
   }
@@ -69,7 +69,7 @@ class FollowerStore {
   get usersBeingFollowed() {
     let usersBeingFollowed = {};
     Array.from(this.followedIdsMap.keys()).forEach(uid => {
-      usersBeingFollowed[uid] = userStore.getUserById(uid);
+      usersBeingFollowed[uid] = usersStore.getUserById(uid);
     });
     return usersBeingFollowed;
   }
@@ -96,5 +96,5 @@ class FollowerStore {
   }
 }
 
-const followerStore = new FollowerStore();
-export default followerStore;
+const followersStore = new FollowersStore();
+export default followersStore;

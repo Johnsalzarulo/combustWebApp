@@ -1,6 +1,6 @@
 import firebase from "firebase";
 
-class FriendService {
+class FriendsService {
   addFriend(friendId, uid) {
     this.setFriendship(friendId, uid, true);
   }
@@ -55,6 +55,6 @@ class FriendService {
   }
 }
 
-const friendService = new FriendService();
+const friendsService = new FriendsService();
 
-export default friendService;
+export default friendsService;

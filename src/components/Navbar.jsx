@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import UserSearch from "./combust_examples/UserSearch";
-import userStore from "../stores/UserStore";
+import usersStore from "../stores/UsersStore";
 
 const Navbar = observer(({ history }) => (
   <div
@@ -20,18 +20,18 @@ const Navbar = observer(({ history }) => (
           <Link to="/">Home</Link>
         </div>
         <div className="uk-navbar-item">
-          {userStore.userId && (
-            <Link to={"/profile/" + userStore.userId}>My Profile</Link>
+          {usersStore.userId && (
+            <Link to={"/profile/" + usersStore.userId}>My Profile</Link>
           )}
         </div>
       </div>
       <div className="uk-navbar-right">
-        {userStore.user && (
-          <div className="uk-navbar-item">{userStore.user.email}</div>
+        {usersStore.user && (
+          <div className="uk-navbar-item">{usersStore.user.email}</div>
         )}
         <div className="uk-navbar-item">
-          {userStore.user ? (
-            <Link onClick={e => userStore.logout()} to="/login">
+          {usersStore.user ? (
+            <Link onClick={e => usersStore.logout()} to="/login">
               Logout
             </Link>
           ) : (

@@ -1,8 +1,8 @@
 import { observable, computed } from "mobx";
-import userService from "../service/UserService";
+import usersService from "../service/UsersService";
 //DEPENDENCIES - none
 
-class UserStore {
+class UsersStore {
   @observable userId = null;
   @observable usersMap = new Map();
   @observable privateInfo = null; //only reads/writes by user
@@ -18,7 +18,7 @@ class UserStore {
   };
 
   listenToUser() {
-    userService.listenForUserChanges((err, user) => {
+    usersService.listenForUserChanges((err, user) => {
       if (err) {
         debugger;
         return;
@@ -63,7 +63,7 @@ class UserStore {
   }
 
   listenToPublicUserData(userId) {
-    userService.listenToPublicUserData(userId, (err, user) => {
+    usersService.listenToPublicUserData(userId, (err, user) => {
       this.usersMap.set(userId, user);
     });
   }
@@ -77,15 +77,15 @@ class UserStore {
   }
 
   logout() {
-    userService.logout(this.user);
+    usersService.logout(this.user);
   }
 
   createUser(user, callback) {
-    userService.createUser(user, callback);
+    usersService.createUser(user, callback);
   }
 
   login(user, callback) {
-    userService.login(user, callback);
+    usersService.login(user, callback);
   }
 
   onUserEstablished(user) {
@@ -128,5 +128,5 @@ class UserStore {
   }
 }
 
-const userStore = new UserStore();
-export default userStore;
+const usersStore = new UsersStore();
+export default usersStore;

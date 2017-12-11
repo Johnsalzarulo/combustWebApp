@@ -1,5 +1,5 @@
 import firebase from "firebase";
-import userStore from "../stores/UserStore";
+import usersStore from "../stores/UsersStore";
 
 class UserSearchService {
   loaded = false;
@@ -15,7 +15,7 @@ class UserSearchService {
         let users = [];
         userData &&
           Object.keys(userData).forEach(uid => {
-            if (uid === userStore.userId) {
+            if (uid === usersStore.userId) {
               return;
             }
             let user = userData[uid].public;
@@ -34,7 +34,9 @@ class UserSearchService {
       return [];
     }
     return this.users.filter(user => {
-      return !user[field] || user[field].toUpperCase().includes(query.toUpperCase());
+      return (
+        !user[field] || user[field].toUpperCase().includes(query.toUpperCase())
+      );
     });
   }
 }

@@ -1,14 +1,14 @@
 import { observable, computed } from "mobx";
-import friendService from "../service/FriendService";
+import friendsService from "../service/FriendsService";
 
 //DEPENDENCIES
-import userStore from "./UserStore";
+import usersStore from "./UsersStore";
 
-class FriendStore {
+class FriendsStore {
   subscribeToEvents() {
     //must be inline functions, or use .bind(this)
-    userStore.onLogin(this.getFriendsForUser.bind(this));
-    userStore.onLogout(this.onUserLogout.bind(this));
+    usersStore.onLogin(this.getFriendsForUser.bind(this));
+    usersStore.onLogout(this.onUserLogout.bind(this));
   }
 
   @observable friendIdsMap = new Map();
@@ -18,14 +18,14 @@ class FriendStore {
     if (this.usersLoaded) {
       return;
     }
-    friendService.listenToFriends(user.id, (err, friend) => {
+    friendsService.listenToFriends(user.id, (err, friend) => {
       err ? console.log(err) : this.storeFriend(friend.id, friend);
     });
     this.usersLoaded = true;
   }
 
   storeFriend(friendId, friend) {
-    userStore.saveUserLocally(friendId, friend);
+    usersStore.saveUserLocally(friendId, friend);
     this.friendIdsMap.set(friendId, true);
   }
 
@@ -34,18 +34,18 @@ class FriendStore {
   }
 
   getFriend(userId) {
-    return userStore.getUserById(userId);
+    return usersStore.getUserById(userId);
   }
 
   addFriend(userIdOfFriend) {
-    friendService.addFriend(userIdOfFriend, userStore.userId);
+    friendsService.addFriend(userIdOfFriend, usersStore.userId);
   }
 
   @computed
   get friends() {
     let friends = {};
     Array.from(this.friendIdsMap.keys()).forEach(uid => {
-      friends[uid] = userStore.getUserById(uid);
+      friends[uid] = usersStore.getUserById(uid);
     });
     return friends;
   }
@@ -55,7 +55,7 @@ class FriendStore {
     this.onFriendClickedTriggers.push(func);
   };
 
-  handleFriendClick = (friend) => {
+  handleFriendClick = friend => {
     this.onFriendClickedTriggers.length > 0
       ? this.onFriendClickedTriggers.forEach(event => {
           event(friend);
@@ -66,7 +66,7 @@ class FriendStore {
 
     //if chat enabled -> open chat
     //else if profiles -> open profile
-  }
+  };
 
   onUserLogout(user) {
     this.friendIdsMap.clear();
@@ -74,5 +74,5 @@ class FriendStore {
   }
 }
 
-const friendStore = new FriendStore();
-export default friendStore;
+const friendsStore = new FriendsStore();
+export default friendsStore;
