@@ -24,10 +24,7 @@ class WelcomeStore {
     try {
       firebase
         .auth()
-        .createUserWithEmailAndPassword(
-          "firesparktests@firespark.com",
-          "sparky"
-        )
+        .createUserWithEmailAndPassword("comsttests@combust.com", "sparky")
         .then(() => {
           this.emailAuthEnabled = true;
           this.currentStep = 4;

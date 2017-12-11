@@ -8,7 +8,7 @@ export const firebaseConfig = {
   messagingSenderId: "951945535511"
 };
 
-export const firesparkModules = {
+export const combustModules = {
   users: true,
   friends: true
 };

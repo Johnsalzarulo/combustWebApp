@@ -28,7 +28,7 @@ export default class Welcome extends Component {
       <div className="Welcome uk-container uk-margin-medium-top">
         <div className="uk-heading-primary">
           {" "}
-          Welcome to your firespark app
+          Welcome to your combust app
         </div>{" "}
         <h4> To get started:</h4>
         <dl className="uk-description-list">
@@ -64,19 +64,22 @@ export default class Welcome extends Component {
           )}
           {firebaseConfigured && (
             <span>
-              <ToDoItem completed={friendsAdded} title="Add Firespark Modules">
+              <ToDoItem
+                completed={friendsAdded}
+                title="Install Combust Modules"
+              >
                 Add <b>friends</b> functionality from the terminal w/ the
-                command: <code>firespark add friends</code>
+                command: <code>combust install friends</code>
               </ToDoItem>
 
               <ToDoItem completed={friendsAdded}>
                 Add <b>messaging</b> w/ the command:{" "}
-                <code>firespark add chat</code>
+                <code>combust install chat</code>
               </ToDoItem>
 
               <ToDoItem completed={friendsAdded}>
                 Add <b>posts and feed</b> w/ the command:{" "}
-                <code>firespark add feed</code>
+                <code>combust install feed</code>
               </ToDoItem>
             </span>
           )}

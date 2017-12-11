@@ -3,7 +3,7 @@ import Routes from "./Routes";
 import Navbar from "./Navbar";
 import { observer } from "mobx-react";
 import userStore from "../stores/UserStore";
-import Chatboxes from "./firespark_examples/Chatboxes";
+import Chatboxes from "./combust_examples/Chatboxes";
 
 @observer
 export default class App extends Component {
