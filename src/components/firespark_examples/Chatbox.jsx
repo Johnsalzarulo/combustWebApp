@@ -149,7 +149,7 @@ export default class Chatbox extends Component {
         <div className="message-input">
           <span
             uk-icon="icon: comment"
-            uk-tooltip="true"
+            uk-tooltip="pos: right"
             title="Send"
             onClick={this.handleMessageSubmit}
           />
