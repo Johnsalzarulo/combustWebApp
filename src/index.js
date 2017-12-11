@@ -4,7 +4,7 @@ import createBrowserHistory from "history/createBrowserHistory";
 import { Router, withRouter } from "react-router-dom";
 import firebase from "firebase";
 import registerServiceWorker from "./helpers/registerServiceWorker";
-import { firebaseConfig } from "./config";
+import { firebaseConfig } from "./.combust/config";
 import "./assets/styles/App.css";
 import App from "./components/App";
 import uicss from "uikit/dist/css/uikit.css";
