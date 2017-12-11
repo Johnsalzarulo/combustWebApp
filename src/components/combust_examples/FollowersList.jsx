@@ -5,6 +5,12 @@ import followersStore from "../../stores/FollowersStore";
 //FOLLOWERS_DEPENDENCIES
 import UserList from "./UserList";
 
+//Add when chat is installed
+import chatStore from "../../stores/ChatStore";
+followersStore.onFollowerClicked(user => {
+  chatStore.openConversationWithUser(user.id);
+});
+
 const FollowersList = observer(({ displayFollowers, displayFollowing }) => {
   const users = displayFollowing
     ? followersStore.usersBeingFollowed

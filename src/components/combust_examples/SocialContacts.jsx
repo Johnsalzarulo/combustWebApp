@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 
-//Programattically add to these lines when component is npm installed
+//Programattically add to these lines when component is installed
 import FriendsList from "./FriendsList";
 import FollowersList from "./FollowersList";
 const componentsByMode = {

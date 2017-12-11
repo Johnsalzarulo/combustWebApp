@@ -5,6 +5,12 @@ import friendsStore from "../../stores/FriendsStore";
 //FRIENDS_DEPENDENCIES
 import UserList from "./UserList";
 
+//Add when chat is installed
+import chatStore from "../../stores/ChatStore";
+friendsStore.onFriendClicked(user => {
+  chatStore.openConversationWithUser(user.id);
+});
+
 const FriendsList = observer(() => {
   return (
     <UserList

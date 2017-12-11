@@ -1,6 +1,6 @@
 import firebase from "firebase";
 
-class UserService {
+class UsersService {
   createUser(user, callback) {
     if (!user || !user.email || !user.password) {
       throw new Error(
@@ -220,5 +220,5 @@ class UserService {
   }
 }
 
-const userService = new UserService();
-export default userService;
+const usersService = new UsersService();
+export default usersService;
