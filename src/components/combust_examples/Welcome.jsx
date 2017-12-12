@@ -4,7 +4,6 @@ import { observer } from "mobx-react";
 import welcomeStore from "../../stores/WelcomeStore";
 import SocialContacts from "./users/SocialContacts";
 import Profile from "./users/Profile";
-import "./styles/Welcome.css";
 
 @observer
 export default class Welcome extends Component {

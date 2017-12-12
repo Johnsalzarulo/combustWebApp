@@ -5,16 +5,12 @@ import { Router, withRouter } from "react-router-dom";
 import firebase from "firebase";
 import registerServiceWorker from "./helpers/registerServiceWorker";
 import { firebaseConfig } from "./.combust/config";
-import "./assets/styles/App.css";
 import App from "./components/App";
 import uicss from "uikit/dist/css/uikit.css";
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
+import { initializeStores } from "./.combust/init";
 
-import friendsStore from "./stores/FriendsStore";
-import chatStore from "./stores/ChatStore";
-import followersStore from "./stores/FollowersStore";
-// UIkit.notification("Hello world.");
 UIkit.use(Icons);
 firebase.initializeApp(firebaseConfig);
 
@@ -29,12 +25,4 @@ render(
 );
 
 registerServiceWorker();
-
-// import installedStores from config;
-// installedStores.forEach(store => {
-//   store.subscribeToEvents();
-// })
-
-friendsStore.subscribeToEvents();
-chatStore.subscribeToEvents();
-followersStore.subscribeToEvents();
+initializeStores();
