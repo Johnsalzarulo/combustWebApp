@@ -128,7 +128,7 @@ export default class Profile extends Component {
                               Title
                             </h3>
                             <p className="uk-text-meta uk-margin-remove-top">
-                              <time datetime="2016-04-01T19:00">
+                              <time dateTime="2016-04-01T19:00">
                                 April 01, 2016
                               </time>
                             </p>
