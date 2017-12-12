@@ -1,12 +1,7 @@
-import friendsStore from "../stores/FriendsStore";
-import chatStore from "../stores/ChatStore";
-import followersStore from "../stores/FollowersStore";
 import usersStore from "../stores/UsersStore";
 
 const stores = {
-  friendsStore,
-  chatStore,
-  followersStore
+  usersStore
 };
 
 export function initializeStores() {

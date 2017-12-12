@@ -3,14 +3,7 @@ import { observer } from "mobx-react";
 
 import "./styles/Users.css";
 
-//Programattically add to these lines when component is installed
-import FriendsList from "../friends/FriendsList";
-import FollowersList from "../followers/FollowersList";
-const componentsByMode = {
-  Friends: <FriendsList />,
-  Followers: <FollowersList displayFollowers />,
-  Following: <FollowersList displayFollowing />
-};
+const componentsByMode = {};
 
 @observer
 export default class SocialContacts extends Component {
@@ -23,6 +16,10 @@ export default class SocialContacts extends Component {
   };
 
   render() {
+    if (!this.state.mode) {
+      return <span />;
+    }
+
     return (
       <div className="SocialContacts uk-position-right">
         <div className="uk-inline">

@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 
 import userSearchService from "../../../service/UserSearchService";
-import followersStore from "../../../stores/FollowersStore";
-
 import "./styles/Users.css";
 
 @observer
@@ -17,12 +15,6 @@ export default class UserSearch extends Component {
     let query = e.target.value;
     let results = userSearchService.searchByField(query, "email");
     this.setState({ results, query });
-  };
-
-  handleClick = userId => {
-    // friendStore.addFriend(userId);
-    followersStore.followUser(userId);
-    this.setState({ query: "", results: [] });
   };
 
   openProfile = user => {
@@ -56,21 +48,6 @@ export default class UserSearch extends Component {
                     className="userSearch-result uk-flex uk-flex-between uk-flex-middle"
                   >
                     {user.email}{" "}
-                    {!followersStore.isFollowing(user.id) ? (
-                      <button
-                        className="uk-button uk-button-small uk-button-primary"
-                        onClick={e => this.handleClick(user.id)}
-                      >
-                        Follow
-                      </button>
-                    ) : (
-                      <button
-                        className="uk-button uk-button-small uk-button-secondary"
-                        onClick={e => followersStore.unfollowUser(user.id)}
-                      >
-                        Unfollow
-                      </button>
-                    )}
                   </div>
                 </div>
               );

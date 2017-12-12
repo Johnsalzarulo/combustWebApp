@@ -1,8 +1,6 @@
+import usersStore from "../../../stores/UsersStore";
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-
-import usersStore from "../../../stores/UsersStore";
-import chatStore from "../../../stores/ChatStore";
 import "./styles/Users.css";
 
 @observer
@@ -10,6 +8,18 @@ export default class Profile extends Component {
   state = {};
 
   componentDidMount() {}
+
+  openConversationWithUser = userId => {
+    alert("combust install chat");
+  };
+
+  followUser(userId) {
+    alert("combust install followers");
+  }
+
+  sendFriendRequest(userId) {
+    alert("combust install friends");
+  }
 
   render() {
     const userId = this.props.match.params.userId;
@@ -39,7 +49,7 @@ export default class Profile extends Component {
                       <span
                         className="uk-link"
                         onClick={e => {
-                          chatStore.openConversationWithUser(userId);
+                          this.openConversationWithUser(userId);
                         }}
                       >
                         Send Message
@@ -47,11 +57,25 @@ export default class Profile extends Component {
                     </li>
                     <li className="profile-nav-btn">
                       <a href="#" uk-icon="icon: user" />
-                      <span className="uk-link">Friend Request</span>
+                      <span
+                        onClick={e => {
+                          this.sendFriendRequest(userId);
+                        }}
+                        className="uk-link"
+                      >
+                        Friend Request
+                      </span>
                     </li>{" "}
                     <li className="profile-nav-btn">
                       <a href="#" uk-icon="icon: star" />
-                      <span className="uk-link">Follow</span>
+                      <span
+                        className="uk-link"
+                        onClick={e => {
+                          this.followUser(userId);
+                        }}
+                      >
+                        Follow
+                      </span>
                     </li>
                   </ul>
                 ) : (
