@@ -3,8 +3,7 @@ import { observer } from "mobx-react";
 
 const UserList = observer(({ users, onUserClicked, title }) => {
   return (
- 
-<div>
+    <div>
       {users &&
         Object.keys(users).map((userId, i) => {
           const user = users[userId];

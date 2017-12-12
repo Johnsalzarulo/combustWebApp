@@ -2,7 +2,7 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import Login from "./Login";
 import Welcome from "./combust_examples/Welcome";
-import Profile from "./combust_examples/Profile";
+import Profile from "./combust_examples/users/Profile";
 
 const Routes = props => {
   let loginWrapper = () => <Login {...props} />;

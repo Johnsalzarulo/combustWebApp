@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import userSearchService from "../../service/UserSearchService";
 import { observer } from "mobx-react";
 
-import followersStore from "../../stores/FollowersStore";
+import userSearchService from "../../../service/UserSearchService";
+import followersStore from "../../../stores/FollowersStore";
 
-// import UIkit from "uikit";
-// import Icons from "uikit/dist/js/uikit-icons";
+import "./styles/Users.css";
 
 @observer
 export default class UserSearch extends Component {

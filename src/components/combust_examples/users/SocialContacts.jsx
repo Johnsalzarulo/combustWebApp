@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 
+import "./styles/Users.css";
+
 //Programattically add to these lines when component is installed
-import FriendsList from "./FriendsList";
-import FollowersList from "./FollowersList";
+import FriendsList from "../friends/FriendsList";
+import FollowersList from "../followers/FollowersList";
 const componentsByMode = {
   Friends: <FriendsList />,
   Followers: <FollowersList displayFollowers />,

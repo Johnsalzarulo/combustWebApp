@@ -1,12 +1,11 @@
 import React from "react";
 import { observer } from "mobx-react";
-import followersStore from "../../stores/FollowersStore";
 
+import followersStore from "../../../stores/FollowersStore";
 //FOLLOWERS_DEPENDENCIES
-import UserList from "./UserList";
+import UserList from "../users/UserList";
+import chatStore from "../../../stores/ChatStore";
 
-//Add when chat is installed
-import chatStore from "../../stores/ChatStore";
 followersStore.onFollowerClicked(user => {
   chatStore.openConversationWithUser(user.id);
 });

@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import usersStore from "../../stores/UsersStore";
-import chatStore from "../../stores/ChatStore";
+
+import usersStore from "../../../stores/UsersStore";
+import chatStore from "../../../stores/ChatStore";
+import "./styles/Users.css";
 
 @observer
 export default class Profile extends Component {

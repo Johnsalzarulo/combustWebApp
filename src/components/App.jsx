@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import Routes from "./Routes";
-import Navbar from "./Navbar";
 import { observer } from "mobx-react";
+
+import Navbar from "./Navbar";
+import Routes from "./Routes";
 import usersStore from "../stores/UsersStore";
-import Chatboxes from "./combust_examples/Chatboxes";
+import Chatboxes from "./combust_examples/chat/Chatboxes";
+import "./styles/App.css";
 
 @observer
 export default class App extends Component {
@@ -15,8 +17,8 @@ export default class App extends Component {
     return (
       <div>
         <Navbar {...this.props} />
-        <Chatboxes />
         <Routes {...this.props} />
+        <Chatboxes />
       </div>
     );
   }
