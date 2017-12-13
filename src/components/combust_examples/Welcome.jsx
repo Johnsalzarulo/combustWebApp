@@ -27,15 +27,16 @@ export default class Welcome extends Component {
       <div className="Welcome uk-container uk-margin-medium-top">
         <div className="uk-heading-primary">
           {" "}
-          Welcome to your Combust app
+          Welcome to your Combust app!
         </div>{" "}
-        <h4> To get started:</h4>
+        <h4>To get going:</h4>
+        <hr className="uk-divider-icon" />
         <ul uk-accordion="multiple: true">
           <RenderDropdown
             completed={firebaseConfigured}
             title="Configure Firebase"
           >
-            You may do this through the cli with: <code>combust configure</code>
+            You may do this in the terminal with: <code>combust configure</code>
             <hr className="uk-divider-small" />
             Or apply the firebase config manually.{" "}
             <a
@@ -125,4 +126,6 @@ const ToDoItem = ({ completed, children }) => {
 const doneStyle = {
   color: "green"
 };
-const pendingStyle = {};
+const pendingStyle = {
+  color: "#1e87f0"
+};
