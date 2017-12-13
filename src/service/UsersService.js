@@ -14,6 +14,8 @@ class UsersService {
       .then(res => {
         let userObj = this.generateUserObject(user.email);
         this.saveToUsersCollection(res.uid, userObj);
+        userObj.id = res.uid;
+        return callback(null, userObj);
       })
       .catch(error => {
         let errorMessage = error.message;
@@ -68,12 +70,7 @@ class UsersService {
         let userRef = db.ref("users/" + userAuth.uid);
         userRef.once("value").then(snap => {
           let userData = snap.val();
-          if (!userData) {
-            let userObj = this.generateUserObject(userAuth.email);
-            this.saveToUsersCollection(userAuth.uid, userObj);
-            userObj.id = userAuth.uid;
-            return callback(null, userObj);
-          } else {
+          if (userData) {
             userRef.child("public").update({ lastOnline: new Date() });
             that.listenToUser(userAuth.uid, (err, data) => {
               data.id = userAuth.uid;

@@ -81,7 +81,12 @@ class UsersStore {
   }
 
   createUser(user, callback) {
-    usersService.createUser(user, callback);
+    usersService.createUser(user, (err, userData) => {
+      if (err) throw err;
+      this.userId = userData.id;
+      this.saveUserLocally(userData.id, userData);
+      callback(err, userData);
+    });
   }
 
   login(user, callback) {
