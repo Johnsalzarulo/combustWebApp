@@ -15,10 +15,10 @@ class UserSearchService {
         let users = [];
         userData &&
           Object.keys(userData).forEach(uid => {
-            if (uid === usersStore.userId) {
+            let user = userData[uid].public;
+            if (uid === usersStore.userId || !user) {
               return;
             }
-            let user = userData[uid].public;
             user.id = uid;
             users.push(user);
           });
