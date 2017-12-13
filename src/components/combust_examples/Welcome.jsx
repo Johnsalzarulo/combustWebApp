@@ -30,8 +30,11 @@ export default class Welcome extends Component {
           Welcome to your Combust app
         </div>{" "}
         <h4> To get started:</h4>
-        <dl className="uk-description-list">
-          <ToDoItem completed={firebaseConfigured} title="Configure Firebase">
+        <ul uk-accordion="multiple: true">
+          <RenderDropdown
+            completed={firebaseConfigured}
+            title="Configure Firebase"
+          >
             You may do this through the cli with: <code>combust configure</code>
             <hr className="uk-divider-small" />
             Or apply the firebase config manually.{" "}
@@ -45,9 +48,9 @@ export default class Welcome extends Component {
             <br />
             Apply the JSON object to <code>firebaseConfig</code> in{" "}
             <code>src/.combust/config.js</code>
-          </ToDoItem>
+          </RenderDropdown>
           {firebaseConfigured && (
-            <ToDoItem
+            <RenderDropdown
               completed={emailAuthEnabled}
               title="Enable Authentication"
             >
@@ -58,19 +61,18 @@ export default class Welcome extends Component {
               >
                 Enable Email/Password authentication in firebase
               </a>
-            </ToDoItem>
+            </RenderDropdown>
           )}
           {firebaseConfigured &&
             emailAuthEnabled && (
-              <span>
-                <ToDoItem
-                  completed={
-                    stores.chatStore &&
-                    stores.friendsStore &&
-                    stores.followersStore
-                  }
-                  title="Install Combust Modules"
-                />
+              <RenderDropdown
+                completed={
+                  stores.chatStore &&
+                  stores.friendsStore &&
+                  stores.followersStore
+                }
+                title="Install Combust Modules"
+              >
                 <ToDoItem completed={stores.chatStore}>
                   Add <b>messaging</b> from the terminal w/ the command:{" "}
                   <code>combust install chat</code>
@@ -83,36 +85,39 @@ export default class Welcome extends Component {
                   Add <b>followers</b> functionality w/ the command:{" "}
                   <code>combust install followers</code>
                 </ToDoItem>
-              </span>
+              </RenderDropdown>
             )}
-        </dl>
+        </ul>
         <SocialContacts />
       </div>
     );
   }
 }
 
-const ToDoItem = ({ completed, title, children }) => {
+const RenderDropdown = ({ completed, title, children }) => {
   return (
-    <div className="uk-margin-small-top">
-      {title && (
-        <dt
-          style={completed ? doneStyle : pendingStyle}
-          className="uk-margin-small-bottom"
-        >
-          {title}
-          {completed && <span style={{ paddingLeft: "10px" }}>✓</span>}
-        </dt>
+    <li className={completed ? null : "uk-open"}>
+      <h3
+        className="uk-accordion-title"
+        style={completed ? doneStyle : pendingStyle}
+      >
+        {title}
+        {completed && <span style={{ paddingLeft: "10px" }}>✓</span>}
+      </h3>
+      <div className="uk-accordion-content">{children}</div>
+    </li>
+  );
+};
+
+const ToDoItem = ({ completed, children }) => {
+  return (
+    <div style={completed && doneStyle}>
+      {completed && (
+        <span className="uk-margin-small-right" style={doneStyle}>
+          ✓
+        </span>
       )}
-      <dd className="uk-margin-small-left">
-        {!title &&
-          completed && (
-            <span className="uk-margin-small-right" style={doneStyle}>
-              ✓
-            </span>
-          )}
-        {children}
-      </dd>
+      {children}
     </div>
   );
 };
