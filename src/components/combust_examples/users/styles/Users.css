@@ -62,6 +62,12 @@
     .SocialContacts .User .online {
       background-color: #67f391; }
 
+.Profile .ProfileContent {
+  max-width: 1400px; }
+
+.Profile .AboutMe {
+  background-color: white; }
+
 .Profile .profile-name {
   position: absolute;
   bottom: 55px;

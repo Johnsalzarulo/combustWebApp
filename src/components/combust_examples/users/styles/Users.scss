@@ -79,6 +79,13 @@
 }
 
 .Profile {
+  .ProfileContent {
+    max-width: 1400px;
+  }
+  .AboutMe {
+    background-color: white;
+  }
+
   .profile-name {
     // margin-bottom: 50px;
     position: absolute;

@@ -25,7 +25,6 @@ export default class Profile extends Component {
     const userId = this.props.match.params.userId;
     const user = usersStore.getUserById(userId);
     const isMyProfile = userId === usersStore.userId;
-
     return (
       <div className="Profile" uk-height-viewport="true">
         <div>
@@ -69,10 +68,10 @@ export default class Profile extends Component {
                     <li className="profile-nav-btn">
                       <a href="#" uk-icon="icon: star" />
                       <span
-                        className="uk-link"
                         onClick={e => {
                           this.followUser(userId);
                         }}
+                        className="uk-link"
                       >
                         Follow
                       </span>
@@ -80,7 +79,10 @@ export default class Profile extends Component {
                   </ul>
                 ) : (
                   <ul className="uk-iconnav nav-btns">
-                    <li className="profile-nav-btn">
+                    <li
+                      className="profile-nav-btn"
+                      onClick={e => alert("combust install profile-details")}
+                    >
                       <a href="#" uk-icon="icon: pencil" />
                       <span className="uk-link">Edit Profile</span>
                     </li>
@@ -90,87 +92,101 @@ export default class Profile extends Component {
               <div className="uk-position-bottom-left uk-margin-small-left uk-margin-small-bottom">
                 {user &&
                   user.iconUrl && (
-                    <img src={user.iconUrl} className="profile-pic" alt="" />
+                    <img
+                      alt="Profile Picture"
+                      src={user.iconUrl}
+                      className="profile-pic"
+                      alt=""
+                    />
                   )}
               </div>
             </div>
           </div>
-          <div
-            className="uk-grid-collapse uk-child-width-1-2@s uk-flex-left"
-            uk-grid="true"
-          >
-            <div className="uk-padding-large uk-background-muted">
-              <div className="ActivityPosts uk-flex uk-flex-top uk-flex-wrap">
-                {[0, 1, 2, 4, 5, 6, 7].map(i => {
-                  return (
-                    <div
-                      key={i}
-                      className="ActivityPost uk-card uk-card-default uk-width-1@m uk-margin-bottom"
-                    >
-                      <div className="uk-card-header">
-                        <div
-                          className="uk-grid-small uk-flex-middle"
-                          uk-grid="true"
-                        >
-                          <div className="uk-width-auto">
-                            {user &&
-                              user.iconUrl && (
-                                <img
-                                  src={user.iconUrl}
-                                  className="uk-border-circle"
-                                  width="40"
-                                  height="40"
-                                />
-                              )}
-                          </div>
-                          <div className="uk-width-expand">
-                            <h3 className="uk-card-title uk-margin-remove-bottom">
-                              Title
-                            </h3>
-                            <p className="uk-text-meta uk-margin-remove-top">
-                              <time dateTime="2016-04-01T19:00">
-                                April 01, 2016
-                              </time>
-                            </p>
+          <div className="uk-background-muted uk-flex uk-flex-center">
+            <div
+              className="ProfileContent uk-grid-collapse uk-width-auto uk-child-width-1-2@s uk-flex-left"
+              uk-grid="true"
+            >
+              <div className="uk-padding-large uk-background-muted">
+                <div className="ActivityPosts uk-flex uk-flex-top uk-flex-wrap">
+                  {[0, 1, 2, 4, 5, 6, 7].map(i => {
+                    return (
+                      <div
+                        key={i}
+                        className="ActivityPost uk-card uk-card-default uk-width-1@m uk-margin-bottom"
+                      >
+                        <div className="uk-card-header">
+                          <div
+                            className="uk-grid-small uk-flex-middle"
+                            uk-grid="true"
+                          >
+                            <div className="uk-width-auto">
+                              {user &&
+                                user.iconUrl && (
+                                  <img
+                                    src={user.iconUrl}
+                                    className="uk-border-circle"
+                                    width="40"
+                                    height="40"
+                                    alt="User Avatar"
+                                  />
+                                )}
+                            </div>
+                            <div className="uk-width-expand">
+                              <h3 className="uk-card-title uk-margin-remove-bottom">
+                                Post
+                              </h3>
+                              <p className="uk-text-meta uk-margin-remove-top">
+                                <time dateTime="2017-04-01T19:00">
+                                  April 01, 2017
+                                </time>
+                              </p>
+                            </div>
                           </div>
                         </div>
+                        <div className="uk-card-body">
+                          <p>
+                            Run <code>combust install posts</code> to start
+                            creating posts!
+                          </p>
+                        </div>
+                        <div className="uk-card-footer">
+                          <a href="#" className="uk-button uk-button-text">
+                            Read more
+                          </a>
+                        </div>
                       </div>
-                      <div className="uk-card-body">
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor incididunt.
-                        </p>
-                      </div>
-                      <div className="uk-card-footer">
-                        <a href="#" className="uk-button uk-button-text">
-                          Read more
-                        </a>
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-            <div className="uk-padding-large">
-              <h1>About me</h1>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </p>
+              <div className="AboutMe uk-padding-large">
+                <h1>About me</h1>
+                <p>
+                  Run <code>combust install profile-details</code> to make this
+                  editable :D
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                </p>
+              </div>
             </div>
           </div>
         </div>
