@@ -44,7 +44,6 @@ class WelcomeStore {
         localStorage.setItem("emailAuthEnabled", this.emailAuthEnabled);
       })
       .then(() => {
-        debugger;
         const user = firebase.auth().currentUser;
         if (user && user.email === testEmail) {
           user.delete();
