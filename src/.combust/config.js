@@ -7,8 +7,3 @@ export const firebaseConfig = {
   storageBucket: "firestation-e149d.appspot.com",
   messagingSenderId: "951945535511"
 };
-
-export const combustModules = {
-  users: true,
-  friends: true
-};
