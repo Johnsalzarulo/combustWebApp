@@ -11,7 +11,7 @@ export default class Welcome extends Component {
 
   componentDidMount() {
     welcomeStore.isFirebaseConfigured();
-    // welcomeStore.isEmailAuthEnabled();
+    welcomeStore.isEmailAuthEnabled();
   }
 
   render() {
@@ -26,25 +26,28 @@ export default class Welcome extends Component {
       <div className="Welcome uk-container uk-margin-medium-top">
         <div className="uk-heading-primary">
           {" "}
-          Welcome to your combust app
+          Welcome to your Combust app
         </div>{" "}
         <h4> To get started:</h4>
         <dl className="uk-description-list">
           <ToDoItem completed={firebaseConfigured} title="Configure Firebase">
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://console.firebase.google.com/u/0/project/_/overview"
-            >
-              Select your project and click "Add firebase to your webapp"
-            </a>
-          </ToDoItem>
-          <ToDoItem
-            completed={firebaseConfigured}
-            title="Apply Config in /src/config"
-          >
-            Apply the config object to the <code>firebaseConfig</code> object in{" "}
-            <code>src/config.js</code>
+            <ul className="uk-list uk-list-bullet">
+              <li>
+                {" "}
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://console.firebase.google.com/u/0/project/_/overview"
+                >
+                  Select your project and click "Add firebase to your webapp"
+                </a>
+              </li>
+              <li>
+                {" "}
+                Apply the config object to the <code>firebaseConfig</code>{" "}
+                object in <code>src/config.js</code>
+              </li>
+            </ul>
           </ToDoItem>
           {firebaseConfigured && (
             <ToDoItem
@@ -90,14 +93,15 @@ export default class Welcome extends Component {
 
 const ToDoItem = ({ completed, title, children }) => {
   return (
-    <div>
-      <dt>{title}</dt>
-      <div style={completed ? doneStyle : null}>
-        <dd>
-          {children}
-          {completed && <span style={{ paddingLeft: "10px" }}>✓</span>}
-        </dd>
-      </div>
+    <div className="uk-margin-small-top">
+      <dt
+        style={completed ? doneStyle : pendingStyle}
+        className="uk-margin-small-bottom"
+      >
+        {title}
+        {completed && <span style={{ paddingLeft: "10px" }}>✓</span>}
+      </dt>
+      <dd>{children}</dd>
     </div>
   );
 };
@@ -105,3 +109,4 @@ const ToDoItem = ({ completed, title, children }) => {
 const doneStyle = {
   color: "green"
 };
+const pendingStyle = {};
