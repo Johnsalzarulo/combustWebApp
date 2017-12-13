@@ -1,6 +1,6 @@
 import usersStore from "../stores/UsersStore";
 
-const stores = {
+export const stores = {
   usersStore
 };
 
