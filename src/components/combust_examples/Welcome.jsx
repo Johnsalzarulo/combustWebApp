@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 
 import welcomeStore from "../../stores/WelcomeStore";
 import SocialContacts from "./users/SocialContacts";
+import { stores } from "../../.combust/init";
 import Profile from "./users/Profile";
 
 @observer
@@ -22,6 +23,9 @@ export default class Welcome extends Component {
       friendsAdded
     } = welcomeStore;
 
+    const alias = stores;
+    debugger;
+
     return (
       <div className="Welcome uk-container uk-margin-medium-top">
         <div className="uk-heading-primary">
@@ -31,23 +35,16 @@ export default class Welcome extends Component {
         <h4> To get started:</h4>
         <dl className="uk-description-list">
           <ToDoItem completed={firebaseConfigured} title="Configure Firebase">
-            <ul className="uk-list uk-list-bullet">
-              <li>
-                {" "}
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://console.firebase.google.com/u/0/project/_/overview"
-                >
-                  Select your project and click "Add firebase to your webapp"
-                </a>
-              </li>
-              <li>
-                {" "}
-                Apply the config object to the <code>firebaseConfig</code>{" "}
-                object in <code>src/config.js</code>
-              </li>
-            </ul>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://console.firebase.google.com/u/0/project/_/overview"
+            >
+              Select your project and click "Add firebase to your webapp"
+            </a>{" "}
+            <br />
+            Apply the config object to the <code>firebaseConfig</code> object in{" "}
+            <code>src/config.js</code>
           </ToDoItem>
           {firebaseConfigured && (
             <ToDoItem
@@ -66,21 +63,24 @@ export default class Welcome extends Component {
           {firebaseConfigured && (
             <span>
               <ToDoItem
-                completed={friendsAdded}
+                completed={
+                  stores.chatStore &&
+                  stores.friendsStore &&
+                  stores.followersStore
+                }
                 title="Install Combust Modules"
-              >
-                Add <b>friends</b> functionality from the terminal w/ the
-                command: <code>combust install friends</code>
-              </ToDoItem>
-
-              <ToDoItem completed={friendsAdded}>
-                Add <b>messaging</b> w/ the command:{" "}
+              />
+              <ToDoItem completed={stores.chatStore}>
+                Add <b>messaging</b> from the terminal w/ the command:{" "}
                 <code>combust install chat</code>
               </ToDoItem>
-
-              <ToDoItem completed={friendsAdded}>
-                Add <b>posts and feed</b> w/ the command:{" "}
-                <code>combust install feed</code>
+              <ToDoItem completed={stores.friendsStore}>
+                Add <b>friends</b> functionality w/ the command:{" "}
+                <code>combust install friends</code>
+              </ToDoItem>
+              <ToDoItem completed={stores.followersStore}>
+                Add <b>followers</b> functionality w/ the command:{" "}
+                <code>combust install followers</code>
               </ToDoItem>
             </span>
           )}
@@ -94,14 +94,24 @@ export default class Welcome extends Component {
 const ToDoItem = ({ completed, title, children }) => {
   return (
     <div className="uk-margin-small-top">
-      <dt
-        style={completed ? doneStyle : pendingStyle}
-        className="uk-margin-small-bottom"
-      >
-        {title}
-        {completed && <span style={{ paddingLeft: "10px" }}>✓</span>}
-      </dt>
-      <dd>{children}</dd>
+      {title && (
+        <dt
+          style={completed ? doneStyle : pendingStyle}
+          className="uk-margin-small-bottom"
+        >
+          {title}
+          {completed && <span style={{ paddingLeft: "10px" }}>✓</span>}
+        </dt>
+      )}
+      <dd className="uk-margin-small-left">
+        {!title &&
+          completed && (
+            <span className="uk-margin-small-right" style={doneStyle}>
+              ✓
+            </span>
+          )}
+        {children}
+      </dd>
     </div>
   );
 };
