@@ -32,16 +32,19 @@ export default class Welcome extends Component {
         <h4> To get started:</h4>
         <dl className="uk-description-list">
           <ToDoItem completed={firebaseConfigured} title="Configure Firebase">
+            You may do this through the cli with: <code>combust configure</code>
+            <hr className="uk-divider-small" />
+            Or apply the firebase config manually.{" "}
             <a
               target="_blank"
               rel="noopener noreferrer"
               href="https://console.firebase.google.com/u/0/project/_/overview"
             >
-              Select your project and click "Add firebase to your webapp"
+              Select your project and click "Add firebase to your webapp".
             </a>{" "}
             <br />
-            Apply the config object to the <code>firebaseConfig</code> object in{" "}
-            <code>src/config.js</code>
+            Apply the JSON object to <code>firebaseConfig</code> in{" "}
+            <code>src/.combust/config.js</code>
           </ToDoItem>
           {firebaseConfigured && (
             <ToDoItem
