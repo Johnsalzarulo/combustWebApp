@@ -31,10 +31,7 @@ class UsersStore {
         if (!this.userId) {
           this.onUserEstablished(user);
         }
-        this.userId = user.id;
-        this.usersMap.set(user.id, user.public);
-        this.privateInfo = user.private;
-        this.serverInfo = user.server;
+        this.saveClientUserLocally(user);
       }
     });
   }
@@ -83,8 +80,7 @@ class UsersStore {
   createUser(user, callback) {
     usersService.createUser(user, (err, userData) => {
       if (err) throw err;
-      this.userId = userData.id;
-      this.saveUserLocally(userData.id, userData);
+      this.saveClientUserLocally(userData);
       callback(err, userData);
     });
   }
@@ -103,6 +99,13 @@ class UsersStore {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  saveClientUserLocally(user) {
+    this.userId = user.id;
+    this.usersMap.set(user.id, user.public);
+    this.privateInfo = user.private;
+    this.serverInfo = user.server;
   }
 
   searchFromLocalUsersByField(field, query) {
