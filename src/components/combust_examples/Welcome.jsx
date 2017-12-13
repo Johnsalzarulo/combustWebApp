@@ -23,9 +23,6 @@ export default class Welcome extends Component {
       friendsAdded
     } = welcomeStore;
 
-    const alias = stores;
-    debugger;
-
     return (
       <div className="Welcome uk-container uk-margin-medium-top">
         <div className="uk-heading-primary">
@@ -60,30 +57,31 @@ export default class Welcome extends Component {
               </a>
             </ToDoItem>
           )}
-          {firebaseConfigured && (
-            <span>
-              <ToDoItem
-                completed={
-                  stores.chatStore &&
-                  stores.friendsStore &&
-                  stores.followersStore
-                }
-                title="Install Combust Modules"
-              />
-              <ToDoItem completed={stores.chatStore}>
-                Add <b>messaging</b> from the terminal w/ the command:{" "}
-                <code>combust install chat</code>
-              </ToDoItem>
-              <ToDoItem completed={stores.friendsStore}>
-                Add <b>friends</b> functionality w/ the command:{" "}
-                <code>combust install friends</code>
-              </ToDoItem>
-              <ToDoItem completed={stores.followersStore}>
-                Add <b>followers</b> functionality w/ the command:{" "}
-                <code>combust install followers</code>
-              </ToDoItem>
-            </span>
-          )}
+          {firebaseConfigured &&
+            emailAuthEnabled && (
+              <span>
+                <ToDoItem
+                  completed={
+                    stores.chatStore &&
+                    stores.friendsStore &&
+                    stores.followersStore
+                  }
+                  title="Install Combust Modules"
+                />
+                <ToDoItem completed={stores.chatStore}>
+                  Add <b>messaging</b> from the terminal w/ the command:{" "}
+                  <code>combust install chat</code>
+                </ToDoItem>
+                <ToDoItem completed={stores.friendsStore}>
+                  Add <b>friends</b> functionality w/ the command:{" "}
+                  <code>combust install friends</code>
+                </ToDoItem>
+                <ToDoItem completed={stores.followersStore}>
+                  Add <b>followers</b> functionality w/ the command:{" "}
+                  <code>combust install followers</code>
+                </ToDoItem>
+              </span>
+            )}
         </dl>
         <SocialContacts />
       </div>

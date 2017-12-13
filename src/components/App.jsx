@@ -8,10 +8,6 @@ import "./styles/App.css";
 
 @observer
 export default class App extends Component {
-  componentDidMount() {
-    usersStore.listenToUser();
-  }
-
   render() {
     return (
       <div>
