@@ -24,12 +24,12 @@ class UsersStore {
         return;
       } else if (!user) {
         if (this.userId) {
-          this.onUserLogout();
+          this.handleUserLogout();
         }
         this.userId = null;
       } else {
         if (!this.userId) {
-          this.onUserEstablished(user);
+          this.handleUserEstablished(user);
         }
         this.saveClientUserLocally(user);
       }
@@ -89,7 +89,7 @@ class UsersStore {
     usersService.login(user, callback);
   }
 
-  onUserEstablished(user) {
+  handleUserEstablished(user) {
     //module hook
     try {
       // friendStore.getFriendsForUser(user);
@@ -122,7 +122,7 @@ class UsersStore {
     return results;
   }
 
-  onUserLogout() {
+  handleUserLogout() {
     //module hook
     const user = this.fullUser;
 
