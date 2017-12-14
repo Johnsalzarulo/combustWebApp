@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
+import { Link } from "react-router-dom";
 
 import welcomeStore from "../../stores/WelcomeStore";
-import SocialContacts from "./users/SocialContacts";
+import usersStore from "../../stores/UsersStore";
 import { stores } from "../../.combust/init";
+import SocialContacts from "./users/SocialContacts";
 import Profile from "./users/Profile";
 
 @observer
@@ -22,6 +24,10 @@ export default class Welcome extends Component {
       projectId,
       friendsAdded
     } = welcomeStore;
+
+    const user = usersStore.user;
+    const adminConfigured =
+      user && usersStore.serverInfo && usersStore.serverInfo.isAdmin;
 
     return (
       <div className="Welcome uk-container uk-margin-medium-top">
@@ -60,12 +66,43 @@ export default class Welcome extends Component {
                 rel="noopener noreferrer"
                 href={`https://console.firebase.google.com/u/0/project/${projectId}/authentication/providers`}
               >
-                Enable Email/Password authentication in firebase
+                Enable Email/Password authentication in Firebase
               </a>
             </RenderDropdown>
           )}
           {firebaseConfigured &&
             emailAuthEnabled && (
+              <RenderDropdown
+                completed={
+                  user && usersStore.serverInfo && usersStore.serverInfo.isAdmin
+                }
+                title="Register an Account"
+              >
+                <ToDoItem completed={user}>
+                  <Link
+                    to="/register"
+                    onClick={e => {
+                      if (user) {
+                        e.preventDefault();
+                        alert("You did that, silly");
+                      }
+                    }}
+                  >
+                    Create your account
+                  </Link>
+                </ToDoItem>
+                <ToDoItem completed={adminConfigured}>
+                  Mark the account as an admin by executing{" "}
+                  <code>
+                    combust admin {user ? user.email : "your_email@abc.com"}
+                  </code>
+                </ToDoItem>
+              </RenderDropdown>
+            )}
+
+          {firebaseConfigured &&
+            emailAuthEnabled &&
+            adminConfigured && (
               <RenderDropdown
                 completed={
                   stores.chatStore &&
@@ -112,7 +149,7 @@ const RenderDropdown = ({ completed, title, children }) => {
 
 const ToDoItem = ({ completed, children }) => {
   return (
-    <div style={completed && doneStyle}>
+    <div style={completed ? doneStyle : null}>
       {completed && (
         <span className="uk-margin-small-right" style={doneStyle}>
           ✓
