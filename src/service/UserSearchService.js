@@ -9,13 +9,14 @@ class UserSearchService {
     this.loaded = true;
     firebase
       .database()
-      .ref("users")
-      .on("value", snap => {
+      .ref("users/publicInfo")
+      .once("value")
+      .then(snap => {
         let userData = snap.val();
         let users = [];
         userData &&
           Object.keys(userData).forEach(uid => {
-            let user = userData[uid].public;
+            let user = userData[uid];
             if (uid === usersStore.userId || !user) {
               return;
             }
