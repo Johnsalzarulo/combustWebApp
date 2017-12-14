@@ -18,7 +18,7 @@ const UserList = observer(({ users, onUserClicked, title }) => {
                 <span className="userName">{user.email}</span>
               </span>
               <span
-                className={"isOnline " + (user.online ? "online" : "offline")}
+                className={"isOnline " + (user.isOnline ? "online" : "offline")}
               />
             </div>
           );

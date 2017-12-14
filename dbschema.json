@@ -1,5 +1,22 @@
 {
-  "users": {},
+  "users": {
+    "publicInfo": {
+      "uid": {
+        "email": "a@a.com"
+      }
+    },
+    "privateInfo": {
+      "uid": {
+        "userSecret": "eat's chocolate"
+      }
+    },
+    "serverInfo": {
+      "uid": {
+        "walletBalance": 0,
+        "isAdmin": false
+      }
+    }
+  },
   "friendsByUser": {
     "userId": {
       "uid1": true,

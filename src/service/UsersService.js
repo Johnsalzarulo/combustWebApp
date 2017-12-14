@@ -7,15 +7,19 @@ class UsersService {
         `UserService.create(): requires a user object with an email && password`
       );
     }
-
     firebase
       .auth()
       .createUserWithEmailAndPassword(user.email, user.password)
       .then(res => {
-        let userObj = this.generateUserObject(user.email);
-        this.saveToUsersCollection(res.uid, userObj);
-        userObj.id = res.uid;
-        return callback(null, userObj);
+        let userDataByPrivacy = {
+          publicInfo: this.getPublicUserObject(user.email),
+          privateInfo: this.getPrivateUserObject(),
+          serverInfo: this.getServerUserObject()
+        };
+
+        this.saveToUsersCollection(res.uid, userDataByPrivacy);
+        userDataByPrivacy.id = res.uid;
+        return callback(null, userDataByPrivacy);
       })
       .catch(error => {
         let errorMessage = error.message;
@@ -24,36 +28,44 @@ class UsersService {
       });
   }
 
-  saveToUsersCollection(uid, user) {
-    if (!uid || !user) {
+  saveToUsersCollection(uid, userDataByPrivacy) {
+    if (!uid) {
       return;
     }
-    firebase
-      .database()
-      .ref("/users/")
-      .child(uid)
-      .set(user);
+    ["publicInfo", "privateInfo", "serverInfo"].forEach(privacy => {
+      const data = userDataByPrivacy[privacy];
+      if (data) {
+        firebase
+          .database()
+          .ref("/users/" + privacy)
+          .child(uid)
+          .update(data);
+      }
+    });
   }
 
-  generateUserObject(email) {
+  getPublicUserObject(email) {
     return {
-      public: {
-        //globally readable, user-writeable
-        email: email,
-        online: true,
-        iconUrl: this.getRandomProfilePic()
-      },
-      private: {
-        //user-only-readable, user-writeable
-        conversations: {},
-        friends: {},
-        notificationToken: null,
-        notificationsEnabled: true
-      },
-      server: {
-        //user-only-readable, server-only writeable
-        walletBalance: 0
-      }
+      //globally readable, user-writeable
+      email: email,
+      isOnline: true,
+      iconUrl: this.getRandomProfilePic()
+    };
+  }
+  getPrivateUserObject() {
+    return {
+      //user-only-readable, user-writeable
+      conversations: {},
+      friends: {},
+      notificationToken: null,
+      notificationsEnabled: true
+    };
+  }
+  getServerUserObject() {
+    return {
+      //user-only-readable, server-only writeable
+      walletBalance: 0,
+      isAdmin: false
     };
   }
 
@@ -67,12 +79,13 @@ class UsersService {
     firebase.auth().onAuthStateChanged(userAuth => {
       console.log("authStateChange, user:", userAuth);
       if (userAuth) {
-        let userRef = db.ref("users/" + userAuth.uid);
+        let userRef = db.ref("users/publicInfo/" + userAuth.uid);
         userRef.once("value").then(snap => {
           let userData = snap.val();
           if (userData) {
-            userRef.child("public").update({ lastOnline: new Date() });
+            userRef.child("lastOnline").update(new Date());
             that.listenToUser(userAuth.uid, (err, data) => {
+              if (err) return callback(err);
               data.id = userAuth.uid;
               callback(null, data);
             });
@@ -85,26 +98,36 @@ class UsersService {
   }
 
   listenToUser(uid, callback) {
-    firebase
-      .database()
-      .ref("users")
-      .child(uid)
-      .on("value", snap => {
-        let user = snap.val();
-        if (!user) {
-          callback("No user data found");
-        } else {
-          user.id = uid;
-        }
-        callback(null, user);
-      });
+    if (!uid) {
+      throw "no uid provided to listenToUser()";
+    }
+    ["publicInfo", "privateInfo", "serverInfo"].forEach(privacy => {
+      firebase
+        .database()
+        .ref("users")
+        .child(privacy)
+        .child(uid)
+        .on("value", snap => {
+          let userData = snap.val();
+          if (!userData) {
+            callback("No user data found");
+          } else {
+            userData.id = uid;
+          }
+          callback(null, {
+            id: uid,
+            [privacy]: userData
+          });
+        });
+    });
+
     this.monitorOnlineStatus();
   }
 
   listenToPublicUserData(userId, callback) {
     firebase
       .database()
-      .ref("users/" + userId + "/public")
+      .ref("users/publicInfo/" + userId)
       .on("value", snapshot => {
         let friend = snapshot.val();
         if (!friend) {
@@ -122,11 +145,10 @@ class UsersService {
       res => {
         callback(null, res);
         db
-          .ref("users")
+          .ref("users/publicInfo")
           .child(res.uid)
-          .child("public")
           .update({
-            online: true
+            isOnline: true
           });
       },
       err => {
@@ -140,11 +162,14 @@ class UsersService {
     if (!user) {
       throw new Error("No user provided to logout");
     }
-
     let auth = firebase.auth();
-    user.online = false;
-    this.updateFields(user, ["online"], "public");
+    user.isOnline = false;
     auth.signOut();
+    firebase
+      .database()
+      .ref("users/publicInfo")
+      .child(user.id)
+      .update({ isOnline: false });
   }
 
   monitorOnlineStatus() {
@@ -154,7 +179,9 @@ class UsersService {
     }
     const uid = currentUser.uid;
     let amOnline = firebase.database().ref("/.info/connected");
-    let userRef = firebase.database().ref("/users/" + uid + "/public/online");
+    let userRef = firebase
+      .database()
+      .ref("/users/publicInfo/" + uid + "/isOnline");
     amOnline.on("value", snapshot => {
       if (snapshot.val()) {
         userRef.onDisconnect().set(false);
@@ -166,42 +193,6 @@ class UsersService {
         userRef.set(true);
       }, 2000);
     });
-  }
-
-  updateUser(user) {
-    let db = firebase.database();
-    db
-      .ref("users/")
-      .child(user.id)
-      .update(user);
-  }
-
-  updateFields(user, fields, privacy) {
-    let currentUser = firebase.auth().currentUser;
-    if (!fields || !user || !currentUser || !privacy) {
-      return;
-    }
-    let db = firebase.database();
-    let ref = db.ref("users/" + currentUser.uid + "/" + privacy);
-
-    ref.once(
-      "value",
-      snapshot => {
-        let currentUserOnDb = snapshot.val();
-        if (!currentUserOnDb) {
-          return;
-        }
-        fields.forEach(field => {
-          currentUserOnDb[field] = user[field];
-        });
-        ref.update(currentUserOnDb);
-      },
-      errorObject => {
-        console.log(
-          "The read in userService.updateFields() failed: " + errorObject.code
-        );
-      }
-    );
   }
 
   getRandomProfilePic() {

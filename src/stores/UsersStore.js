@@ -3,8 +3,11 @@ import usersService from "../service/UsersService";
 //DEPENDENCIES - none
 
 class UsersStore {
+  clientUserEstablished = false;
+
   @observable userId = null;
   @observable usersMap = new Map();
+
   @observable privateInfo = null; //only reads/writes by user
   @observable serverInfo = null; //only user reads, only server writes
 
@@ -18,20 +21,29 @@ class UsersStore {
   };
 
   listenToUser() {
-    usersService.listenForUserChanges((err, user) => {
+    usersService.listenForUserChanges((err, userData) => {
+      debugger;
       if (err) {
         debugger;
         return;
-      } else if (!user) {
+      } else if (!userData) {
+        //user logged out
         if (this.userId) {
           this.handleUserLogout();
         }
         this.userId = null;
       } else {
-        if (!this.userId) {
-          this.handleUserEstablished(user);
+        //new data
+        this.saveClientUserLocally(userData);
+        if (
+          !this.clientUserEstablished &&
+          this.user &&
+          this.privateInfo &&
+          this.publicInfo
+        ) {
+          this.handleUserEstablished();
+          this.clientUserEstablished = true;
         }
-        this.saveClientUserLocally(user);
       }
     });
   }
@@ -78,10 +90,10 @@ class UsersStore {
   }
 
   createUser(user, callback) {
-    usersService.createUser(user, (err, userData) => {
+    usersService.createUser(user, (err, userDataByPrivacy) => {
       if (err) throw err;
-      this.saveClientUserLocally(userData);
-      callback(err, userData);
+      this.saveClientUserLocally(userDataByPrivacy);
+      callback(err, userDataByPrivacy);
     });
   }
 
@@ -89,7 +101,9 @@ class UsersStore {
     usersService.login(user, callback);
   }
 
-  handleUserEstablished(user) {
+  handleUserEstablished() {
+    const user = this.fullUser;
+
     //module hook
     try {
       // friendStore.getFriendsForUser(user);
@@ -101,11 +115,18 @@ class UsersStore {
     }
   }
 
-  saveClientUserLocally(user) {
-    this.userId = user.id;
-    this.usersMap.set(user.id, user.public);
-    this.privateInfo = user.private;
-    this.serverInfo = user.server;
+  saveClientUserLocally(userDataByPrivacy) {
+    const { id, publicInfo, privateInfo, serverInfo } = userDataByPrivacy;
+    if (publicInfo) {
+      this.usersMap.set(id, publicInfo);
+    }
+    if (privateInfo) {
+      this.privateInfo = privateInfo;
+    }
+    if (serverInfo) {
+      this.serverInfo = serverInfo;
+    }
+    this.userId = id;
   }
 
   searchFromLocalUsersByField(field, query) {
