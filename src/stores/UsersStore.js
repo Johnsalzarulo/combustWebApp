@@ -22,7 +22,6 @@ class UsersStore {
 
   listenToUser() {
     usersService.listenForUserChanges((err, userData) => {
-      debugger;
       if (err) {
         debugger;
         return;

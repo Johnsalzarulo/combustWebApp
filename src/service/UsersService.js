@@ -159,17 +159,20 @@ class UsersService {
   }
 
   logout(user) {
+    let auth = firebase.auth();
+    if (!auth.currentUser) {
+      return;
+    }
+
     if (!user) {
       throw new Error("No user provided to logout");
     }
-    let auth = firebase.auth();
-    user.isOnline = false;
-    auth.signOut();
     firebase
       .database()
       .ref("users/publicInfo")
       .child(user.id)
       .update({ isOnline: false });
+    auth.signOut();
   }
 
   monitorOnlineStatus() {
@@ -190,7 +193,9 @@ class UsersService {
     });
     userRef.on("value", snapshot => {
       window.setTimeout(() => {
-        userRef.set(true);
+        if (firebase.auth().currentUser) {
+          userRef.set(true);
+        }
       }, 2000);
     });
   }
