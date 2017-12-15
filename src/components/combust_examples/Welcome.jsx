@@ -76,7 +76,7 @@ export default class Welcome extends Component {
                 completed={
                   user && usersStore.serverInfo && usersStore.serverInfo.isAdmin
                 }
-                title="Register an Account"
+                title="Create a User"
               >
                 <ToDoItem completed={user}>
                   <Link
