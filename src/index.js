@@ -12,7 +12,7 @@ import Icons from "uikit/dist/js/uikit-icons";
 import { initializeStores } from "./.combust/init";
 
 UIkit.use(Icons);
-firebase.initializeApp(firebaseConfig);
+firebaseConfig && firebase.initializeApp(firebaseConfig);
 
 const browserHistory = createBrowserHistory();
 const AppWrapper = withRouter(App);

@@ -21,9 +21,14 @@ class WelcomeStore {
   }
 
   isEmailAuthEnabled() {
+    if (!this.firebaseConfigured) {
+      return false;
+    }
+
     const emailAuthVerified = JSON.parse(
       localStorage.getItem("emailAuthEnabled")
     );
+
     if (emailAuthVerified) {
       this.emailAuthEnabled = true;
       return;
