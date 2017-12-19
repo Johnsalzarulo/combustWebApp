@@ -22,9 +22,8 @@ class UsersService {
         return callback(null, userDataByPrivacy);
       })
       .catch(error => {
-        let errorMessage = error.message;
-        callback(errorMessage);
-        console.log(errorMessage);
+        callback(error);
+        console.log(error.message);
       });
   }
 

@@ -8,7 +8,8 @@ import usersStore from "../../../stores/UsersStore";
 export default class Register extends Component {
   state = {
     email: "",
-    password: ""
+    password: "",
+    errMessage: ""
   };
 
   componentWillUpdate(nextProps) {
@@ -25,7 +26,7 @@ export default class Register extends Component {
     };
     usersStore.createUser(user, (err, userData) => {
       if (err) {
-        //handle signup err
+        this.setState({ errMessage: err.message });
       } else {
         this.props.history.push("/");
       }
@@ -35,7 +36,7 @@ export default class Register extends Component {
   render() {
     return (
       <div className="Register uk-flex uk-flex-center uk-margin">
-        <form onSubmit={this.submit}>
+        <form onSubmit={this.submit} className="uk-width-medium">
           <legend className="uk-legend">New Account</legend>
           <div className="uk-margin">
             <input
@@ -65,6 +66,9 @@ export default class Register extends Component {
           </button>{" "}
           <br />
           <Link to="/login">Login instead</Link>
+          <div className="uk-text-danger uk-text-break uk-margin-small-top">
+            {this.state.errMessage}
+          </div>
         </form>
       </div>
     );

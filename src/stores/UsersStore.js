@@ -89,8 +89,14 @@ class UsersStore {
   }
 
   createUser(user, callback) {
+    if (!user || !user.email || !user.password) {
+      return callback({
+        message: "You must provide an email and password"
+      });
+    }
+
     usersService.createUser(user, (err, userDataByPrivacy) => {
-      if (err) throw err;
+      if (err) return callback(err);
       this.saveClientUserLocally(userDataByPrivacy);
       callback(err, userDataByPrivacy);
     });

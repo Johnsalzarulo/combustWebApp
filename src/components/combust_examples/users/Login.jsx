@@ -8,7 +8,8 @@ import usersStore from "../../../stores/UsersStore";
 export default class Login extends Component {
   state = {
     email: "",
-    password: ""
+    password: "",
+    errMessage: ""
   };
 
   componentWillUpdate(nextProps) {
@@ -24,14 +25,16 @@ export default class Login extends Component {
       password: this.state.password
     };
     usersStore.login(user, (err, userData) => {
-      err ? console.log(err) : this.props.history.push("/");
+      err
+        ? this.setState({ errMessage: err.message })
+        : this.props.history.push("/");
     });
   };
 
   render() {
     return (
       <div className="Register uk-flex uk-flex-center uk-margin">
-        <form onSubmit={this.submit}>
+        <form onSubmit={this.submit} className="uk-width-medium">
           <legend className="uk-legend">Login</legend>
           <div className="uk-margin">
             <input
@@ -61,6 +64,9 @@ export default class Login extends Component {
           </button>{" "}
           <br />
           <Link to="/register">Create an account</Link>
+          <div className="uk-text-danger uk-text-break uk-margin-small-top">
+            {this.state.errMessage}
+          </div>
         </form>
       </div>
     );
