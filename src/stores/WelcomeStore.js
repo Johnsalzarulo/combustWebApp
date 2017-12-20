@@ -24,9 +24,11 @@ class WelcomeStore {
     if (!this.firebaseConfigured) {
       return false;
     }
+    const authEnabledForApp =
+      firebase.app().options.projectId + "_emailAuthEnabled";
 
     const emailAuthVerified = JSON.parse(
-      localStorage.getItem("emailAuthEnabled")
+      localStorage.getItem(authEnabledForApp)
     );
 
     if (emailAuthVerified) {
@@ -39,14 +41,14 @@ class WelcomeStore {
       .auth()
       .createUserWithEmailAndPassword(testEmail, "sparky")
       .then(() => {
-        localStorage.setItem("emailAuthEnabled", true);
+        localStorage.setItem(authEnabledForApp, true);
         this.emailAuthEnabled = true;
         this.currentStep = 4;
       })
       .catch(error => {
         this.emailAuthEnabled = error.code === "auth/email-already-in-use";
         this.currentStep = this.emailAuthEnabled ? 3 : 2;
-        localStorage.setItem("emailAuthEnabled", this.emailAuthEnabled);
+        localStorage.setItem(authEnabledForApp, this.emailAuthEnabled);
       })
       .then(() => {
         const user = firebase.auth().currentUser;

@@ -38,10 +38,7 @@ export default class Welcome extends Component {
 
     return (
       <div className="Welcome uk-container uk-margin-medium-top">
-        <div className="uk-heading-primary">
-          {" "}
-          Welcome to your Combust app!
-        </div>{" "}
+        <div className="uk-heading-primary"> Welcome to your Combust app!</div>{" "}
         <h4>To get going:</h4>
         <hr className="uk-divider-icon" />
         <ul uk-accordion="multiple: true">
@@ -191,7 +188,7 @@ export default class Welcome extends Component {
           <div className="uk-modal-dialog uk-modal-body">
             <h2 className="uk-modal-title" />
             <button
-              class="uk-modal-close-default"
+              className="uk-modal-close-default"
               type="button"
               uk-close="true"
               title="Close"
