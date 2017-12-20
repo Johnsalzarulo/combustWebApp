@@ -90,7 +90,8 @@ export default class Welcome extends Component {
                   rel="noopener noreferrer"
                 >
                   Create a new Firebase project
-                </a>
+                </a>{" "}
+                then run <code>combust configure</code>
               </div>
             ) : (
               <div>
