@@ -33,15 +33,10 @@ class UsersStore {
         this.userId = null;
       } else {
         //new data
+        let shouldExecEstablished = !this.user && userData.publicInfo;
         this.saveClientUserLocally(userData);
-        if (
-          !this.clientUserEstablished &&
-          this.user &&
-          this.privateInfo &&
-          this.publicInfo
-        ) {
+        if (shouldExecEstablished) {
           this.handleUserEstablished();
-          this.clientUserEstablished = true;
         }
       }
     });
