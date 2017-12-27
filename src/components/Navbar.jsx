@@ -10,21 +10,7 @@ const Navbar = observer(({ history }) => (
     uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky; bottom: #transparent-sticky-navbar"
   >
     <nav className="uk-navbar-container" uk-navbar="true">
-      <div className="uk-navbar-left">
-        <img
-          className="uk-navbar-item uk-logo"
-          src="https://www.kpifire.com/wp-content/themes/kpifire/images/logo_footer.png"
-          alt=""
-        />
-        <div className="uk-navbar-item">
-          <Link to="/">Home</Link>
-        </div>
-        <div className="uk-navbar-item">
-          {usersStore.userId && (
-            <Link to={"/profile/" + usersStore.userId}>My Profile</Link>
-          )}
-        </div>
-      </div>
+      {renderNavLeft()}
       <div className="uk-navbar-right">
         {usersStore.user && (
           <div className="uk-navbar-item">{usersStore.user.email}</div>
@@ -45,5 +31,36 @@ const Navbar = observer(({ history }) => (
     </nav>
   </div>
 ));
+
+const renderNavLeft = () => {
+  //This is a combust hook. Do not alter additionalLinks
+  const additionalLinks = [];
+
+  return (
+    <div className="uk-navbar-left">
+      <img
+        className="uk-navbar-item uk-logo"
+        src="https://www.kpifire.com/wp-content/themes/kpifire/images/logo_footer.png"
+        alt=""
+      />
+      <div className="uk-navbar-item">
+        <Link to="/">Home</Link>
+      </div>
+      <div className="uk-navbar-item">
+        {usersStore.userId && (
+          <Link to={"/profile/" + usersStore.userId}>My Profile</Link>
+        )}
+      </div>
+      {additionalLinks &&
+        additionalLinks.map((linkJsx, i) => {
+          return (
+            <div key={i} className="uk-navbar-item">
+              {linkJsx}
+            </div>
+          );
+        })}
+    </div>
+  );
+};
 
 export default Navbar;
