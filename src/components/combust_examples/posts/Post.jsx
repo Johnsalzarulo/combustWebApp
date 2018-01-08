@@ -10,13 +10,8 @@ import PostReactions from "./PostReactions";
 @observer
 export default class Post extends Component {
   state = {
-    commentBody: "",
-    showComments: false
+    commentBody: ""
   };
-
-  componentWillMount() {
-    this.setState({ showComments: this.props.showComments });
-  }
 
   handleCommentChange = e => {
     this.setState({ commentBody: e.target.value });
@@ -30,7 +25,7 @@ export default class Post extends Component {
   };
 
   onCommentSubmit = () => {
-    this.setState({ commentBody: "", showComments: true });
+    this.setState({ commentBody: "" });
     postStore.addCommentToPost(this.state.commentBody, this.props.post.id);
   };
 
@@ -80,26 +75,7 @@ export default class Post extends Component {
           <p>{post && post.body}</p>
         </div>
         <div className="uk-card-footer">
-          <span className="uk-flex uk-flex-between">
-            <PostReactions post={post} />
-            {commentIds &&
-              commentIds.length > 0 && (
-                <button
-                  onClick={e =>
-                    this.setState({ showComments: !this.state.showComments })
-                  }
-                  className="uk-button uk-button-text uk-margin-small-left"
-                >
-                  {this.state.showComments ? (
-                    <span>hide comments</span>
-                  ) : (
-                    <span>
-                      {totalReplies} comment{totalReplies > 1 && "s"}
-                    </span>
-                  )}{" "}
-                </button>
-              )}
-          </span>
+          <PostReactions post={post} />
 
           <textarea
             className="uk-textarea uk-margin-small"
@@ -108,7 +84,7 @@ export default class Post extends Component {
             value={this.state.commentBody}
             placeholder="Your reply..."
           />
-          {this.state.showComments && <CommentTree commentIds={commentIds} />}
+          <CommentTree commentIds={commentIds} />
         </div>
       </div>
     );

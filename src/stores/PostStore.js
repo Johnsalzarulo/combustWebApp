@@ -38,7 +38,8 @@ class PostStore {
   getPostsByUserId(userId) {
     this.loadPostsForUser({ id: userId });
     let posts = {};
-    let postIds = this.postIdsByUserMap.get(userId);
+    let postIds = this.postIdsByUserMap.get(userId) || [];
+    postIds.reverse();
     postIds &&
       postIds.forEach(postId => {
         posts[postId] = this.getPostById(postId);
@@ -81,13 +82,16 @@ class PostStore {
       createdBy: usersStore.userId
     };
 
-    const notification = {
-      userId: post.createdBy,
-      createdBy: usersStore.userId,
-      type: "post_comment",
-      link: "/posts/" + postId,
-      body: "Comment reply from " + usersStore.user.email
-    };
+    const notification =
+      post.createdBy === usersStore.userId
+        ? null
+        : {
+            userId: post.createdBy,
+            createdBy: usersStore.userId,
+            type: "post_comment",
+            link: "/posts/" + postId,
+            body: "Comment reply from " + usersStore.user.email
+          };
 
     postService.addCommentToPost(comment, postId, notification);
   }
@@ -104,13 +108,16 @@ class PostStore {
     const post = this.getPostById(postId);
     if (!post || !userId) return;
 
-    const notification = {
-      userId: post.createdBy,
-      createdBy: usersStore.userId,
-      type: "post_reaction",
-      link: "/posts/" + (post.parent || postId),
-      body: `${usersStore.user.email} gave your post a ${reaction}`
-    };
+    const notification =
+      post.createdBy === userId
+        ? null
+        : {
+            userId: post.createdBy,
+            createdBy: usersStore.userId,
+            type: "post_reaction",
+            link: "/posts/" + (post.parent || postId),
+            body: `${usersStore.user.email} gave your post a ${reaction}`
+          };
 
     postService.togglePostReaction(
       postId,

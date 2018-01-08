@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import React, { Component } from "react";
 import { observer } from "mobx-react";
+import moment from "moment";
 
 import postStore from "../../../stores/PostStore";
 import usersStore from "../../../stores/UsersStore";
@@ -116,6 +117,9 @@ const Comment = observer(props => {
         )}{" "}
         {comment && <span className="uk-text-break">{comment.body}</span>}
         <br />
+        <span className="uk-text-meta uk-margin-small-right">
+          {moment(comment.createdAt).fromNow()}
+        </span>
         {!props.isNested && (
           <span>
             <a
@@ -129,6 +133,7 @@ const Comment = observer(props => {
             >
               {replying ? "cancel" : "reply"}
             </a>
+
             {nestedCommentIds.length > 0 &&
               (props.showNestedComments || replying ? (
                 <CommentTree

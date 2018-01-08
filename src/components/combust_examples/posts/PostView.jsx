@@ -11,9 +11,9 @@ const PostView = props => {
   const user = post && usersStore.getUserById(post.createdBy);
 
   return (
-    <div className="PostView uk-padding  uk-flex uk-flex-center">
+    <div className="PostView uk-padding uk-flex uk-flex-center">
       <span className="uk-width-3-4">
-        <Post post={post} user={user} showComments />
+        <Post post={post} user={user} />
       </span>
     </div>
   );
