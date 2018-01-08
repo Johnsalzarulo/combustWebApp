@@ -49,6 +49,11 @@ class NotificationStore {
     return notifs;
   }
 
+  @computed
+  get allNotifications() {
+    return this.notificationMap.toJS();
+  }
+
   getNotificationById(notificationId) {
     let notification = this.notificationMap.get(notificationId);
     if (!notification) {

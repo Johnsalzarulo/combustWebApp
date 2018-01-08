@@ -3,83 +3,53 @@ import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
+import Notification from "./Notification";
 import notificationStore from "../../../stores/NotificationStore";
 
-@observer
-export default class NotificationNavItem extends Component {
-  state = {};
+const NotificationNavItem = props => {
+  const notifications = notificationStore.notifications;
+  let notifKeys = notifications ? Object.keys(notifications) : [];
+  notifKeys = notifKeys.reverse().slice(0, 6); //render 6 most recent notifs
 
-  render() {
-    const notifications = notificationStore.notifications;
-    const notifKeys = notifications ? Object.keys(notifications) : [];
-
-    return (
-      <div className="NotificationNavItem uk-navbar-item">
+  return (
+    <div className="NotificationNavItem uk-navbar-item">
+      <span className="uk-inline">
         <Icon
           className={
-            "uk-icon " + (notifKeys.length > 0 ? "uk-text-danger" : "uk-text")
+            "uk-position-center uk-icon " +
+            (notifKeys.length > 0 ? "uk-text-danger" : "uk-text")
           }
           type="bell"
         />
-        <div uk-dropdown="mode: click">
-          <ul className="uk-nav uk-dropdown-nav">
-            <li className="uk-nav-header uk-margin-small-bottom">
-              Notifications
-            </li>
-            <ul className="uk-list uk-list-divider">
-              {notifKeys.reverse().map((notifId, i) => {
-                const notif = notifications[notifId];
-                if (!notif) return <span />;
-                const actions = notif.actions && Object.keys(notif.actions);
-                return (
-                  <li key={i} className="">
-                    {notif.link ? (
-                      <a
-                        className="uk-link-text"
-                        onClick={e =>
-                          notificationStore.markNotifAsRead(notifId)
-                        }
-                      >
-                        <Link to={notif.link}>{notif.body}</Link>
-                      </a>
-                    ) : (
-                      <div>{notif.body}</div>
-                    )}
-                    {actions && (
-                      <div className="uk-margin-small-top">
-                        {actions.map((action, actionI) => {
-                          return (
-                            <button
-                              key={actionI}
-                              className="uk-button uk-button-default uk-button-small"
-                              onClick={e => {
-                                notificationStore.handleNotificationAction(
-                                  notif,
-                                  action
-                                );
-                              }}
-                            >
-                              {action}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    )}
-                    <div className="uk-text-meta">
-                      {moment(notif.createdAt).fromNow()}
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-
+        {notifKeys.length > 0 && (
+          <span className="uk-badge badge-danger uk-position-bottom-left">
+            {notifKeys.length}
+          </span>
+        )}
+      </span>
+      <div uk-dropdown="mode: click">
+        <ul className="uk-nav uk-dropdown-nav">
+          <li className="uk-nav-header uk-margin-small-bottom">
+            Notifications
+          </li>
+          <ul className="uk-list uk-list-divider">
+            {notifKeys.map((notifId, i) => {
+              const notif = notifications[notifId];
+              if (!notif) return <span />;
+              return <Notification key={i} notification={notif} />;
+            })}
             {notifKeys.length <= 0 && <li>No new notifications</li>}
+            <div className="uk-margin-small-top">
+              <Link to="/notifications">View all notifications</Link>
+            </div>
           </ul>
-        </div>
+        </ul>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+export default observer(NotificationNavItem);
 
 const Icon = props => {
   //eslint-disable-next-line

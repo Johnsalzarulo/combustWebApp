@@ -5,6 +5,7 @@ import Register from "./combust_examples/users/Register";
 import Welcome from "./combust_examples/Welcome";
 import Profile from "./combust_examples/users/Profile";
 import PostView from "./combust_examples/posts/PostView";
+import NotifHistory from "./combust_examples/notifications/NotifHistory";
 
 const Routes = props => {
   let welcomeWrapper = () => <Welcome {...props} />;
@@ -16,6 +17,7 @@ const Routes = props => {
       <Route path="/register" component={Register} />
       <Route path="/profile/:userId" component={Profile} />
       <Route path="/posts/:postId" component={PostView} />
+      <Route path="/notifications" component={NotifHistory} />
     </Switch>
   );
 };
