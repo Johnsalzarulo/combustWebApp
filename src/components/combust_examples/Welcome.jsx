@@ -6,7 +6,6 @@ import welcomeStore from "../../stores/WelcomeStore";
 import usersStore from "../../stores/UsersStore";
 import { stores } from "../../.combust/init";
 import SocialContacts from "./users/SocialContacts";
-import Profile from "./users/Profile";
 const availApps = require("../../.combust/availApps.json");
 
 @observer
@@ -25,12 +24,7 @@ export default class Welcome extends Component {
   };
 
   render() {
-    let {
-      firebaseConfigured,
-      emailAuthEnabled,
-      projectId,
-      friendsAdded
-    } = welcomeStore;
+    let { firebaseConfigured, emailAuthEnabled, projectId } = welcomeStore;
 
     const user = usersStore.user;
     const adminConfigured =

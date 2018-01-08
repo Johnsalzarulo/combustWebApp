@@ -1,7 +1,9 @@
+import notificationStore from "../stores/NotificationStore"
 import usersStore from "../stores/UsersStore";
 import { firebaseConfig } from "./config";
 
 export const stores = {
+	notificationStore,
   usersStore
 };
 

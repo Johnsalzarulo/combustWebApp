@@ -1,7 +1,10 @@
 import usersStore from "../../../stores/UsersStore";
 import React, { Component } from "react";
 import { observer } from "mobx-react";
+
 import "./styles/Users.css";
+import UserPosts from "../posts/UserPosts";
+import CreatePost from "../posts/CreatePost";
 
 @observer
 export default class Profile extends Component {
@@ -44,7 +47,7 @@ export default class Profile extends Component {
                 {userId && !isMyProfile ? (
                   <ul className="uk-iconnav nav-btns">
                     <li className="profile-nav-btn">
-                      <a href="#" uk-icon="icon: comment" />
+                      <Icon type="comment" />
                       <span
                         className="uk-link"
                         onClick={e => {
@@ -55,7 +58,8 @@ export default class Profile extends Component {
                       </span>
                     </li>
                     <li className="profile-nav-btn">
-                      <a href="#" uk-icon="icon: user" />
+                      <Icon type="user" />
+
                       <span
                         onClick={e => {
                           this.sendFriendRequest(userId);
@@ -66,7 +70,7 @@ export default class Profile extends Component {
                       </span>
                     </li>{" "}
                     <li className="profile-nav-btn">
-                      <a href="#" uk-icon="icon: star" />
+                      <Icon type="star" />
                       <span
                         onClick={e => {
                           this.followUser(userId);
@@ -83,7 +87,7 @@ export default class Profile extends Component {
                       className="profile-nav-btn"
                       onClick={e => alert("combust install profile-details")}
                     >
-                      <a href="#" uk-icon="icon: pencil" />
+                      <Icon type="pencil" />
                       <span className="uk-link">Edit Profile</span>
                     </li>
                   </ul>
@@ -93,10 +97,9 @@ export default class Profile extends Component {
                 {user &&
                   user.iconUrl && (
                     <img
-                      alt="Profile Picture"
                       src={user.iconUrl}
                       className="profile-pic"
-                      alt=""
+                      alt="profile"
                     />
                   )}
               </div>
@@ -108,63 +111,34 @@ export default class Profile extends Component {
               uk-grid="true"
             >
               <div className="uk-padding-large uk-background-muted">
-                <div className="ActivityPosts uk-flex uk-flex-top uk-flex-wrap">
-                  {[0, 1, 2, 4, 5, 6, 7].map(i => {
-                    return (
-                      <div
-                        key={i}
-                        className="ActivityPost uk-card uk-card-default uk-width-1@m uk-margin-bottom"
-                      >
-                        <div className="uk-card-header">
-                          <div
-                            className="uk-grid-small uk-flex-middle"
-                            uk-grid="true"
-                          >
-                            <div className="uk-width-auto">
-                              {user &&
-                                user.iconUrl && (
-                                  <img
-                                    src={user.iconUrl}
-                                    className="uk-border-circle"
-                                    width="40"
-                                    height="40"
-                                    alt="User Avatar"
-                                  />
-                                )}
-                            </div>
-                            <div className="uk-width-expand">
-                              <h3 className="uk-card-title uk-margin-remove-bottom">
-                                Post
-                              </h3>
-                              <p className="uk-text-meta uk-margin-remove-top">
-                                <time dateTime="2017-04-01T19:00">
-                                  April 01, 2017
-                                </time>
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="uk-card-body">
-                          <p>
-                            Run <code>combust install posts</code> to start
-                            creating posts!
-                          </p>
-                        </div>
-                        <div className="uk-card-footer">
-                          <a href="#" className="uk-button uk-button-text">
-                            Read more
-                          </a>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                {isMyProfile && <CreatePost />}
+                <UserPosts user={user} />
               </div>
               <div className="AboutMe uk-padding-large">
                 <h1>About me</h1>
                 <p>
                   Run <code>combust install profile-details</code> to make this
                   editable :D
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
+                </p>
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+                  irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                  cupidatat non proident, sunt in culpa qui officia deserunt
+                  mollit anim id est laborum.
                 </p>
                 <p>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
@@ -194,3 +168,8 @@ export default class Profile extends Component {
     );
   }
 }
+
+const Icon = ({ type }) => {
+  //eslint-disable-next-line
+  return <a uk-icon={"icon: " + type} />;
+};

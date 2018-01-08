@@ -41,7 +41,6 @@ export default class SocialContacts extends Component {
                         onClick={e => {
                           this.setMode(mode);
                         }}
-                        href="#"
                       >
                         {mode}
                       </a>

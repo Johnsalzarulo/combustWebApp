@@ -46,5 +46,30 @@
       "convoId1": true
     }
   },
-  "messages": {}
+  "messages": {},
+  "posts": {
+    "postsByUserId": {
+      "uid1": {
+        "post1": true
+      }
+    },
+    "postObjects": {
+      "post1": {
+        "createdAt": "dateString",
+        "body": "postBody",
+        "userId": "userId",
+        "type": "post || comment",
+        "comments": {
+          "postId3": true,
+          "postId4": true
+        },
+        "reactions": {
+          "like, heart, sad, etc": {
+            "uid1": true,
+            "uid2": true
+          }
+        }
+      }
+    }
+  }
 }
