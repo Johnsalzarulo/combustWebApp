@@ -1,7 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
-import moment from "moment";
 
 import Notification from "./Notification";
 import notificationStore from "../../../stores/NotificationStore";

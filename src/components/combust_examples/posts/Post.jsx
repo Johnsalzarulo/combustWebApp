@@ -37,7 +37,6 @@ export default class Post extends Component {
 
     const date = moment(new Date(post.createdAt)).format("MMM Do h:mmA");
     const commentIds = post.comments ? Object.keys(post.comments) : [];
-    const totalReplies = postStore.getNumReplies(post.id);
 
     return (
       <div
@@ -76,7 +75,6 @@ export default class Post extends Component {
         </div>
         <div className="uk-card-footer">
           <PostReactions post={post} />
-
           <textarea
             className="uk-textarea uk-margin-small"
             onChange={this.handleCommentChange}

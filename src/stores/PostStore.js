@@ -139,25 +139,6 @@ class PostStore {
     return reactions ? Object.keys(reactions).length : 0;
   }
 
-  getNumReplies(postId) {
-    //TODO: fix this. atm we have to fetch every single top level
-    //comment so we can add all nested comments. (slow at scale)
-    //maybe just leave a totalReplies counter in the original post
-    const post = this.postMap.get(postId);
-    let numReplies = 0;
-    post &&
-      post.comments &&
-      Object.keys(post.comments).forEach(commentId => {
-        const nestedComment = this.getPostById(commentId);
-        numReplies +=
-          1 +
-          (nestedComment && nestedComment.comments
-            ? Object.keys(nestedComment.comments).length
-            : 0);
-      });
-    return numReplies;
-  }
-
   userDidReactToPost(postId, reaction) {
     const post = this.postMap.get(postId);
 
