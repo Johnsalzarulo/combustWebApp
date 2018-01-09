@@ -48,7 +48,7 @@
   },
   "messages": {},
   "posts": {
-    "postsByUserId": {
+    "postsIdsByUser": {
       "uid1": {
         "post1": true
       }
@@ -56,9 +56,10 @@
     "postObjects": {
       "post1": {
         "createdAt": "dateString",
+        "createdBy": "userId",
         "body": "postBody",
-        "userId": "userId",
         "type": "post || comment",
+        "parent": "postId (if applicable)",
         "comments": {
           "postId3": true,
           "postId4": true
