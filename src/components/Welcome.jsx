@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 
-import welcomeStore from "../../stores/WelcomeStore";
-import usersStore from "../../stores/UsersStore";
-import { stores } from "../../.combust/init";
+import welcomeStore from "../stores/WelcomeStore";
+import usersStore from "../stores/UsersStore";
+import { stores } from "../.combust/init";
 import SocialContacts from "./users/SocialContacts";
-const availApps = require("../../.combust/availApps.json");
+const availApps = require("../.combust/availApps.json");
 
 @observer
 export default class Welcome extends Component {
@@ -174,10 +174,11 @@ export default class Welcome extends Component {
             adminConfigured &&
             stores.friendsStore && (
               <RenderDropdown title="Go In.">
-              <p>
-                <a href="http://www.example.com" className="uk-link">
-                You can browse popular combust modules here.
-                </a></p>
+                <p>
+                  <a href="http://www.example.com" className="uk-link">
+                    You can browse popular combust modules here.
+                  </a>
+                </p>
                 <p>You're ready to start experimenting. Good luck!</p>
               </RenderDropdown>
             )}

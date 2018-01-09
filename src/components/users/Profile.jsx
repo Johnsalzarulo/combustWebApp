@@ -1,4 +1,4 @@
-import usersStore from "../../../stores/UsersStore";
+import usersStore from "../../stores/UsersStore";
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 
@@ -182,9 +182,7 @@ const ExamplePosts = ({ user }) => (
             </p>
           </div>
           <div className="uk-card-footer">
-            <a className="uk-button uk-button-text">
-              Read more
-            </a>
+            <a className="uk-button uk-button-text">Read more</a>
           </div>
         </div>
       );
