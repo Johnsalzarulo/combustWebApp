@@ -181,7 +181,6 @@ export default class Welcome extends Component {
         <SocialContacts />
         <div id="my-id" uk-modal="true">
           <div className="uk-modal-dialog uk-modal-body">
-            <h2 className="uk-modal-title" />
             <button
               className="uk-modal-close-default"
               type="button"

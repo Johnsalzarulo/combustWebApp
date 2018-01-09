@@ -182,7 +182,7 @@ const ExamplePosts = ({ user }) => (
             </p>
           </div>
           <div className="uk-card-footer">
-            <a href="#" className="uk-button uk-button-text">
+            <a className="uk-button uk-button-text">
               Read more
             </a>
           </div>
