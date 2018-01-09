@@ -67,7 +67,7 @@ class UsersStore {
 
   listenToPublicUserData(userId) {
     usersService.listenToPublicUserData(userId, (err, user) => {
-      this.usersMap.set(userId, user);
+      this.saveUserLocally(userId, user);
     });
   }
 
@@ -75,6 +75,7 @@ class UsersStore {
     if (!user) {
       return;
     }
+    user.displayName = user.email;
     user.id = userId;
     this.usersMap.set(userId, user);
   }
@@ -118,7 +119,7 @@ class UsersStore {
   saveClientUserLocally(userDataByPrivacy) {
     const { id, publicInfo, privateInfo, serverInfo } = userDataByPrivacy;
     if (publicInfo) {
-      this.usersMap.set(id, publicInfo);
+      this.saveUserLocally(id, publicInfo);
     }
     if (privateInfo) {
       this.privateInfo = privateInfo;
