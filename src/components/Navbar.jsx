@@ -1,4 +1,3 @@
-import NotificationNavItem from "./combust_examples/notifications/NotificationNavItem";
 import React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
@@ -13,7 +12,6 @@ const Navbar = observer(({ history }) => (
     <nav className="uk-navbar-container" uk-navbar="true">
       {renderNavLeft()}
       <div className="uk-navbar-right">
-<NotificationNavItem />
 
         {usersStore.user && (
           <div className="uk-navbar-item">{usersStore.user.email}</div>

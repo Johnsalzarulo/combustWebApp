@@ -3,8 +3,6 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 
 import "./styles/Users.css";
-import UserPosts from "../posts/UserPosts";
-import CreatePost from "../posts/CreatePost";
 
 @observer
 export default class Profile extends Component {
@@ -35,7 +33,8 @@ export default class Profile extends Component {
             <div
               className="uk-background-cover uk-height-medium uk-panel"
               style={{
-                backgroundImage: 'url("https://static.pexels.com/photos/459225/pexels-photo-459225.jpeg")'
+                backgroundImage:
+                  'url("https://static.pexels.com/photos/459225/pexels-photo-459225.jpeg")'
               }}
             >
               <div className="uk-text-large profile-name text-color-white">
@@ -111,8 +110,7 @@ export default class Profile extends Component {
               uk-grid="true"
             >
               <div className="uk-padding-large uk-background-muted">
-                {isMyProfile && <CreatePost />}
-                <UserPosts user={user} />
+                <ExamplePosts user={user} />
               </div>
               <div className="AboutMe uk-padding-large">
                 <h1>About me</h1>
@@ -147,3 +145,49 @@ const Icon = ({ type }) => {
   //eslint-disable-next-line
   return <a uk-icon={"icon: " + type} />;
 };
+
+const ExamplePosts = ({ user }) => (
+  <div className="ActivityPosts uk-flex uk-flex-top uk-flex-wrap">
+    {[0, 1, 2, 4, 5, 6, 7].map(i => {
+      return (
+        <div
+          key={i}
+          className="ActivityPost uk-card uk-card-default uk-width-1@m uk-margin-bottom"
+        >
+          <div className="uk-card-header">
+            <div className="uk-grid-small uk-flex-middle" uk-grid="true">
+              <div className="uk-width-auto">
+                {user &&
+                  user.iconUrl && (
+                    <img
+                      src={user.iconUrl}
+                      className="uk-border-circle"
+                      width="40"
+                      height="40"
+                      alt="User Avatar"
+                    />
+                  )}
+              </div>
+              <div className="uk-width-expand">
+                <h3 className="uk-card-title uk-margin-remove-bottom">Post</h3>
+                <p className="uk-text-meta uk-margin-remove-top">
+                  <time dateTime="2017-04-01T19:00">April 01, 2017</time>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="uk-card-body">
+            <p>
+              Run <code>combust install posts</code> to start creating posts!
+            </p>
+          </div>
+          <div className="uk-card-footer">
+            <a href="#" className="uk-button uk-button-text">
+              Read more
+            </a>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+);
