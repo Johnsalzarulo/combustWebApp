@@ -6,7 +6,6 @@ import Welcome from "./combust_examples/Welcome";
 import Profile from "./combust_examples/users/Profile";
 
 const Routes = props => {
-  let loginWrapper = () => <Login {...props} />;
   let welcomeWrapper = () => <Welcome {...props} />;
 
   return (
@@ -14,7 +13,6 @@ const Routes = props => {
       <Route exact path="/" component={welcomeWrapper} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
-
       <Route path="/profile/:userId" component={Profile} />
     </Switch>
   );

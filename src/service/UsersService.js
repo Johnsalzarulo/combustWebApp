@@ -98,7 +98,7 @@ class UsersService {
 
   listenToUser(uid, callback) {
     if (!uid) {
-      throw "no uid provided to listenToUser()";
+      throw new Error("no uid provided to listenToUser()");
     }
     ["publicInfo", "privateInfo", "serverInfo"].forEach(privacy => {
       firebase
@@ -130,7 +130,7 @@ class UsersService {
       .on("value", snapshot => {
         let friend = snapshot.val();
         if (!friend) {
-          callback(null, null);
+          return callback(null, null);
         }
         friend.id = userId;
         callback(null, friend);

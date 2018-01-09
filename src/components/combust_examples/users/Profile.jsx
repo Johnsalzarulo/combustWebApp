@@ -1,6 +1,7 @@
 import usersStore from "../../../stores/UsersStore";
 import React, { Component } from "react";
 import { observer } from "mobx-react";
+
 import "./styles/Users.css";
 
 @observer
@@ -32,7 +33,8 @@ export default class Profile extends Component {
             <div
               className="uk-background-cover uk-height-medium uk-panel"
               style={{
-                backgroundImage: 'url("https://lorempixel.com/600/200/nature")'
+                backgroundImage:
+                  'url("https://static.pexels.com/photos/459225/pexels-photo-459225.jpeg")'
               }}
             >
               <div className="uk-text-large profile-name text-color-white">
@@ -40,11 +42,11 @@ export default class Profile extends Component {
               </div>
             </div>
             <div className="uk-panel uk-flex uk-flex-center uk-flex-middle">
-              <div className="uk-position-bottom uk-card-primary uk-flex uk-flex-left uk-padding-small">
+              <div className="uk-position-bottom uk-card-primary uk-flex uk-flex-left uk-padding-small uk-box-shadow-large">
                 {userId && !isMyProfile ? (
                   <ul className="uk-iconnav nav-btns">
                     <li className="profile-nav-btn">
-                      <a href="#" uk-icon="icon: comment" />
+                      <Icon type="comment" />
                       <span
                         className="uk-link"
                         onClick={e => {
@@ -55,7 +57,8 @@ export default class Profile extends Component {
                       </span>
                     </li>
                     <li className="profile-nav-btn">
-                      <a href="#" uk-icon="icon: user" />
+                      <Icon type="user" />
+
                       <span
                         onClick={e => {
                           this.sendFriendRequest(userId);
@@ -66,7 +69,7 @@ export default class Profile extends Component {
                       </span>
                     </li>{" "}
                     <li className="profile-nav-btn">
-                      <a href="#" uk-icon="icon: star" />
+                      <Icon type="star" />
                       <span
                         onClick={e => {
                           this.followUser(userId);
@@ -83,7 +86,7 @@ export default class Profile extends Component {
                       className="profile-nav-btn"
                       onClick={e => alert("combust install profile-details")}
                     >
-                      <a href="#" uk-icon="icon: pencil" />
+                      <Icon type="pencil" />
                       <span className="uk-link">Edit Profile</span>
                     </li>
                   </ul>
@@ -93,10 +96,9 @@ export default class Profile extends Component {
                 {user &&
                   user.iconUrl && (
                     <img
-                      alt="Profile Picture"
                       src={user.iconUrl}
                       className="profile-pic"
-                      alt=""
+                      alt="profile"
                     />
                   )}
               </div>
@@ -139,6 +141,11 @@ export default class Profile extends Component {
   }
 }
 
+const Icon = ({ type }) => {
+  //eslint-disable-next-line
+  return <a uk-icon={"icon: " + type} />;
+};
+
 const ExamplePosts = ({ user }) => (
   <div className="ActivityPosts uk-flex uk-flex-top uk-flex-wrap">
     {[0, 1, 2, 4, 5, 6, 7].map(i => {
@@ -175,7 +182,7 @@ const ExamplePosts = ({ user }) => (
             </p>
           </div>
           <div className="uk-card-footer">
-            <a href="#" className="uk-button uk-button-text">
+            <a className="uk-button uk-button-text">
               Read more
             </a>
           </div>
