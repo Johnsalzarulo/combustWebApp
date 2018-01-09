@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
-import UserSearch from "./combust_examples/users/UserSearch";
+import UserSearch from "./users/UserSearch";
 import usersStore from "../stores/UsersStore";
 
 const Navbar = observer(({ history }) => (

@@ -3,8 +3,7 @@ import { observer } from "mobx-react";
 
 import Navbar from "./Navbar";
 import Routes from "./Routes";
-import usersStore from "../stores/UsersStore";
-import "./styles/App.css";
+import "../assets/styles/GlobalStyles.css";
 
 @observer
 export default class App extends Component {

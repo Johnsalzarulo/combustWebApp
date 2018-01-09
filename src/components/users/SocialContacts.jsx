@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 
-import usersStore from "../../../stores/UsersStore";
+import usersStore from "../../stores/UsersStore";
 import "./styles/Users.css";
 
 const componentsByMode = {};
@@ -41,7 +41,6 @@ export default class SocialContacts extends Component {
                         onClick={e => {
                           this.setMode(mode);
                         }}
-                        href="#"
                       >
                         {mode}
                       </a>
