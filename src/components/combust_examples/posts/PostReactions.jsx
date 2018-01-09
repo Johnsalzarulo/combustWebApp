@@ -7,10 +7,10 @@ const supportedReactions = [{ title: "like", icon: "heart" }];
 
 export default observer(({ post }) => {
   return (
-    <span className="reactions">
+    <span className="PostReactions">
       {supportedReactions.map(reaction => {
         const { title, icon } = reaction;
-        const userReacted = postStore.userDidReactToPost(post.id, title);
+        const userReacted = postStore.userDidReactToPost(title, post.id);
         const numReactions = postStore.getNumReactions(title, post.id);
         const capitalizedTitle =
           title && title.charAt(0).toUpperCase() + title.substring(1);

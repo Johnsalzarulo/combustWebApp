@@ -7,6 +7,9 @@ import postStore from "../../../stores/PostStore";
 import usersStore from "../../../stores/UsersStore";
 import PostReactions from "./PostReactions";
 
+const display = "nestedDisplayed_";
+const respond = "nestedResponse_";
+
 @observer
 export default class CommentTree extends Component {
   state = {
@@ -23,31 +26,31 @@ export default class CommentTree extends Component {
   };
 
   handleNestedResponseChange = (e, postId) => {
-    this.setState({ ["nestedResponse" + postId]: e.target.value });
+    this.setState({ [respond + postId]: e.target.value });
   };
 
   handleCommentKeyPress = (e, postId) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      postStore.addCommentToPost(this.state["nestedResponse" + postId], postId);
+      postStore.addCommentToPost(this.state[respond + postId], postId);
       this.openNestedComments(postId);
-      this.setState({ ["nestedResponse" + postId]: null });
+      this.setState({ [respond + postId]: null });
     }
   };
 
   showMoreComments = () => {
-    let totalCommentsDisplayed = this.state.totalCommentsDisplayed + 20;
+    const totalCommentsDisplayed = this.state.totalCommentsDisplayed + 10;
     this.setState({ totalCommentsDisplayed });
   };
 
   openNestedComments = commentId => {
-    this.setState({ ["nestedDisplayed" + commentId]: true });
+    this.setState({ [display + commentId]: true });
   };
 
   render() {
     const { commentIds, isNested } = this.props;
 
-    let displayedComments =
+    const displayedComments =
       this.state.totalCommentsDisplayed > commentIds.length
         ? commentIds
         : commentIds.slice(
@@ -72,11 +75,11 @@ export default class CommentTree extends Component {
                 id={id}
                 key={i}
                 isNested={isNested}
-                showNestedComments={this.state["nestedDisplayed" + id]}
+                showNestedComments={this.state[display + id]}
                 openNestedComments={this.openNestedComments}
                 handleCommentKeyPress={this.handleCommentKeyPress}
                 handleNestedResponseChange={this.handleNestedResponseChange}
-                currentReply={this.state["nestedResponse" + id]}
+                currentReply={this.state[respond + id]}
               />
             );
           })}
@@ -86,15 +89,16 @@ export default class CommentTree extends Component {
 }
 
 const Comment = observer(props => {
-  let comment = postStore.getPostById(props.id);
+  const comment = postStore.getPostById(props.id);
   if (!comment) {
     return <span />;
   }
   const author = usersStore.getUserById(comment.createdBy);
-  const replying = props.currentReply === "" || props.currentReply;
+  const isReplying = props.currentReply === "" || props.currentReply;
   const nestedCommentIds = comment.comments
     ? Object.keys(comment.comments)
     : [];
+  const date = moment(new Date(comment.createdAt)).format("MMM Do h:mm A");
 
   return (
     <div className="uk-grid-small uk-flex-top" uk-grid="true">
@@ -110,14 +114,17 @@ const Comment = observer(props => {
             />
           )}
       </div>
-
       <div className="uk-width-expand">
         {author && (
-          <Link to={`/profile/${comment.createdBy}`}>{author.email}</Link>
+          <Link to={`/profile/${comment.createdBy}`}>{author.displayName}</Link>
         )}{" "}
         {comment && <span className="uk-text-break">{comment.body}</span>}
         <br />
-        <span className="uk-text-meta uk-margin-small-right">
+        <span
+          className="uk-text-meta uk-margin-small-right"
+          title={date.toString()}
+          uk-tooltip="pos:top"
+        >
           {moment(comment.createdAt).fromNow()}
         </span>
         {!props.isNested && (
@@ -125,17 +132,17 @@ const Comment = observer(props => {
             <a
               onClick={e =>
                 props.handleNestedResponseChange(
-                  { target: { value: replying ? null : "" } },
+                  { target: { value: isReplying ? null : "" } },
                   props.id
                 )
               }
               className="uk-link"
             >
-              {replying ? "cancel" : "reply"}
+              {isReplying ? "cancel" : "reply"}
             </a>
 
             {nestedCommentIds.length > 0 &&
-              (props.showNestedComments || replying ? (
+              (props.showNestedComments || isReplying ? (
                 <CommentTree
                   commentIds={nestedCommentIds}
                   isNested={true} //nested comments can't be responded to
@@ -151,7 +158,7 @@ const Comment = observer(props => {
                   {nestedCommentIds.length > 1 ? "replies" : "reply"}
                 </a>
               ))}
-            {replying && (
+            {isReplying && (
               <textarea
                 className="uk-textarea uk-width-1-1 uk-margin-small-top"
                 onChange={e => props.handleNestedResponseChange(e, props.id)}

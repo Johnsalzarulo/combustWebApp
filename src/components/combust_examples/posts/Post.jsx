@@ -35,7 +35,7 @@ export default class Post extends Component {
       return <span />;
     }
 
-    const date = moment(new Date(post.createdAt)).format("MMM Do h:mmA");
+    const date = moment(new Date(post.createdAt)).format("MMM Do h:mm A");
     const commentIds = post.comments ? Object.keys(post.comments) : [];
 
     return (
@@ -59,7 +59,7 @@ export default class Post extends Component {
             </div>
             <div className="uk-width-expand">
               <h3 className="uk-card-title uk-margin-remove-bottom">
-                {user && user.email}
+                {user && user.displayName}
               </h3>
               <p className="uk-text-meta uk-margin-remove-top uk-flex uk-flex-between">
                 <time>{date.toString()}</time>

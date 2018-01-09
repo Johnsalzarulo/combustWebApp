@@ -133,17 +133,17 @@ class PostStore {
     postService.togglePostReaction(postId, userId, reaction, false);
   }
 
-  getNumReactions(reaction, postId) {
+  getNumReactions(reactionType, postId) {
     const post = this.postMap.get(postId);
-    const reactions = post && post.reactions ? post.reactions[reaction] : {};
+    const reactions = post && post.reactions ? post.reactions[reactionType] : {};
     return reactions ? Object.keys(reactions).length : 0;
   }
 
-  userDidReactToPost(postId, reaction) {
+  userDidReactToPost(reactionType, postId) {
     const post = this.postMap.get(postId);
 
     try {
-      return post.reactions[reaction][usersStore.userId];
+      return post.reactions[reactionType][usersStore.userId];
     } catch (nullPointer) {
       return false;
     }
