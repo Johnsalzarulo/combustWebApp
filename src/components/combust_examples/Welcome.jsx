@@ -33,7 +33,7 @@ export default class Welcome extends Component {
     return (
       <div className="Welcome uk-container uk-margin-medium-top">
         <div className="uk-heading-primary"> Welcome to your Combust app!</div>{" "}
-        <h4>To get going:</h4>
+        <h4>To get started:</h4>
         <hr className="uk-divider-icon" />
         <ul uk-accordion="multiple: true">
           <RenderDropdown
@@ -151,30 +151,34 @@ export default class Welcome extends Component {
                 </ToDoItem>
               </RenderDropdown>
             )}
-
           {firebaseConfigured &&
             emailAuthEnabled &&
             adminConfigured && (
               <RenderDropdown
-                completed={
-                  stores.chatStore &&
-                  stores.friendsStore &&
-                  stores.followersStore
-                }
-                title="Install Combust Modules"
+                completed={stores.friendsStore}
+                title="Install a Combust Module"
               >
-                <ToDoItem completed={stores.chatStore}>
-                  Add <b>messaging</b> from the terminal w/ the command:{" "}
-                  <code>combust install chat</code>
-                </ToDoItem>
+                <p>
+                  Modules allow you to rapidly add functionality to your app.
+                  Try it out:
+                </p>
                 <ToDoItem completed={stores.friendsStore}>
-                  Add <b>friends</b> functionality w/ the command:{" "}
+                  Add <b>friends</b> from your terminal w/ the command:{" "}
                   <code>combust install friends</code>
                 </ToDoItem>
-                <ToDoItem completed={stores.followersStore}>
-                  Add <b>followers</b> functionality w/ the command:{" "}
-                  <code>combust install followers</code>
-                </ToDoItem>
+                <br />
+              </RenderDropdown>
+            )}
+          {firebaseConfigured &&
+            emailAuthEnabled &&
+            adminConfigured &&
+            stores.friendsStore && (
+              <RenderDropdown title="Go In.">
+              <p>
+                <a href="http://www.example.com" className="uk-link">
+                You can browse popular combust modules here.
+                </a></p>
+                <p>You're ready to start experimenting. Good luck!</p>
               </RenderDropdown>
             )}
         </ul>
