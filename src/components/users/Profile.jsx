@@ -118,9 +118,9 @@ export default class Profile extends Component {
                   Run <code>combust install profile-details</code> to make this
                   editable :D
                 </p>
-                {[1, 2, 3, 4].map(() => {
+                {[1, 2, 3, 4].map(i => {
                   return (
-                    <p>
+                    <p key={i}>
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                       sed do eiusmod tempor incididunt ut labore et dolore magna
                       aliqua. Ut enim ad minim veniam, quis nostrud exercitation
