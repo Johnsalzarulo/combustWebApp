@@ -1,6 +1,5 @@
 # chat
 
-* when chat box is full/scrollable, userIsTyping doesn't snap chat to bottom
 * bug: users can create multiple grp chats w/same members
 
 # profile-details
