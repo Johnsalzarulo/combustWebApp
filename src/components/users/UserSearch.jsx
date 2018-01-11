@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 
-import userSearchService from "../../../service/UserSearchService";
+import userSearchService from "../../service/UserSearchService";
 import "./styles/Users.css";
 
 @observer

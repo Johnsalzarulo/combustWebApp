@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 
-import usersStore from "../../../stores/UsersStore";
+import usersStore from "../../stores/UsersStore";
 
 @observer
 export default class Register extends Component {

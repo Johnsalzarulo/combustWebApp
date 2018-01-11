@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
-import UserSearch from "./combust_examples/users/UserSearch";
+import UserSearch from "./users/UserSearch";
 import usersStore from "../stores/UsersStore";
 
 const Navbar = observer(({ history }) => (
@@ -12,7 +12,6 @@ const Navbar = observer(({ history }) => (
     <nav className="uk-navbar-container" uk-navbar="true">
       {renderNavLeft()}
       <div className="uk-navbar-right">
-
         {usersStore.user && (
           <div className="uk-navbar-item">{usersStore.user.email}</div>
         )}

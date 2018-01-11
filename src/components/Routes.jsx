@@ -1,9 +1,10 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import Login from "./combust_examples/users/Login";
-import Register from "./combust_examples/users/Register";
-import Welcome from "./combust_examples/Welcome";
-import Profile from "./combust_examples/users/Profile";
+
+import Login from "./users/Login";
+import Register from "./users/Register";
+import Welcome from "./Welcome";
+import Profile from "./users/Profile";
 
 const Routes = props => {
   let welcomeWrapper = () => <Welcome {...props} />;
