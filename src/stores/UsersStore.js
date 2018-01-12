@@ -1,6 +1,5 @@
 import { observable, computed } from "mobx";
 import usersService from "../service/UsersService";
-//DEPENDENCIES - none
 
 class UsersStore {
   clientUserEstablished = false;
@@ -119,6 +118,7 @@ class UsersStore {
   saveClientUserLocally(userDataByPrivacy) {
     const { id, publicInfo, privateInfo, serverInfo } = userDataByPrivacy;
     if (publicInfo) {
+      publicInfo.save = _updateUser;
       this.saveUserLocally(id, publicInfo);
     }
     if (privateInfo) {
@@ -160,3 +160,11 @@ class UsersStore {
 
 const usersStore = new UsersStore();
 export default usersStore;
+
+const _updateUser = function() {
+  const user = this;
+  const uid = user.id;
+  delete user.save;
+  delete user.id;
+  usersService.saveToUsersCollection(uid, { publicInfo: user });
+};

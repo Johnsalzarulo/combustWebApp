@@ -73,9 +73,10 @@
   bottom: 55px;
   left: 280px; }
 
-.Profile .profile-pic {
-  border-radius: 3px;
-  outline: 1px solid white;
+.Profile .ProfilePic img {
+  cursor: pointer;
+  border-radius: 5px;
+  border: 3px solid white;
   height: 230px;
   width: 230px; }
 

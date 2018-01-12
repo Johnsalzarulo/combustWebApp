@@ -2,6 +2,7 @@ import usersStore from "../../stores/UsersStore";
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 
+import { uploadDocument } from "../../service/FileService";
 import "./styles/Users.css";
 
 @observer
@@ -21,6 +22,15 @@ export default class Profile extends Component {
   sendFriendRequest(userId) {
     alert("combust install friends");
   }
+
+  uploadProfilePicture = (e, user) => {
+    const profilePic = this.refs.profilePic.files[0];
+    uploadDocument(profilePic, "images/", (err, res) => {
+      if (err) return console.error(err);
+      user.iconUrl = res.url;
+      user.save();
+    });
+  };
 
   render() {
     const userId = this.props.match.params.userId;
@@ -92,14 +102,31 @@ export default class Profile extends Component {
                   </ul>
                 )}
               </div>
-              <div className="uk-position-bottom-left uk-margin-small-left uk-margin-small-bottom">
+              <div className="ProfilePic uk-position-bottom-left uk-margin-small-left uk-margin-small-bottom">
                 {user &&
                   user.iconUrl && (
-                    <img
-                      src={user.iconUrl}
-                      className="profile-pic"
-                      alt="profile"
-                    />
+                    <div
+                      className="uk-inline-clip uk-transition-toggle"
+                      tabindex="0"
+                    >
+                      <label>
+                        <img src={user.iconUrl} alt="" />
+                        {isMyProfile && (
+                          <div className="uk-position-center uk-light profile-uploadIcon">
+                            <span
+                              className="uk-transition-fade"
+                              uk-icon="icon: plus; ratio: 2"
+                            />
+                          </div>
+                        )}
+                        <input
+                          onChange={e => this.uploadProfilePicture(e, user)}
+                          type="file"
+                          ref="profilePic"
+                          style={{ display: "none" }}
+                        />
+                      </label>
+                    </div>
                   )}
               </div>
             </div>

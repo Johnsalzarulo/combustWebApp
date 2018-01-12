@@ -90,11 +90,14 @@
     bottom: 55px;
     left: 280px;
   }
-  .profile-pic {
-    border-radius: 3px;
-    outline: 1px solid white;
-    height: 230px;
-    width: 230px;
+  .ProfilePic {
+    img {
+      cursor: pointer;
+      border-radius: 5px;
+      border: 3px solid white;
+      height: 230px;
+      width: 230px;
+    }
   }
   .nav-btns {
     margin-left: 280px;
