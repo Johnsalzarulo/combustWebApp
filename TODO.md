@@ -1,6 +1,7 @@
-# chat
+# general
 
-* bug: users can create multiple grp chats w/same members
+* update modules to follow patterns set by generate templates
+* default image upload tool
 
 # profile-details
 
