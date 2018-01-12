@@ -38,11 +38,13 @@ const renderNavLeft = () => {
 
   return (
     <div className="uk-navbar-left">
-      <img
-        className="uk-navbar-item uk-logo"
-        src="https://www.kpifire.com/wp-content/themes/kpifire/images/logo_footer.png"
-        alt=""
-      />
+      <Link to="/">
+        <img
+          className="uk-navbar-item uk-logo"
+          src="https://www.kpifire.com/wp-content/themes/kpifire/images/logo_footer.png"
+          alt=""
+        />
+      </Link>
       <div className="uk-navbar-item">
         <Link to="/">Home</Link>
       </div>
