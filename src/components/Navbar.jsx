@@ -48,12 +48,13 @@ const renderNavLeft = () => {
       <div className="uk-navbar-item">
         <Link to="/">Home</Link>
       </div>
-      <div className="uk-navbar-item">
-        {usersStore.userId && (
+      {usersStore.userId && (
+        <div className="uk-navbar-item">
           <Link to={"/profile/" + usersStore.userId}>My Profile</Link>
-        )}
-      </div>
+        </div>
+      )}
       {additionalLinks &&
+        usersStore.userId &&
         additionalLinks.map((linkJsx, i) => {
           return (
             <div key={i} className="uk-navbar-item">
