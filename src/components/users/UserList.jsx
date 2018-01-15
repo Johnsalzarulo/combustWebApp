@@ -7,6 +7,10 @@ const UserList = observer(({ users, onUserClicked, title }) => {
       {users &&
         Object.keys(users).map((userId, i) => {
           const user = users[userId];
+          if (!user) {
+            return <span />;
+          }
+
           return (
             <div
               key={i}
