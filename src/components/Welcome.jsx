@@ -25,10 +25,7 @@ export default class Welcome extends Component {
 
   render() {
     let { firebaseConfigured, emailAuthEnabled, projectId } = welcomeStore;
-
     const user = usersStore.user;
-    const adminConfigured =
-      user && usersStore.serverInfo && usersStore.serverInfo.isAdmin;
 
     return (
       <div className="Welcome uk-container uk-margin-medium-top">
@@ -89,21 +86,21 @@ export default class Welcome extends Component {
               </div>
             ) : (
               <div>
-                {" "}
-                You may do this in the terminal with:{" "}
-                <code>combust configure</code>
-                <hr className="uk-divider-small" />
-                Or apply the firebase config manually.{" "}
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://console.firebase.google.com/u/0/project/_/overview"
-                >
-                  Select your project and click "Add firebase to your webapp".
-                </a>{" "}
-                <br />
-                Apply the JSON object to <code>firebaseConfig</code> in{" "}
-                <code>src/.combust/config.js</code>
+                <ul className="uk-list uk-list-bullet">
+                  <li>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href="https://accounts.google.com/ServiceLogin/signinchooser?passive=1209600&osid=1&continue=https%3A%2F%2Fconsole.firebase.google.com%2F&followup=https%3A%2F%2Fconsole.firebase.google.com%2F&flowName=GlifWebSignIn&flowEntry=ServiceLogin"
+                    >
+                      Create a firebase project if you don't have one.
+                    </a>{" "}
+                  </li>
+                  <li>
+                    Link your project to this app from the terminal with:{" "}
+                    <code>combust configure</code>
+                  </li>
+                </ul>
               </div>
             )}
           </RenderDropdown>
@@ -124,12 +121,7 @@ export default class Welcome extends Component {
           )}
           {firebaseConfigured &&
             emailAuthEnabled && (
-              <RenderDropdown
-                completed={
-                  user && usersStore.serverInfo && usersStore.serverInfo.isAdmin
-                }
-                title="Create a User"
-              >
+              <RenderDropdown completed={user} title="Create a User">
                 <ToDoItem completed={user}>
                   <Link
                     to="/register"
@@ -143,17 +135,10 @@ export default class Welcome extends Component {
                     Create your first user account
                   </Link>
                 </ToDoItem>
-                <ToDoItem completed={adminConfigured}>
-                  Mark the account as an admin by executing{" "}
-                  <code>
-                    combust admin {user ? user.email : "your_email@abc.com"}
-                  </code>
-                </ToDoItem>
               </RenderDropdown>
             )}
           {firebaseConfigured &&
-            emailAuthEnabled &&
-            adminConfigured && (
+            emailAuthEnabled && (
               <RenderDropdown
                 completed={stores.friendsStore}
                 title="Install a Combust Module"
@@ -171,11 +156,14 @@ export default class Welcome extends Component {
             )}
           {firebaseConfigured &&
             emailAuthEnabled &&
-            adminConfigured &&
             stores.friendsStore && (
               <RenderDropdown title="Go In.">
                 <p>
-                  <a href="http://www.example.com" className="uk-link">
+                  <a
+                    href="https://joeroddy.github.io/combust/modules.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     You can browse popular combust modules here.
                   </a>
                 </p>

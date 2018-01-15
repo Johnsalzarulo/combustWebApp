@@ -84,14 +84,15 @@ class UsersStore {
    */
   createUser(user, callback) {
     if (!user || !user.email || !user.password) {
+      debugger;
       return callback({
         message: "You must provide an email and password"
       });
     }
 
     usersService.createUser(user, (err, userDataByPrivacy) => {
-      if (err) return callback({ message: err });
-      this.saveClientUserLocally(userDataByPrivacy);
+      if (err) return callback(err);
+      _saveCurrentUserLocally(userDataByPrivacy);
       callback(err, userDataByPrivacy);
     });
   }
@@ -138,7 +139,7 @@ const _listenToCurrentUser = function() {
     } else {
       //new data
       let shouldExecEstablished = !usersStore.user && userData.publicInfo;
-      _saveClientUserLocally(userData);
+      _saveCurrentUserLocally(userData);
       if (shouldExecEstablished) {
         _handleUserEstablished();
       }
@@ -178,7 +179,7 @@ const _handleUserEstablished = function() {
   }
 };
 
-const _saveClientUserLocally = function(userDataByPrivacy) {
+const _saveCurrentUserLocally = function(userDataByPrivacy) {
   const { id, publicInfo, privateInfo, serverInfo } = userDataByPrivacy;
   if (publicInfo) {
     publicInfo.save = _updateUser;
