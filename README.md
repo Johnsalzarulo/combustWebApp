@@ -2,6 +2,6 @@
 2. Add config to src/models/index
 3. enable email, google, && anonymous auth
 
-`
-npm install && npm start
-`
+`npm install && npm start`
+
+To deploy, execute `npm run deploy`
