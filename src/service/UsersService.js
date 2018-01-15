@@ -11,7 +11,7 @@ class UsersService {
       .auth()
       .createUserWithEmailAndPassword(user.email, user.password)
       .then(res => {
-        let userDataByPrivacy = {
+        const userDataByPrivacy = {
           publicInfo: _getPublicUserObject(user.email),
           privateInfo: _getPrivateUserObject(),
           serverInfo: _getServerUserObject()
@@ -44,13 +44,13 @@ class UsersService {
   }
 
   listenToCurrentUser(callback) {
-    let db = firebase.database();
+    const db = firebase.database();
     firebase.auth().onAuthStateChanged(userAuth => {
       console.log("authStateChange, user:", userAuth);
       if (userAuth) {
-        let userRef = db.ref("users/publicInfo/" + userAuth.uid);
+        const userRef = db.ref("users/publicInfo/" + userAuth.uid);
         userRef.once("value").then(snap => {
-          let userData = snap.val();
+          const userData = snap.val();
           if (userData) {
             userRef.child("lastOnline").update(new Date());
             _applyLstenersForCurrentUser(userAuth.uid, (err, data) => {
@@ -71,7 +71,7 @@ class UsersService {
       .database()
       .ref("users/publicInfo/" + userId)
       .on("value", snapshot => {
-        let friend = snapshot.val();
+        const friend = snapshot.val();
         if (!friend) {
           return callback(null, null);
         }
@@ -81,8 +81,8 @@ class UsersService {
   }
 
   login(user, callback) {
-    let auth = firebase.auth();
-    let db = firebase.database();
+    const auth = firebase.auth();
+    const db = firebase.database();
     auth.signInWithEmailAndPassword(user.email, user.password).then(
       res => {
         callback(null, res);
@@ -97,11 +97,11 @@ class UsersService {
         callback(err);
       }
     );
-    this.monitorOnlineStatus();
+    _monitorOnlineStatus();
   }
 
   logout(user) {
-    let auth = firebase.auth();
+    const auth = firebase.auth();
     if (!auth.currentUser) {
       return;
     }
@@ -190,8 +190,8 @@ const _monitorOnlineStatus = function() {
     return;
   }
   const uid = currentUser.uid;
-  let amOnline = firebase.database().ref("/.info/connected");
-  let userRef = firebase
+  const amOnline = firebase.database().ref("/.info/connected");
+  const userRef = firebase
     .database()
     .ref("/users/publicInfo/" + uid + "/isOnline");
   amOnline.on("value", snapshot => {
