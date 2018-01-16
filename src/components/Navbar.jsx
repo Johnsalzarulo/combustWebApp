@@ -13,7 +13,7 @@ const Navbar = observer(({ history }) => (
       {renderNavLeft()}
       <div className="uk-navbar-right">
         {userStore.user && (
-          <div className="uk-navbar-item">{userStore.user.email}</div>
+          <div className="uk-navbar-item">{userStore.user.displayName}</div>
         )}
         <div className="uk-navbar-item">
           {userStore.user ? (
