@@ -14,7 +14,5 @@ export function initializeStores() {
   for (let storeName in stores) {
     const store = stores[storeName];
     store.init && store.init();
-    //TODO: refactor subscribeToEvents to init() in modules
-    store.subscribeToEvents && store.subscribeToEvents();
   }
 }
