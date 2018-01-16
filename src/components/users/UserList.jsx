@@ -1,6 +1,8 @@
 import React from "react";
 import { observer } from "mobx-react";
 
+import Avatar from "../reusable/Avatar";
+
 const UserList = observer(({ users, onUserClicked, title }) => {
   return (
     <div>
@@ -18,7 +20,7 @@ const UserList = observer(({ users, onUserClicked, title }) => {
               className="User uk-flex uk-flex-between uk-flex-nowrap uk-flex-middle"
             >
               <span className="avatarAndName">
-                <img className="avatar" src={user.iconUrl} alt="" />
+                <Avatar src={user.iconUrl} height={30} />
                 <span className="userName">{user.email}</span>
               </span>
               <span

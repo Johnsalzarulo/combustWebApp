@@ -2,14 +2,13 @@ import usersStore from "../../stores/UsersStore";
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 
+import Icon from "../reusable/Icon";
 import { uploadDocument } from "../../service/FileService";
 import "./styles/Users.css";
 
 @observer
 export default class Profile extends Component {
   state = {};
-
-  componentDidMount() {}
 
   openConversationWithUser = userId => {
     alert("combust install chat");
@@ -167,11 +166,6 @@ export default class Profile extends Component {
     );
   }
 }
-
-const Icon = ({ type }) => {
-  //eslint-disable-next-line
-  return <a uk-icon={"icon: " + type} />;
-};
 
 const ExamplePosts = ({ user }) => (
   <div className="ActivityPosts uk-flex uk-flex-top uk-flex-wrap">
