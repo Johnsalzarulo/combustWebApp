@@ -138,7 +138,8 @@ export default class Welcome extends Component {
               </RenderDropdown>
             )}
           {firebaseConfigured &&
-            emailAuthEnabled && (
+            emailAuthEnabled &&
+            user && (
               <RenderDropdown
                 completed={stores.friendsStore}
                 title="Install a Combust Module"
