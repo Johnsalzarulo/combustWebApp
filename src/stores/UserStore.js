@@ -204,7 +204,9 @@ const _savePublicUserInfo = function(userId, user) {
   if (!user) {
     return;
   }
-  user.displayName = user.email;
+  user.displayName = user[displayNameField];
   user.id = userId;
   userStore.usersMap.set(userId, user);
 };
+
+export const displayNameField = "email";
