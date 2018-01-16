@@ -1,5 +1,5 @@
 import firebase from "firebase";
-import usersStore from "../stores/UsersStore";
+import userStore from "../stores/UserStore";
 
 class UserSearchService {
   loaded = false;
@@ -17,7 +17,7 @@ class UserSearchService {
         userData &&
           Object.keys(userData).forEach(uid => {
             let user = userData[uid];
-            if (uid === usersStore.userId || !user) {
+            if (uid === userStore.userId || !user) {
               return;
             }
             user.id = uid;

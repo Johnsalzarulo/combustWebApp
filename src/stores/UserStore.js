@@ -1,7 +1,7 @@
 import { observable, computed } from "mobx";
-import usersService from "../service/UsersService";
+import userService from "../service/UserService";
 
-class UsersStore {
+class UserStore {
   @observable userId = null;
   @observable usersMap = new Map();
 
@@ -64,14 +64,14 @@ class UsersStore {
    * @param {function} callback
    */
   login(user, callback) {
-    usersService.login(user, callback);
+    userService.login(user, callback);
   }
 
   /**
    * logs out the current user
    */
   logout() {
-    usersService.logout(this.user);
+    userService.logout(this.user);
   }
 
   /**
@@ -90,7 +90,7 @@ class UsersStore {
       });
     }
 
-    usersService.createUser(user, (err, userDataByPrivacy) => {
+    userService.createUser(user, (err, userDataByPrivacy) => {
       if (err) return callback(err);
       _saveCurrentUserLocally(userDataByPrivacy);
       callback(err, userDataByPrivacy);
@@ -117,8 +117,8 @@ class UsersStore {
   }
 }
 
-const usersStore = new UsersStore();
-export default usersStore;
+const userStore = new UserStore();
+export default userStore;
 
 //Private members. Not accessible from views.
 
@@ -126,19 +126,19 @@ let _onLoginTriggers = [];
 let _onLogoutTriggers = [];
 
 const _listenToCurrentUser = function() {
-  usersService.listenToCurrentUser((err, userData) => {
+  userService.listenToCurrentUser((err, userData) => {
     if (err) {
       debugger;
       return;
     } else if (!userData) {
       //user logged out
-      if (usersStore.userId) {
+      if (userStore.userId) {
         _handleUserLogout();
       }
-      usersStore.userId = null;
+      userStore.userId = null;
     } else {
       //new data
-      let shouldExecEstablished = !usersStore.user && userData.publicInfo;
+      let shouldExecEstablished = !userStore.user && userData.publicInfo;
       _saveCurrentUserLocally(userData);
       if (shouldExecEstablished) {
         _handleUserEstablished();
@@ -152,11 +152,11 @@ const _updateUser = function() {
   const uid = user.id;
   delete user.save;
   delete user.id;
-  usersService.saveToUsersCollection(uid, { publicInfo: user });
+  userService.saveToUsersCollection(uid, { publicInfo: user });
 };
 
 const _handleUserLogout = function() {
-  const user = usersStore.fullUser;
+  const user = userStore.fullUser;
   //module hooks
   try {
     _onLogoutTriggers.forEach(event => {
@@ -168,7 +168,7 @@ const _handleUserLogout = function() {
 };
 
 const _handleUserEstablished = function() {
-  const user = usersStore.fullUser;
+  const user = userStore.fullUser;
   //module hooks
   try {
     _onLoginTriggers.forEach(event => {
@@ -186,16 +186,16 @@ const _saveCurrentUserLocally = function(userDataByPrivacy) {
     _savePublicUserInfo(id, publicInfo);
   }
   if (privateInfo) {
-    usersStore.privateInfo = privateInfo;
+    userStore.privateInfo = privateInfo;
   }
   if (serverInfo) {
-    usersStore.serverInfo = serverInfo;
+    userStore.serverInfo = serverInfo;
   }
-  usersStore.userId = id;
+  userStore.userId = id;
 };
 
 const _listenToPublicUserData = function(userId) {
-  usersService.listenToUser(userId, (err, user) => {
+  userService.listenToUser(userId, (err, user) => {
     _savePublicUserInfo(userId, user);
   });
 };
@@ -206,5 +206,5 @@ const _savePublicUserInfo = function(userId, user) {
   }
   user.displayName = user.email;
   user.id = userId;
-  usersStore.usersMap.set(userId, user);
+  userStore.usersMap.set(userId, user);
 };

@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 
 import welcomeStore from "../stores/WelcomeStore";
-import usersStore from "../stores/UsersStore";
+import userStore from "../stores/UserStore";
 import { stores } from "../.combust/init";
 import SocialContacts from "./users/SocialContacts";
 const availApps = require("../.combust/availApps.json");
@@ -25,7 +25,7 @@ export default class Welcome extends Component {
 
   render() {
     let { firebaseConfigured, emailAuthEnabled, projectId } = welcomeStore;
-    const user = usersStore.user;
+    const user = userStore.user;
 
     return (
       <div className="Welcome uk-container uk-margin-medium-top">

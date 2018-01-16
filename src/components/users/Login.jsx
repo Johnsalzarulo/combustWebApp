@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 
-import usersStore from "../../stores/UsersStore";
+import userStore from "../../stores/UserStore";
 
 @observer
 export default class Login extends Component {
@@ -13,7 +13,7 @@ export default class Login extends Component {
   };
 
   componentWillUpdate(nextProps) {
-    if (usersStore.user) {
+    if (userStore.user) {
       this.props.history.push("/");
     }
   }
@@ -24,7 +24,7 @@ export default class Login extends Component {
       email: this.state.email,
       password: this.state.password
     };
-    usersStore.login(user, (err, userData) => {
+    userStore.login(user, (err, userData) => {
       err
         ? this.setState({ errMessage: err.message })
         : this.props.history.push("/");

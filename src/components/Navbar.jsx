@@ -2,7 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
 import UserSearch from "./users/UserSearch";
-import usersStore from "../stores/UsersStore";
+import userStore from "../stores/UserStore";
 
 const Navbar = observer(({ history }) => (
   <div
@@ -12,12 +12,12 @@ const Navbar = observer(({ history }) => (
     <nav className="uk-navbar-container" uk-navbar="true">
       {renderNavLeft()}
       <div className="uk-navbar-right">
-        {usersStore.user && (
-          <div className="uk-navbar-item">{usersStore.user.email}</div>
+        {userStore.user && (
+          <div className="uk-navbar-item">{userStore.user.email}</div>
         )}
         <div className="uk-navbar-item">
-          {usersStore.user ? (
-            <Link onClick={e => usersStore.logout()} to="/login">
+          {userStore.user ? (
+            <Link onClick={e => userStore.logout()} to="/login">
               Logout
             </Link>
           ) : (
@@ -48,13 +48,13 @@ const renderNavLeft = () => {
       <div className="uk-navbar-item">
         <Link to="/">Home</Link>
       </div>
-      {usersStore.userId && (
+      {userStore.userId && (
         <div className="uk-navbar-item">
-          <Link to={"/profile/" + usersStore.userId}>My Profile</Link>
+          <Link to={"/profile/" + userStore.userId}>My Profile</Link>
         </div>
       )}
       {additionalLinks &&
-        usersStore.userId &&
+        userStore.userId &&
         additionalLinks.map((linkJsx, i) => {
           return (
             <div key={i} className="uk-navbar-item">

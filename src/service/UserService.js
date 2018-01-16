@@ -1,6 +1,6 @@
 import firebase from "firebase";
 
-class UsersService {
+class UserService {
   createUser(user, callback) {
     if (!user || !user.email || !user.password) {
       throw new Error(
@@ -126,8 +126,8 @@ class UsersService {
   }
 }
 
-const usersService = new UsersService();
-export default usersService;
+const userService = new UserService();
+export default userService;
 
 const _applyLstenersForCurrentUser = function(uid, callback) {
   if (!uid) {

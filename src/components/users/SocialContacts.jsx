@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 
-import usersStore from "../../stores/UsersStore";
+import userStore from "../../stores/UserStore";
 import "./styles/Users.css";
 
 const componentsByMode = {};
@@ -17,7 +17,7 @@ export default class SocialContacts extends Component {
   };
 
   render() {
-    if (!this.state.mode || !usersStore.user) {
+    if (!this.state.mode || !userStore.user) {
       return <span />;
     }
 
