@@ -152,6 +152,7 @@ const _updateUser = function() {
   const uid = user.id;
   delete user.save;
   delete user.id;
+  delete user.displayName;
   userService.saveToUsersCollection(uid, { publicInfo: user });
 };
 
