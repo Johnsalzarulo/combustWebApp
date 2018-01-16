@@ -47,10 +47,10 @@ export default class UserSearch extends Component {
                     onClick={e => {
                       this.openProfile(user);
                     }}
-                    className="userSearch-result uk-flex uk-flex-middle"
+                    className="userSearch-result uk-flex uk-flex-middle uk-text-truncate"
                   >
                     <Avatar src={user.iconUrl} height={30} />
-                    {user[displayNameField]}{" "}
+                    {user[displayNameField]}
                   </div>
                 </div>
               );
