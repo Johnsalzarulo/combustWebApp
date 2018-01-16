@@ -1,8 +1,8 @@
-import usersStore from "../stores/UsersStore";
+import userStore from "../stores/UserStore";
 import { firebaseConfig } from "./config";
 
 export const stores = {
-  usersStore
+  userStore
 };
 
 export function initializeStores() {
