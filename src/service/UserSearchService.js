@@ -1,11 +1,12 @@
 import firebase from "firebase";
 import userStore from "../stores/UserStore";
 
+//This is temporary.  You must replace this with a separate
+//search solution in order to scale
 class UserSearchService {
   loaded = false;
-  users = [];
 
-  getUserData = () => {
+  loadUserData = () => {
     this.loaded = true;
     firebase
       .database()
@@ -13,30 +14,26 @@ class UserSearchService {
       .once("value")
       .then(snap => {
         let userData = snap.val();
-        let users = [];
         userData &&
           Object.keys(userData).forEach(uid => {
-            let user = userData[uid];
-            if (uid === userStore.userId || !user) {
-              return;
-            }
-            user.id = uid;
-            users.push(user);
+            userStore.getUserById(uid);
           });
-        this.users = users;
       });
   };
 
   searchByField(query, field) {
     if (!this.loaded) {
-      this.getUserData();
+      this.loadUserData();
     }
     if (!query) {
       return [];
     }
-    return this.users.filter(user => {
+    const users = userStore.usersMap.values();
+    return users.filter(user => {
       return (
-        !user[field] || user[field].toUpperCase().includes(query.toUpperCase())
+        user.id !== userStore.userId &&
+        (!user[field] ||
+          user[field].toUpperCase().includes(query.toUpperCase()))
       );
     });
   }

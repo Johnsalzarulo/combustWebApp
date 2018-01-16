@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 
-import { displayNameField } from "../../stores/UserStore";
 import userSearchService from "../../service/UserSearchService";
 import Avatar from "../reusable/Avatar";
 import "./styles/Users.css";
@@ -15,7 +14,7 @@ export default class UserSearch extends Component {
 
   handleSearch = e => {
     let query = e.target.value;
-    let results = userSearchService.searchByField(query, displayNameField);
+    let results = userSearchService.searchByField(query, "displayName");
     this.setState({ results, query });
   };
 
@@ -33,7 +32,7 @@ export default class UserSearch extends Component {
             className="uk-search-input"
             type="search"
             value={this.state.query}
-            placeholder="Search by email.."
+            placeholder="Search for users.."
             onChange={this.handleSearch}
             results={5}
           />
@@ -41,6 +40,7 @@ export default class UserSearch extends Component {
         {this.state.results.length > 0 && (
           <div className="uk-card uk-card-default uk-card-body searchResults">
             {this.state.results.map((user, i) => {
+              debugger;
               return (
                 <div key={i}>
                   <div
@@ -50,7 +50,7 @@ export default class UserSearch extends Component {
                     className="userSearch-result uk-flex uk-flex-middle uk-text-truncate"
                   >
                     <Avatar src={user.iconUrl} height={30} />
-                    {user[displayNameField]}
+                    {user.displayName}
                   </div>
                 </div>
               );
