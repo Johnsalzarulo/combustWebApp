@@ -11,17 +11,25 @@
 .text-color-white {
   color: white !important; }
 
-.UserSearch .searchResults {
-  position: absolute;
-  top: 60px;
-  right: 10px;
+.UserSearch form {
   z-index: 2; }
+
+.UserSearch .searchResults {
+  z-index: 2;
+  position: absolute;
+  top: 50px;
+  right: 30px;
+  width: 170px;
+  padding: 0px;
+  padding-left: 0px;
+  padding-right: 0px; }
 
 .UserSearch .userSearch-result {
   padding: 5px;
+  padding-left: 15px;
   cursor: pointer; }
-  .UserSearch .userSearch-result button {
-    margin-left: 5px; }
+  .UserSearch .userSearch-result img {
+    margin-right: 8px; }
   .UserSearch .userSearch-result:hover {
     background-color: #ececec; }
 

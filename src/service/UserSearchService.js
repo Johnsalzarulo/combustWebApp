@@ -43,5 +43,4 @@ class UserSearchService {
 }
 
 const userSearchService = new UserSearchService();
-
 export default userSearchService;

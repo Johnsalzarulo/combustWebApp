@@ -46,8 +46,8 @@ export default class Profile extends Component {
                   'url("https://static.pexels.com/photos/459225/pexels-photo-459225.jpeg")'
               }}
             >
-              <div className="uk-text-large profile-name text-color-white">
-                {user && user.email}
+              <div className="uk-text-large profile-name uk-text-white">
+                {user && user.displayName}
               </div>
             </div>
             <div className="uk-panel uk-flex uk-flex-center uk-flex-middle">

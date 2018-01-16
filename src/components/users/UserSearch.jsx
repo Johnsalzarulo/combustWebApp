@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 
+import { displayNameField } from "../../stores/UserStore";
 import userSearchService from "../../service/UserSearchService";
+import Avatar from "../reusable/Avatar";
 import "./styles/Users.css";
 
 @observer
@@ -13,7 +15,7 @@ export default class UserSearch extends Component {
 
   handleSearch = e => {
     let query = e.target.value;
-    let results = userSearchService.searchByField(query, "email");
+    let results = userSearchService.searchByField(query, displayNameField);
     this.setState({ results, query });
   };
 
@@ -45,14 +47,23 @@ export default class UserSearch extends Component {
                     onClick={e => {
                       this.openProfile(user);
                     }}
-                    className="userSearch-result uk-flex uk-flex-between uk-flex-middle"
+                    className="userSearch-result uk-flex uk-flex-middle"
                   >
-                    {user.email}{" "}
+                    <Avatar src={user.iconUrl} height={30} />
+                    {user[displayNameField]}{" "}
                   </div>
                 </div>
               );
             })}
           </div>
+        )}
+        {this.state.query !== "" && (
+          <span
+            className="onClickOutside"
+            onClick={e => {
+              this.setState({ results: [], query: "" });
+            }}
+          />
         )}
       </div>
     );
