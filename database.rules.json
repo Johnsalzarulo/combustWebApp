@@ -19,7 +19,13 @@
       "serverInfo": {
         "$uid": {
           ".read": "$uid === auth.uid",
-          ".write": false
+          ".write": "!data.exists()",
+          "isAdmin": {
+            ".validate": "newData.val()===false"
+          },
+          "walletBalance": {
+            ".validate": "newData.val()===0"
+          }
         }
       }
     }

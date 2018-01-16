@@ -179,6 +179,7 @@ const _getPrivateUserObject = function() {
 const _getServerUserObject = function() {
   return {
     //user-only-readable, server-only writeable
+    //new fields should be validated in database.rules.json
     walletBalance: 0,
     isAdmin: false
   };
