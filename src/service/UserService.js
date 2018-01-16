@@ -11,8 +11,9 @@ class UserService {
       .auth()
       .createUserWithEmailAndPassword(user.email, user.password)
       .then(res => {
+        delete user.password;
         const userDataByPrivacy = {
-          publicInfo: _getPublicUserObject(user.email),
+          publicInfo: Object.assign(_getPublicUserObject(user.email), user),
           privateInfo: _getPrivateUserObject(),
           serverInfo: _getServerUserObject()
         };
