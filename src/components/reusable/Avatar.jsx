@@ -1,9 +1,9 @@
 import React from "react";
 
-export default ({ src, height, width, onClick }) => {
+const Avatar = ({ src, height, width, onClick }) => {
   return (
     <img
-      className="Icon"
+      className="Avatar"
       src={src}
       style={{ height: height, width: width || height, borderRadius: "50%" }}
       onClick={e => onClick && onClick()}
@@ -11,3 +11,5 @@ export default ({ src, height, width, onClick }) => {
     />
   );
 };
+
+export default Avatar;
