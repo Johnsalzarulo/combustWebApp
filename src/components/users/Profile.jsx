@@ -35,6 +35,7 @@ export default class Profile extends Component {
     const userId = this.props.match.params.userId;
     const user = userStore.getUserById(userId);
     const isMyProfile = userId === userStore.userId;
+    
     return (
       <div className="Profile" uk-height-viewport="true">
         <div>
@@ -104,10 +105,7 @@ export default class Profile extends Component {
               <div className="ProfilePic uk-position-bottom-left uk-margin-small-left uk-margin-small-bottom">
                 {user &&
                   user.iconUrl && (
-                    <div
-                      className="uk-inline-clip uk-transition-toggle"
-                      tabindex="0"
-                    >
+                    <div className="uk-inline-clip uk-transition-toggle">
                       <label>
                         <img src={user.iconUrl} alt="" />
                         {isMyProfile && (
