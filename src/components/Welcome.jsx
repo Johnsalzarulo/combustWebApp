@@ -141,14 +141,14 @@ export default class Welcome extends Component {
             emailAuthEnabled &&
             user && (
               <RenderDropdown
-                completed={stores.friendsStore}
+                completed={stores.friendStore}
                 title="Install a Combust Module"
               >
                 <p>
                   Modules allow you to rapidly add functionality to your app.
                   Try it out:
                 </p>
-                <ToDoItem completed={stores.friendsStore}>
+                <ToDoItem completed={stores.friendStore}>
                   Add <b>friends</b> from your terminal w/ the command:{" "}
                   <code>combust install friends</code>
                 </ToDoItem>
@@ -157,7 +157,7 @@ export default class Welcome extends Component {
             )}
           {firebaseConfigured &&
             emailAuthEnabled &&
-            stores.friendsStore && (
+            stores.friendStore && (
               <RenderDropdown title="Go In.">
                 <p>
                   <a
@@ -167,6 +167,18 @@ export default class Welcome extends Component {
                   >
                     You can browse popular combust modules here.
                   </a>
+                </p>
+                <p>
+                  To create your own custom modules, you can use the{" "}
+                  <b>generate</b> command like so: <br />
+                  <b>combust generate [moduleName] [fieldName]:[dataType]</b>
+                </p>
+                <p>
+                  Try it out:{" "}
+                  <code>
+                    combust generate blogs title:string blogImg:image body:text
+                    isImportant:boolean score:number
+                  </code>
                 </p>
                 <p>You're ready to start experimenting. Good luck!</p>
               </RenderDropdown>
