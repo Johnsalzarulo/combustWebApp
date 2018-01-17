@@ -8,11 +8,16 @@ export const uploadDocument = (file, path, callback) => {
 
   const docRef = firebase.storage().ref(`${path}/${pushId}`);
 
-  docRef.put(file).then(snapshot => {
-    const response = {
-      url: snapshot.downloadURL,
-      id: pushId
-    };
-    callback(null, response);
-  });
+  docRef
+    .put(file)
+    .then(snapshot => {
+      const response = {
+        url: snapshot.downloadURL,
+        id: pushId
+      };
+      callback(null, response);
+    })
+    .catch(err => {
+      callback(err);
+    });
 };

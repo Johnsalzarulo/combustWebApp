@@ -3,7 +3,6 @@
 * remove lodash from web proj
 * update modules to follow patterns set by generate templates
 * generate: support group owned items, multiple data objects per new service (ie chat: conversations, messages)
-* generate: support booleans
 
 # profile-details
 

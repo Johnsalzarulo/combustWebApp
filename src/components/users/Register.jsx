@@ -6,7 +6,7 @@ import userStore from "../../stores/UserStore";
 import Form from "../reusable/Form";
 
 const fields = {
-  //legal data types: string, text, number, boolean
+  //legal data types: string, text, number, boolean, image
   email: "string",
   password: "string"
 };
