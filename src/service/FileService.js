@@ -6,7 +6,12 @@ export const uploadDocument = (file, path, callback) => {
     .ref()
     .push().key;
 
-  const docRef = firebase.storage().ref(`${path}/${pushId}`);
+  let docRef;
+  try { //not yet configured
+    docRef = firebase.storage().ref(`${path}/${pushId}`);
+  } catch (err) {
+    return callback(err);
+  }
 
   docRef
     .put(file)

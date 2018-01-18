@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { observer } from "mobx-react";
 
 import Icon from "../reusable/Icon";
+import { firebaseConfig } from "../../.combust/config";
 import { uploadDocument } from "../../service/FileService";
 import "./styles/Users.css";
 
@@ -23,6 +24,11 @@ export default class Profile extends Component {
   }
 
   uploadProfilePicture = (e, user) => {
+    if (!firebaseConfig.storageBucket) {
+      return prompt(`Ensure you've enabled storage first, then re-execute:\n combust conbigure ${firebaseConfig.projectId}`,
+        `https://console.firebase.google.com/project/${firebaseConfig.projectId}/storage/files`);
+    }
+
     const profilePic = this.refs.profilePic.files[0];
     uploadDocument(profilePic, "images/", (err, res) => {
       if (err) return console.error(err);
@@ -35,7 +41,7 @@ export default class Profile extends Component {
     const userId = this.props.match.params.userId;
     const user = userStore.getUserById(userId);
     const isMyProfile = userId === userStore.userId;
-    
+
     return (
       <div className="Profile" uk-height-viewport="true">
         <div>
@@ -91,16 +97,16 @@ export default class Profile extends Component {
                     </li>
                   </ul>
                 ) : (
-                  <ul className="uk-iconnav nav-btns">
-                    <li
-                      className="profile-nav-btn"
-                      onClick={e => alert("combust install profile-details")}
-                    >
-                      <Icon type="pencil" />
-                      <span className="uk-link">Edit Profile</span>
-                    </li>
-                  </ul>
-                )}
+                    <ul className="uk-iconnav nav-btns">
+                      <li
+                        className="profile-nav-btn"
+                        onClick={e => alert("combust install profile-details")}
+                      >
+                        <Icon type="pencil" />
+                        <span className="uk-link">Edit Profile</span>
+                      </li>
+                    </ul>
+                  )}
               </div>
               <div className="ProfilePic uk-position-bottom-left uk-margin-small-left uk-margin-small-bottom">
                 {user &&

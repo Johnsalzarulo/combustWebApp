@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 
+import { firebaseConfig } from "../../.combust/config";
 import { uploadDocument } from "../../service/FileService";
 
 export default class Form extends Component {
@@ -35,7 +36,10 @@ export default class Form extends Component {
           errMessage:
             err.code === "storage/unauthorized"
               ? "User must be logged in to upload files."
-              : err.message
+              : <span>Err: <a className="uk-link" target="_blank" rel="noopener noreferrer"
+                href={`https://console.firebase.google.com/project/${firebaseConfig.projectId}/storage/files`}>
+                Enable storage</a>, then execute: <code>combust configure {firebaseConfig.projectId}</code>
+              </span>
         });
       }
       this.setState({ [field]: res.url });
@@ -111,17 +115,38 @@ export default class Form extends Component {
                 {type === "image" && (
                   <span>
                     {this.state[field] ||
-                    (defaultValues && defaultValues[field]) ? (
-                      <div className="uk-inline-clip uk-transition-toggle">
+                      (defaultValues && defaultValues[field]) ? (
+                        <div className="uk-inline-clip uk-transition-toggle">
+                          <label>
+                            <img
+                              src={
+                                this.state[field]
+                                  ? this.state[field]
+                                  : defaultValues[field]
+                              }
+                              alt=""
+                            />
+                            <div className="uk-position-center uk-light profile-uploadIcon">
+                              <span
+                                className="uk-transition-fade"
+                                uk-icon="icon: plus; ratio: 2"
+                              />
+                            </div>
+                            <input
+                              onChange={e => this.uploadImage(field)}
+                              type="file"
+                              ref={field}
+                              style={{ display: "none" }}
+                            />
+                          </label>
+                        </div>
+                      ) : (
                         <label>
-                          <img
-                            src={
-                              this.state[field]
-                                ? this.state[field]
-                                : defaultValues[field]
-                            }
-                            alt=""
-                          />
+
+                          <div className="uk-placeholder uk-background-muted uk-width-2-3 uk-text-center">
+                            <span uk-icon="icon: image" />
+                            {"  " + field}
+                          </div>
                           <div className="uk-position-center uk-light profile-uploadIcon">
                             <span
                               className="uk-transition-fade"
@@ -135,28 +160,7 @@ export default class Form extends Component {
                             style={{ display: "none" }}
                           />
                         </label>
-                      </div>
-                    ) : (
-                  <label>
-                      
-                      <div className="uk-placeholder uk-background-muted uk-width-2-3 uk-text-center">
-                        <span uk-icon="icon: image" />
-                        {"  " + field}
-                      </div>
-                    <div className="uk-position-center uk-light profile-uploadIcon">
-                      <span
-                        className="uk-transition-fade"
-                        uk-icon="icon: plus; ratio: 2"
-                      />
-                    </div>
-                    <input
-                      onChange={e => this.uploadImage(field)}
-                      type="file"
-                      ref={field}
-                      style={{ display: "none" }}
-                    />
-                  </label>
-                )}
+                      )}
                   </span>
                 )}
               </div>
