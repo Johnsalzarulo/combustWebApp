@@ -25,8 +25,14 @@ export default class Profile extends Component {
 
   uploadProfilePicture = (e, user) => {
     if (!firebaseConfig.storageBucket) {
-      return prompt(`Ensure you've enabled storage first, then re-execute:\n combust conbigure ${firebaseConfig.projectId}`,
-        `https://console.firebase.google.com/project/${firebaseConfig.projectId}/storage/files`);
+      return prompt(
+        `Ensure you've enabled storage first, then re-execute:\n combust conbigure ${
+          firebaseConfig.projectId
+        }`,
+        `https://console.firebase.google.com/project/${
+          firebaseConfig.projectId
+        }/storage/files`
+      );
     }
 
     const profilePic = this.refs.profilePic.files[0];
@@ -97,16 +103,16 @@ export default class Profile extends Component {
                     </li>
                   </ul>
                 ) : (
-                    <ul className="uk-iconnav nav-btns">
-                      <li
-                        className="profile-nav-btn"
-                        onClick={e => alert("combust install profile-details")}
-                      >
-                        <Icon type="pencil" />
-                        <span className="uk-link">Edit Profile</span>
-                      </li>
-                    </ul>
-                  )}
+                  <ul className="uk-iconnav nav-btns">
+                    <li
+                      className="profile-nav-btn"
+                      onClick={e => alert("combust install profile-details")}
+                    >
+                      <Icon type="pencil" />
+                      <span className="uk-link">Edit Profile</span>
+                    </li>
+                  </ul>
+                )}
               </div>
               <div className="ProfilePic uk-position-bottom-left uk-margin-small-left uk-margin-small-bottom">
                 {user &&
@@ -144,10 +150,6 @@ export default class Profile extends Component {
               </div>
               <div className="AboutMe uk-padding-large">
                 <h1>About me</h1>
-                <p>
-                  Run <code>combust install profile-details</code> to make this
-                  editable :D
-                </p>
                 {[1, 2, 3, 4].map(i => {
                   return (
                     <p key={i}>

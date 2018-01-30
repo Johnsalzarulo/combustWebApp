@@ -1,6 +1,8 @@
 import React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
+
+import * as iconURI from "../assets/images/logo.png";
 import UserSearch from "./users/UserSearch";
 import userStore from "../stores/UserStore";
 
@@ -39,11 +41,7 @@ const renderNavLeft = () => {
   return (
     <div className="uk-navbar-left">
       <Link to="/">
-        <img
-          className="uk-navbar-item uk-logo"
-          src="https://www.kpifire.com/wp-content/themes/kpifire/images/logo_footer.png"
-          alt=""
-        />
+        <img className="uk-navbar-item uk-logo" src={iconURI} alt="" />
       </Link>
       <div className="uk-navbar-item">
         <Link to="/">Home</Link>
