@@ -24,20 +24,18 @@ export default class Profile extends Component {
   }
 
   uploadProfilePicture = (e, user) => {
-    if (!firebaseConfig.storageBucket) {
-      return prompt(
-        `Ensure you've enabled storage first, then re-execute:\n combust conbigure ${
-          firebaseConfig.projectId
-        }`,
-        `https://console.firebase.google.com/project/${
-          firebaseConfig.projectId
-        }/storage/files`
-      );
-    }
-
     const profilePic = this.refs.profilePic.files[0];
     uploadDocument(profilePic, "images/", (err, res) => {
-      if (err) return console.error(err);
+      if (err) {
+        return prompt(
+          `Ensure you've enabled storage first, then re-execute:\n  combust configure ${
+            firebaseConfig.projectId
+          }\n\nVisit here to enable storage: `,
+          `https://console.firebase.google.com/project/${
+            firebaseConfig.projectId
+          }/storage/files`
+        );
+      }
       user.iconUrl = res.url;
       user.save();
     });
