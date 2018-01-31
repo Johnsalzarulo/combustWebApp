@@ -170,14 +170,9 @@ export default class Welcome extends Component {
                 </p>
                 <p>
                   To create your own custom modules, you can use the{" "}
-                  <b>generate</b> command like so: <br />
-                  <b>combust generate [moduleName] [fieldName]:[dataType]</b>
-                </p>
-                <p>
-                  Try it out:{" "}
+                  <b>generate</b> command: <br />
                   <code>
-                    combust generate blogs title:string blogImg:image body:text
-                    isImportant:boolean score:number
+                    combust generate blogs title:string body:text introImg:image
                   </code>
                 </p>
                 <p>You're ready to start experimenting. Good luck!</p>
