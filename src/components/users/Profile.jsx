@@ -24,18 +24,20 @@ export default class Profile extends Component {
   }
 
   uploadProfilePicture = (e, user) => {
+    if (!firebaseConfig.storageBucket) {
+      return prompt(
+        `Ensure you've enabled storage first, then re-execute:\n combust conbigure ${
+          firebaseConfig.projectId
+        }`,
+        `https://console.firebase.google.com/project/${
+          firebaseConfig.projectId
+        }/storage/files`
+      );
+    }
+
     const profilePic = this.refs.profilePic.files[0];
     uploadDocument(profilePic, "images/", (err, res) => {
-      if (err) {
-        return prompt(
-          `Ensure you've enabled storage first, then re-execute:\n  combust configure ${
-            firebaseConfig.projectId
-          }\n\nVisit here to enable storage: `,
-          `https://console.firebase.google.com/project/${
-            firebaseConfig.projectId
-          }/storage/files`
-        );
-      }
+      if (err) return console.error(err);
       user.iconUrl = res.url;
       user.save();
     });
@@ -102,12 +104,18 @@ export default class Profile extends Component {
                   </ul>
                 ) : (
                   <ul className="uk-iconnav nav-btns">
-                    <li
-                      className="profile-nav-btn"
-                      onClick={e => alert("combust install profile-details")}
-                    >
-                      <Icon type="pencil" />
-                      <span className="uk-link">Edit Profile</span>
+                    <li className="profile-nav-btn">
+                      <label>
+                        <input
+                          onChange={e => this.uploadProfilePicture(e, user)}
+                          type="file"
+                          ref="profilePic"
+                          style={{ display: "none" }}
+                        />
+
+                        <Icon type="image" />
+                        <span className="uk-link">Change Avatar</span>
+                      </label>
                     </li>
                   </ul>
                 )}
