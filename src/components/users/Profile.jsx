@@ -161,7 +161,7 @@ export default class Profile extends Component {
               <div className="uk-padding-large uk-background-muted">
                 <ExamplePosts user={user} />
               </div>
-              <div className="AboutMe uk-padding-large">
+              <div className="uk-padding-large uk-background-default">
                 <h1>About me</h1>
                 {[1, 2, 3, 4].map(i => {
                   return (
