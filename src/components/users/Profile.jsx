@@ -49,8 +49,12 @@ export default class Profile extends Component {
     const user = userStore.getUserById(userId);
     const isMyProfile = userId === userStore.userId;
 
+    if (!user) {
+      return <span />;
+    }
+
     return (
-      <div className="Profile" uk-height-viewport="true">
+      <div className="Profile">
         <div>
           <div>
             <div
@@ -61,7 +65,7 @@ export default class Profile extends Component {
               }}
             >
               <div className="uk-text-large profile-name uk-text-white">
-                {user && user.displayName}
+                {user.displayName}
               </div>
             </div>
             <div className="uk-panel uk-flex uk-flex-center uk-flex-middle">
@@ -81,7 +85,6 @@ export default class Profile extends Component {
                     </li>
                     <li className="profile-nav-btn">
                       <Icon type="user" />
-
                       <span
                         onClick={e => {
                           this.sendFriendRequest(userId);
@@ -128,28 +131,27 @@ export default class Profile extends Component {
                 )}
               </div>
               <div className="ProfilePic uk-position-bottom-left uk-margin-small-left uk-margin-small-bottom">
-                {user &&
-                  user.iconUrl && (
-                    <div className="uk-inline-clip uk-transition-toggle">
-                      <label>
-                        <img src={user.iconUrl} alt="" />
-                        {isMyProfile && (
-                          <div className="uk-position-center uk-light profile-uploadIcon">
-                            <span
-                              className="uk-transition-fade"
-                              uk-icon="icon: plus; ratio: 2"
-                            />
-                          </div>
-                        )}
-                        <input
-                          onChange={e => this.uploadProfilePicture(e, user)}
-                          type="file"
-                          ref="profilePic"
-                          style={{ display: "none" }}
-                        />
-                      </label>
-                    </div>
-                  )}
+                {user.iconUrl && (
+                  <div className="uk-inline-clip uk-transition-toggle">
+                    <label>
+                      <img src={user.iconUrl} alt="" />
+                      {isMyProfile && (
+                        <div className="uk-position-center uk-light profile-uploadIcon">
+                          <span
+                            className="uk-transition-fade"
+                            uk-icon="icon: plus; ratio: 2"
+                          />
+                        </div>
+                      )}
+                      <input
+                        onChange={e => this.uploadProfilePicture(e, user)}
+                        type="file"
+                        ref="profilePic"
+                        style={{ display: "none" }}
+                      />
+                    </label>
+                  </div>
+                )}
               </div>
             </div>
           </div>
