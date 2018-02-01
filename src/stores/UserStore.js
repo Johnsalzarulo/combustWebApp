@@ -154,6 +154,7 @@ const _updateUser = function() {
   delete user.id;
   delete user.displayName;
   userService.saveToUsersCollection(uid, { publicInfo: user });
+  _savePublicUserInfo(uid, user); //reapply deleted properties
 };
 
 const _handleUserLogout = function() {
@@ -183,7 +184,6 @@ const _handleUserEstablished = function() {
 const _saveCurrentUserLocally = function(userDataByPrivacy) {
   const { id, publicInfo, privateInfo, serverInfo } = userDataByPrivacy;
   if (publicInfo) {
-    publicInfo.save = _updateUser;
     _savePublicUserInfo(id, publicInfo);
   }
   if (privateInfo) {
@@ -206,6 +206,7 @@ const _savePublicUserInfo = function(userId, user) {
     return;
   }
   user.displayName = user.email;
+  user.save = _updateUser;
   user.id = userId;
   userStore.usersMap.set(userId, user);
 };

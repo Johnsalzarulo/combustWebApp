@@ -1,6 +1,7 @@
 import userStore from "../../stores/UserStore";
 import React, { Component } from "react";
 import { observer } from "mobx-react";
+import { Link } from "react-router-dom";
 
 import Icon from "../reusable/Icon";
 import { firebaseConfig } from "../../.combust/config";
@@ -116,6 +117,12 @@ export default class Profile extends Component {
                         <Icon type="image" />
                         <span className="uk-link">Change Avatar</span>
                       </label>
+                    </li>
+                    <li className="profile-nav-btn">
+                      <Link to="/updateUser">
+                        <Icon type="file-edit" />
+                        <span className="uk-link">Update Info</span>
+                      </Link>
                     </li>
                   </ul>
                 )}

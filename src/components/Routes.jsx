@@ -5,6 +5,7 @@ import Login from "./users/Login";
 import Register from "./users/Register";
 import Welcome from "./Welcome";
 import Profile from "./users/Profile";
+import UpdateUser from "./users/UpdateUser";
 
 const Routes = props => {
   let welcomeWrapper = () => <Welcome {...props} />;
@@ -15,6 +16,7 @@ const Routes = props => {
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/profile/:userId" component={Profile} />
+      <Route path="/updateUser" component={UpdateUser} />
     </Switch>
   );
 };

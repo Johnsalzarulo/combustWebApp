@@ -54,7 +54,7 @@ export default class Welcome extends Component {
                       return (
                         <tr
                           key={app.id}
-                          uk-toggle="target: #my-id"
+                          uk-toggle="target: #firebase-app"
                           onClick={e => {
                             this.setModalText(
                               <span>
@@ -180,7 +180,7 @@ export default class Welcome extends Component {
             )}
         </ul>
         <SocialContacts />
-        <div id="my-id" uk-modal="true">
+        <div id="firebase-app" uk-modal="true">
           <div className="uk-modal-dialog uk-modal-body">
             <button
               className="uk-modal-close-default"
