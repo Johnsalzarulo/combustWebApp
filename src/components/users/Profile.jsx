@@ -119,8 +119,8 @@ export default class Profile extends Component {
                       </label>
                     </li>
                     <li className="profile-nav-btn">
+                      <Icon type="file-edit" />
                       <Link to="/updateUser">
-                        <Icon type="file-edit" />
                         <span className="uk-link">Update Info</span>
                       </Link>
                     </li>

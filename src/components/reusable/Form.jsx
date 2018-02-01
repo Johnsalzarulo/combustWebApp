@@ -34,12 +34,24 @@ export default class Form extends Component {
       if (err) {
         return this.setState({
           errMessage:
-            err.code === "storage/unauthorized"
-              ? "User must be logged in to upload files."
-              : <span>Err: <a className="uk-link" target="_blank" rel="noopener noreferrer"
-                href={`https://console.firebase.google.com/project/${firebaseConfig.projectId}/storage/files`}>
-                Enable storage</a>, then execute: <code>combust configure {firebaseConfig.projectId}</code>
+            err.code === "storage/unauthorized" ? (
+              "User must be logged in to upload files."
+            ) : (
+              <span>
+                Err:{" "}
+                <a
+                  className="uk-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`https://console.firebase.google.com/project/${
+                    firebaseConfig.projectId
+                  }/storage/files`}
+                >
+                  Enable storage
+                </a>, then execute:{" "}
+                <code>combust configure {firebaseConfig.projectId}</code>
               </span>
+            )
         });
       }
       this.setState({ [field]: res.url });
@@ -48,9 +60,13 @@ export default class Form extends Component {
 
   getInputValue = field => {
     const { defaultValues } = this.props;
+    const cameled = camelCase(field);
+
     return this.state[field] != null
       ? this.state[field]
-      : defaultValues && defaultValues[field] ? defaultValues[field] : "";
+      : defaultValues && defaultValues[field]
+        ? defaultValues[field]
+        : defaultValues && defaultValues[cameled] ? defaultValues[cameled] : "";
   };
 
   render() {
@@ -71,50 +87,50 @@ export default class Form extends Component {
             const type = fields[field];
             return (
               <div className="uk-margin" key={field}>
-                {type === "text" && (
-                  <textarea
-                    className="uk-textarea uk-form-width-large"
-                    onChange={e => {
-                      this.setState({ [field]: e.target.value });
-                    }}
-                    value={this.getInputValue(field)}
-                    placeholder={field}
-                  />
-                )}
-                {(type === "string" || type === "number") && (
-                  <input
-                    className="uk-input uk-form-width-medium"
-                    onChange={e => {
-                      this.setState({ [field]: e.target.value });
-                    }}
-                    placeholder={
-                      field.charAt(0).toUpperCase() + field.substring(1)
-                    }
-                    type={
-                      field === "password"
-                        ? field
-                        : type === "string" ? "text" : "number"
-                    }
-                    value={this.getInputValue(field)}
-                  />
-                )}
-                {type === "boolean" && (
-                  <label>
+                <label className="uk-form-label" for="form-stacked-text">
+                  {field}
+                </label>
+                <div class="uk-form-controls">
+                  {type === "text" && (
+                    <textarea
+                      className="uk-textarea uk-form-width-large"
+                      onChange={e => {
+                        this.setState({ [field]: e.target.value });
+                      }}
+                      value={this.getInputValue(field)}
+                    />
+                  )}
+                  {(type === "string" || type === "number") && (
                     <input
-                      className="uk-radio"
-                      type="checkbox"
-                      name={field}
-                      onChange={e =>
-                        this.setState({ [field]: e.target.checked })
+                      className="uk-input uk-form-width-medium"
+                      onChange={e => {
+                        this.setState({ [field]: e.target.value });
+                      }}
+                      type={
+                        field === "password"
+                          ? field
+                          : type === "string" ? "text" : "number"
                       }
-                      checked={this.getInputValue(field)}
-                    />{" "}
-                    {field}
-                  </label>
-                )}
-                {type === "image" && (
-                  <span>
-                    {this.state[field] ||
+                      value={this.getInputValue(field)}
+                    />
+                  )}
+                  {type === "boolean" && (
+                    <label>
+                      <input
+                        className="uk-radio"
+                        type="checkbox"
+                        name={field}
+                        onChange={e =>
+                          this.setState({ [field]: e.target.checked })
+                        }
+                        checked={this.getInputValue(field)}
+                      />{" "}
+                      {field}
+                    </label>
+                  )}
+                  {type === "image" && (
+                    <span>
+                      {this.state[field] ||
                       (defaultValues && defaultValues[field]) ? (
                         <div className="uk-inline-clip uk-transition-toggle">
                           <label>
@@ -142,7 +158,6 @@ export default class Form extends Component {
                         </div>
                       ) : (
                         <label>
-
                           <div className="uk-placeholder uk-background-muted uk-width-2-3 uk-text-center">
                             <span uk-icon="icon: image" />
                             {"  " + field}
@@ -161,8 +176,9 @@ export default class Form extends Component {
                           />
                         </label>
                       )}
-                  </span>
-                )}
+                    </span>
+                  )}
+                </div>
               </div>
             );
           })}
