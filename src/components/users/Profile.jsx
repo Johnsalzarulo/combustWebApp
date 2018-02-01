@@ -153,7 +153,10 @@ export default class Profile extends Component {
               </div>
             </div>
           </div>
-          <div className="uk-background-muted uk-flex uk-flex-center">
+          <div
+            className="uk-background-muted uk-flex uk-flex-center"
+            uk-height-viewport="expand: true"
+          >
             <div
               className="ProfileContent uk-grid-collapse uk-width-auto uk-child-width-1-2@s uk-flex-left"
               uk-grid="true"
