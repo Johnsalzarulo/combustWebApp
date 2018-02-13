@@ -87,10 +87,10 @@ export default class Form extends Component {
             const type = fields[field];
             return (
               <div className="uk-margin" key={field}>
-                <label className="uk-form-label" for="form-stacked-text">
+                <label className="uk-form-label" htmlFor="form-stacked-text">
                   {field}
                 </label>
-                <div class="uk-form-controls">
+                <div className="uk-form-controls">
                   {type === "text" && (
                     <textarea
                       className="uk-textarea uk-form-width-large"
