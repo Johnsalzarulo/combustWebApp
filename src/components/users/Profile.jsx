@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import Icon from "../reusable/Icon";
 import { firebaseConfig } from "../../.combust/config";
-import { uploadDocument } from "../../service/FileService";
+import { uploadDocument } from "../../db/FileDb";
 import "./styles/Users.scss";
 
 @observer

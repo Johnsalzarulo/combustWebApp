@@ -1,10 +1,10 @@
 import firebase from "firebase";
 
-class UserService {
+class UserDb {
   createUser(user, callback) {
     if (!user || !user.email || !user.password) {
       throw new Error(
-        `UserService.create(): requires a user object with an email && password`
+        `UserDb.create(): requires a user object with an email && password`
       );
     }
     firebase
@@ -127,8 +127,8 @@ class UserService {
   }
 }
 
-const userService = new UserService();
-export default userService;
+const userDb = new UserDb();
+export default userDb;
 
 const _applyLstenersForCurrentUser = function(uid, callback) {
   if (!uid) {

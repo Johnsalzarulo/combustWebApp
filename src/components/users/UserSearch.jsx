@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 
-import userSearchService from "../../service/UserSearchService";
+import userSearchDb from "../../db/UserSearchDb";
 import Avatar from "../reusable/Avatar";
 import "./styles/Users.scss";
 
@@ -14,7 +14,7 @@ export default class UserSearch extends Component {
 
   handleSearch = e => {
     let query = e.target.value;
-    let results = userSearchService.searchByField(query, "displayName");
+    let results = userSearchDb.searchByField(query, "displayName");
     this.setState({ results, query });
   };
 

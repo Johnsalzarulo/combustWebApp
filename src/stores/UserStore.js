@@ -1,5 +1,5 @@
 import { observable, computed } from "mobx";
-import userService from "../service/UserService";
+import userDb from "../db/UserDb";
 
 class UserStore {
   @observable userId = null;
@@ -64,14 +64,14 @@ class UserStore {
    * @param {function} callback
    */
   login(user, callback) {
-    userService.login(user, callback);
+    userDb.login(user, callback);
   }
 
   /**
    * logs out the current user
    */
   logout() {
-    userService.logout(this.user);
+    userDb.logout(this.user);
   }
 
   /**
@@ -90,7 +90,7 @@ class UserStore {
       });
     }
 
-    userService.createUser(user, (err, userDataByPrivacy) => {
+    userDb.createUser(user, (err, userDataByPrivacy) => {
       if (err) return callback(err);
       _saveCurrentUserLocally(userDataByPrivacy);
       callback(err, userDataByPrivacy);
@@ -126,7 +126,7 @@ let _onLoginTriggers = [];
 let _onLogoutTriggers = [];
 
 const _listenToCurrentUser = function() {
-  userService.listenToCurrentUser((err, userData) => {
+  userDb.listenToCurrentUser((err, userData) => {
     if (err) {
       debugger;
       return;
@@ -153,7 +153,7 @@ const _updateUser = function() {
   delete user.save;
   delete user.id;
   delete user.displayName;
-  userService.saveToUsersCollection(uid, { publicInfo: user });
+  userDb.saveToUsersCollection(uid, { publicInfo: user });
   _savePublicUserInfo(uid, user); //reapply deleted properties
 };
 
@@ -196,7 +196,7 @@ const _saveCurrentUserLocally = function(userDataByPrivacy) {
 };
 
 const _listenToPublicUserData = function(userId) {
-  userService.listenToUser(userId, (err, user) => {
+  userDb.listenToUser(userId, (err, user) => {
     _savePublicUserInfo(userId, user);
   });
 };

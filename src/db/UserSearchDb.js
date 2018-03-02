@@ -3,7 +3,7 @@ import userStore from "../stores/UserStore";
 
 //This is temporary.  You must replace this with a separate
 //search solution in order to scale
-class UserSearchService {
+class UserSearchDb {
   loaded = false;
 
   loadUserData = () => {
@@ -39,5 +39,5 @@ class UserSearchService {
   }
 }
 
-const userSearchService = new UserSearchService();
-export default userSearchService;
+const userSearchDb = new UserSearchDb();
+export default userSearchDb;
