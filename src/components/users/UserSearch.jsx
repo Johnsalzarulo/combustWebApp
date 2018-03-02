@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 
 import userSearchService from "../../service/UserSearchService";
 import Avatar from "../reusable/Avatar";
-import "./styles/Users.css";
+import "./styles/Users.scss";
 
 @observer
 export default class UserSearch extends Component {

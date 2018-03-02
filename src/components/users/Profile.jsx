@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Icon from "../reusable/Icon";
 import { firebaseConfig } from "../../.combust/config";
 import { uploadDocument } from "../../service/FileService";
-import "./styles/Users.css";
+import "./styles/Users.scss";
 
 @observer
 export default class Profile extends Component {
