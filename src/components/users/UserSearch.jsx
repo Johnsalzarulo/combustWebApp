@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 
-import userSearchDb from "../../db/UserSearchDb";
+import userDb from "../../db/UserDb";
 import Avatar from "../reusable/Avatar";
 import "./styles/Users.scss";
 
@@ -12,9 +12,10 @@ export default class UserSearch extends Component {
     query: ""
   };
 
+  // You must implement a custom search solution to scale
   handleSearch = e => {
     let query = e.target.value;
-    let results = userSearchDb.searchByField(query, "displayName");
+    let results = userDb.searchByField(query, "displayName");
     this.setState({ results, query });
   };
 

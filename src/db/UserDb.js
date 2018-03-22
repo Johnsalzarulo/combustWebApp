@@ -1,4 +1,5 @@
 import firebase from "firebase";
+import userStore from "../stores/UserStore";
 
 class UserDb {
   createUser(user, callback) {
@@ -124,6 +125,39 @@ class UserDb {
    */
   getAuthToken() {
     return firebase.auth().currentUser.getToken(/* forceRefresh */ true);
+  }
+
+  usersLoaded = false;
+  loadUserData = () => {
+    this.usersLoaded = true;
+    firebase
+      .database()
+      .ref("users/publicInfo")
+      .once("value")
+      .then(snap => {
+        let userData = snap.val();
+        userData &&
+          Object.keys(userData).forEach(uid => {
+            userStore.getUserById(uid);
+          });
+      });
+  };
+
+  searchByField(query, field) {
+    if (!this.usersLoaded) {
+      this.loadUserData();
+    }
+    if (!query) {
+      return [];
+    }
+    const users = userStore.usersMap.values();
+    return users.filter(user => {
+      return (
+        user.id !== userStore.userId &&
+        (!user[field] ||
+          user[field].toUpperCase().includes(query.toUpperCase()))
+      );
+    });
   }
 }
 
