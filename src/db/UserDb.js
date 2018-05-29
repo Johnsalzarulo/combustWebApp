@@ -19,8 +19,8 @@ class UserDb {
           serverInfo: _getServerUserObject()
         };
 
-        this.saveToUsersCollection(res.uid, userDataByPrivacy);
-        userDataByPrivacy.id = res.uid;
+        this.saveToUsersCollection(res.user.uid, userDataByPrivacy);
+        userDataByPrivacy.id = res.user.uid;
         return callback(null, userDataByPrivacy);
       })
       .catch(error => {
@@ -29,37 +29,53 @@ class UserDb {
       });
   }
 
+  /**
+   * returns a promise representing the user's
+   * publicInfo update, if it changed
+   * @param {*} uid
+   * @param {*} userDataByPrivacy
+   */
   saveToUsersCollection(uid, userDataByPrivacy) {
     if (!uid) {
       return;
     }
+
+    let firebaseUpdatePromise = null;
     ["publicInfo", "privateInfo", "serverInfo"].forEach(privacy => {
       const data = userDataByPrivacy[privacy];
       if (data) {
-        firebase
+        let prom = firebase
           .database()
           .ref("/users/" + privacy)
           .child(uid)
           .update(data);
+        firebaseUpdatePromise =
+          privacy === "publicInfo" ? prom : firebaseUpdatePromise;
       }
     });
+    return firebaseUpdatePromise;
   }
 
   listenToCurrentUser(callback) {
     const db = firebase.database();
     firebase.auth().onAuthStateChanged(userAuth => {
-      console.log("authStateChange, user:", userAuth);
       if (userAuth) {
         const userRef = db.ref("users/publicInfo/" + userAuth.uid);
         userRef.once("value").then(snap => {
           const userData = snap.val();
           if (userData) {
-            userRef.child("lastOnline").update(new Date());
-            _applyLstenersForCurrentUser(userAuth.uid, (err, data) => {
+            userRef.update({ lastOnline: new Date().getTime() });
+            _applyListenersForCurrentUser(userAuth.uid, (err, data) => {
               if (err) return callback(err);
               data.id = userAuth.uid;
               callback(null, data);
             });
+          } else if (
+            !snap.exists() &&
+            userAuth.providerData &&
+            userAuth.providerData[0].providerId !== "password"
+          ) {
+            _createUserFromThirdPartyAuth(userAuth, callback);
           }
         });
       } else {
@@ -88,9 +104,10 @@ class UserDb {
     auth.signInWithEmailAndPassword(user.email, user.password).then(
       res => {
         callback(null, res);
+        const { uid } = res.user;
         db
           .ref("users/publicInfo")
-          .child(res.uid)
+          .child(uid)
           .update({
             isOnline: true
           });
@@ -111,12 +128,12 @@ class UserDb {
     if (!user) {
       throw new Error("No user provided to logout");
     }
+    auth.signOut();
     firebase
       .database()
       .ref("users/publicInfo")
       .child(user.id)
       .update({ isOnline: false });
-    auth.signOut();
   }
 
   /**
@@ -151,20 +168,24 @@ class UserDb {
       return [];
     }
     const users = userStore.usersMap.values();
-    return users.filter(user => {
+    let i = Array.from(users).filter(user => {
       return (
         user.id !== userStore.userId &&
-        (!user[field] ||
-          user[field].toUpperCase().includes(query.toUpperCase()))
+        (user[field] && user[field].toUpperCase().includes(query.toUpperCase()))
       );
     });
+    return i;
+  }
+
+  sendPasswordResetEmail(email) {
+    return firebase.auth().sendPasswordResetEmail(email);
   }
 }
 
 const userDb = new UserDb();
 export default userDb;
 
-const _applyLstenersForCurrentUser = function(uid, callback) {
+const _applyListenersForCurrentUser = function(uid, callback) {
   if (!uid) {
     throw new Error("no uid provided to listenToUser()");
   }
@@ -193,9 +214,12 @@ const _applyLstenersForCurrentUser = function(uid, callback) {
 };
 
 const _getPublicUserObject = function(email) {
+  const timeNow = new Date().getTime();
   return {
     //globally readable, user-writeable
     email: email,
+    createdAt: timeNow,
+    lastOnline: timeNow,
     isOnline: true,
     iconUrl: _getRandomProfilePic()
   };
@@ -233,7 +257,6 @@ const _monitorOnlineStatus = function() {
   amOnline.on("value", snapshot => {
     if (snapshot.val()) {
       userRef.onDisconnect().set(false);
-      userRef.set(true);
     }
   });
   userRef.on("value", snapshot => {
@@ -243,6 +266,44 @@ const _monitorOnlineStatus = function() {
       }
     }, 2000);
   });
+};
+
+const _createUserFromThirdPartyAuth = function(authInfo, callback) {
+  const { providerData, uid } = authInfo;
+  const mainProviderInfo = providerData[0];
+  const [firstName, lastName] = mainProviderInfo.displayName.split(" ");
+  const timeNow = new Date().getTime();
+
+  const publicInfo = {
+    firstName,
+    lastName,
+    email: mainProviderInfo.email,
+    phoneNumber: mainProviderInfo.phoneNumber,
+    iconUrl: mainProviderInfo.photoURL,
+    providerId: mainProviderInfo.providerId,
+    providerUid: mainProviderInfo.uid,
+    createdAt: timeNow,
+    lastOnline: timeNow,
+    isOnline: true
+  };
+  const userDataByPrivacy = {
+    publicInfo,
+    privateInfo: _getPrivateUserObject(),
+    serverInfo: _getServerUserObject()
+  };
+
+  userDb
+    .saveToUsersCollection(uid, userDataByPrivacy)
+    .then(res => {
+      _applyListenersForCurrentUser(uid, (err, data) => {
+        if (err) return callback(err);
+        data.id = uid;
+        callback(null, data);
+      });
+    })
+    .catch(err => {
+      console.log("err saving user from social auth:", err);
+    });
 };
 
 const _getRandomProfilePic = function() {

@@ -72,6 +72,7 @@ class UserStore {
    */
   logout() {
     userDb.logout(this.user);
+    this.userId = null;
   }
 
   /**
@@ -114,6 +115,14 @@ class UserStore {
       }
     });
     return results;
+  }
+
+  /**
+   * sends a reset email to an email address if the account exists
+   * @returns {Promise} password reset result
+   */
+  sendPasswordResetEmail(email) {
+    return userDb.sendPasswordResetEmail(email);
   }
 }
 
@@ -185,6 +194,9 @@ const _saveCurrentUserLocally = function(userDataByPrivacy) {
   const { id, publicInfo, privateInfo, serverInfo } = userDataByPrivacy;
   if (publicInfo) {
     _savePublicUserInfo(id, publicInfo);
+    if (publicInfo && publicInfo.isOnline) {
+      userStore.userId = id;
+    }
   }
   if (privateInfo) {
     userStore.privateInfo = privateInfo;
@@ -192,7 +204,6 @@ const _saveCurrentUserLocally = function(userDataByPrivacy) {
   if (serverInfo) {
     userStore.serverInfo = serverInfo;
   }
-  userStore.userId = id;
 };
 
 const _listenToPublicUserData = function(userId) {
