@@ -34,6 +34,8 @@ export const uploadDocument = (file, path, callback) => {
         case firebase.storage.TaskState.RUNNING: // or 'running'
           console.log("Upload is running");
           break;
+        default:
+          break;
       }
     },
     error => {
