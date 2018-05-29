@@ -150,7 +150,10 @@ const _listenToCurrentUser = function() {
       let shouldExecEstablished = !userStore.user && userData.publicInfo;
       _saveCurrentUserLocally(userData);
       if (shouldExecEstablished) {
-        _handleUserEstablished();
+        _handleUserEstablished({
+          id: userData.publicInfo.id,
+          publicInfo: userData.publicInfo
+        });
       }
     }
   });
@@ -178,8 +181,7 @@ const _handleUserLogout = function() {
   }
 };
 
-const _handleUserEstablished = function() {
-  const user = userStore.fullUser;
+const _handleUserEstablished = function(user) {
   //module hooks
   try {
     _onLoginTriggers.forEach(event => {
