@@ -117,6 +117,7 @@ export default class Welcome extends Component {
               >
                 Enable Email/Password authentication in Firebase
               </a>
+              <br /> Afterwards, refresh this page
             </RenderDropdown>
           )}
           {firebaseConfigured &&
