@@ -36,8 +36,7 @@ export default class Profile extends Component {
       );
     }
 
-    const profilePic = this.refs.profilePic.files[0];
-    uploadDocument(profilePic, "images/", (err, res) => {
+    uploadDocument(e.target.files[0], "images/", (err, res) => {
       if (err) return console.error(err);
       user.iconUrl = res.url;
       user.save();
@@ -113,7 +112,6 @@ export default class Profile extends Component {
                         <input
                           onChange={e => this.uploadProfilePicture(e, user)}
                           type="file"
-                          ref="profilePic"
                           style={{ display: "none" }}
                         />
 
@@ -146,7 +144,6 @@ export default class Profile extends Component {
                       <input
                         onChange={e => this.uploadProfilePicture(e, user)}
                         type="file"
-                        ref="profilePic"
                         style={{ display: "none" }}
                       />
                     </label>
