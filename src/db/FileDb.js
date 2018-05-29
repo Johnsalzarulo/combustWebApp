@@ -1,4 +1,5 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/storage";
 
 export const uploadDocument = (file, path, callback) => {
   const pushId = firebase
@@ -7,7 +8,8 @@ export const uploadDocument = (file, path, callback) => {
     .push().key;
 
   let docRef;
-  try { //not yet configured
+  try {
+    //not yet configured
     docRef = firebase.storage().ref(`${path}/${pushId}`);
   } catch (err) {
     return callback(err);

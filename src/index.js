@@ -5,7 +5,7 @@ import { Router, withRouter } from "react-router-dom";
 import "uikit/dist/css/uikit.css";
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
-import firebase from "firebase";
+import firebase from "firebase/app";
 
 import registerServiceWorker from "./helpers/registerServiceWorker";
 import { firebaseConfig } from "./.combust/config";
